@@ -63,7 +63,9 @@ module.exports = {
             ]
          }
       ],
-      'react/prefer-stateless-function': 'off'
+      'react/prefer-stateless-function': 'off',
+      'no-confusing-arrow': 'off',
+      'implicit-arrow-linebreak': 'off'
    },
    plugins: [
       'flowtype',
