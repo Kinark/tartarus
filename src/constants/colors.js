@@ -1,0 +1,11 @@
+export const BG_DARK = '#090908'
+export const SECTION_LVL1_DARK = '#1A1815'
+export const SECTION_LVL2_DARK = '#131110'
+export const BG_LIGHT = '#EBE3D0'
+export const TITLES_DARK = BG_LIGHT
+export const SECTION_LVL1_LIGHT = '#E4DAC8'
+export const SECTION_LVL2_LIGHT = '#E8DFCC'
+export const TITLES_LIGHT = '#745043'
+export const TITLE_INFO = '#978274'
+export const DIVIDER_STRONG = '#707070'
+export const DIVIDER_SOFT = 'rgba(112, 112, 112, 0.25)'
