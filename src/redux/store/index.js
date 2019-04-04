@@ -1,5 +1,14 @@
-if (process.env.NODE_ENV === 'production') {
-   module.exports = require('./store'); // eslint-disable-line global-require
-} else {
-   module.exports = require('./store.dev'); // eslint-disable-line global-require
+import { applyMiddleware, createStore } from 'redux'
+import logger from 'redux-logger'
+import rootReducer from '../reducers'
+import initialStore from './initialStore'
+
+let middlewares;
+
+if (process.env.NODE_ENV === 'development') {
+   middlewares = applyMiddleware(logger)
 }
+
+const store = createStore(rootReducer, initialStore, middlewares)
+
+export default store
