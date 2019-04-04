@@ -6,6 +6,7 @@ const initialStore = {
       darkMode: false
    },
    app: {
+      playMode: false,
       tabs: []
    }
 }
