@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
-import { Route } from 'react-router-dom'
-import { Provider } from 'redux'
+import { Switch, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
 import { store } from '~/redux/store'
 import { Metas } from '~/components/Metas'
 import Favicon from '~/components/Favicon'
+import PrivateRoute from '~/components/PrivateRoute'
+
 import Login from '~/views/Login'
 
 const title = 'Sample Website'
@@ -18,7 +20,11 @@ class App extends Component {
          <Provider store={store}>
             <Metas title={title} description={description} />
             <Favicon />
-            <Route path="/login" component={Login} />
+            <Switch>
+               <Route path="/login" component={Login} />
+               <PrivateRoute path="/welcome" component={Login} />
+               <PrivateRoute path="/worlds" component={Login} />
+            </Switch>
          </Provider>
       )
    }
