@@ -9,7 +9,8 @@ module.exports = {
    'extends': 'airbnb',
    env: {
       browser: true,
-      node: true
+      node: true,
+      'jest/globals': true
    },
    rules: {
       'no-plusplus': 'off',
@@ -72,7 +73,8 @@ module.exports = {
       'import',
       'promise',
       'compat',
-      'react'
+      'react',
+      'jest'
    ],
    settings: {
       'import/resolver': {
