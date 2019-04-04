@@ -57,7 +57,7 @@ module.exports = {
       'no-confusing-arrow': 'off',
       'implicit-arrow-linebreak': 'off'
    },
-   plugins: ['flowtype', 'import', 'promise', 'compat', 'react', 'jest'],
+   plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
       'import/resolver': {
          webpack: { config: path.resolve('./config/webpack.common.js') }
