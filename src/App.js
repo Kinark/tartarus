@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader'
 import { Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import { store } from '~/redux/store'
+import store from '~/redux/store'
 import { Metas } from '~/components/Metas'
 import Favicon from '~/components/Favicon'
 import PrivateRoute from '~/components/PrivateRoute'
@@ -22,7 +22,7 @@ class App extends Component {
             <Favicon />
             <Switch>
                <Route path="/login" component={Login} />
-               <PrivateRoute path="/welcome" component={Login} />
+               <PrivateRoute path="/" component={Login} />
                <PrivateRoute path="/worlds" component={Login} />
             </Switch>
          </Provider>
