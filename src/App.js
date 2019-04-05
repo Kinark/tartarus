@@ -12,6 +12,8 @@ import Favicon from '~/components/Favicon'
 import PrivateRoute from '~/components/PrivateRoute'
 
 import Login from '~/views/Login'
+import Welcome from '~/views/Welcome'
+import Worlds from '~/views/Worlds'
 
 const title = 'Sample Website'
 const description = 'A sample website.'
@@ -42,6 +44,11 @@ class App extends Component {
       document.body.style.backgroundColor = darkMode ? colors.dark.BG : colors.light.BG
    }
 
+   logoff = () => {
+      localStorage.removeItem('JWToken')
+      document.location.reload()
+   }
+
    render() {
       const { darkMode } = this.props
       return (
@@ -50,9 +57,10 @@ class App extends Component {
             <Favicon />
             <Switch>
                <Route path="/login" component={Login} />
-               <PrivateRoute path="/" component={Login} />
-               <PrivateRoute path="/worlds" component={Login} />
+               <PrivateRoute path="/" component={Welcome} />
+               <PrivateRoute path="/worlds" component={Worlds} />
             </Switch>
+            <button type="button" onClick={this.logoff}>Logoff</button>
          </AppWrapper>
       )
    }
@@ -64,5 +72,5 @@ export default hot(module)(connectedApp)
 
 const AppWrapper = styled.div`
    background-color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
-   color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
+   color: ${props => (props.darkMode ? colors.dark.BODY_TEXT : colors.light.BODY_TEXT)};
 `

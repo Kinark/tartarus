@@ -14,15 +14,26 @@ import Button from '~/components/Button'
 
 export default class Login extends Component {
    state = {
-      redirect: false
+      redirect: false,
+      loading: false
    }
 
-   componentDidMount = () => {}
+   componentDidMount = () => {
+      if (localStorage.getItem('JWToken')) this.setState({ redirect: true })
+   }
 
-   componentWillUnmount = () => {}
+   login = async () => {
+      await this.setState({ loading: true })
+      setTimeout(() => {
+         localStorage.setItem('JWToken', Date.now())
+         this.setState({ redirect: true, loading: false })
+      }, 500)
+   }
+
+   loginBtnClickHandler = () => this.login()
 
    render() {
-      const { redirect } = this.state
+      const { redirect, loading } = this.state
       if (redirect) return <Redirect to="/" />
       return (
          <LoginWrapper>
@@ -32,7 +43,9 @@ export default class Login extends Component {
                <TitleInfo>Onde nada é belo ou feio</TitleInfo>
                <Input className="center" placeholder="Email" />
                <Input className="center" placeholder="Password" />
-               <Button>ENTRAR</Button>
+               <Button loading={loading} onClick={this.loginBtnClickHandler}>
+                  ENTRAR
+               </Button>
                <div className="row">
                   <div className="col xs5 left-align">Criar uma conta</div>
                   <div className="col xs7 right-align">Esqueci minha senha</div>
