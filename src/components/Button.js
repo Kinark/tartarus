@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import colors from '~/constants/colors'
 
 const Button = styled.button`
-   font-family: upgrade-lights, sans-serif;
    font-size: 15px;
    border-radius: 5px;
    color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
@@ -21,10 +20,22 @@ const Button = styled.button`
    cursor: pointer;
    opacity: ${props => (props.loading ? '0.75' : '1')};
    transition: opacity 300ms;
+   position: relative;
+   pointer-events: ${props => (props.loading ? 'none' : 'auto')};
    :hover {
       opacity: 0.75;
    }
-   pointer-events: ${props => (props.loading ? 'none' : 'auto')};
+   &::before {
+      content: "";
+      height: 3px;
+      width: ${props => (props.loading ? '100%' : '0%')};
+      background-color: ${props => (props.darkMode ? colors.light.TITLE : colors.dark.TITLE)};
+      bottom: 0;
+      left: 0;
+      transition: width 500ms;
+      position: absolute;
+      opacity: 0.5;
+   }
 `
 
 const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
