@@ -22,6 +22,26 @@ class App extends Component {
       darkMode: PropTypes.bool.isRequired
    }
 
+   componentDidMount = () => {
+      this.setBodyColor()
+   }
+
+   componentDidUpdate = prevProps => {
+      const { darkMode } = this.props
+      if (darkMode !== prevProps.darkMode) {
+         this.setBodyColor()
+      }
+   }
+
+   componentWillUnmount = () => {
+      document.body.style.backgroundColor = null
+   }
+
+   setBodyColor = () => {
+      const { darkMode } = this.props
+      document.body.style.backgroundColor = darkMode ? colors.dark.BG : colors.light.BG
+   }
+
    render() {
       const { darkMode } = this.props
       return (
