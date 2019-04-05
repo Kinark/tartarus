@@ -10,6 +10,7 @@ import colors from '~/constants/colors'
 import { Metas } from '~/components/Metas'
 import Favicon from '~/components/Favicon'
 import PrivateRoute from '~/components/PrivateRoute'
+import Navbar from '~/components/Navbar'
 
 import Login from '~/views/Login'
 import Welcome from '~/views/Welcome'
@@ -30,9 +31,7 @@ class App extends Component {
 
    componentDidUpdate = prevProps => {
       const { darkMode } = this.props
-      if (darkMode !== prevProps.darkMode) {
-         this.setBodyColor()
-      }
+      if (darkMode !== prevProps.darkMode) this.setBodyColor()
    }
 
    componentWillUnmount = () => {
@@ -57,10 +56,11 @@ class App extends Component {
             <Favicon />
             <Switch>
                <Route path="/login" component={Login} />
-               <PrivateRoute path="/" component={Welcome} />
-               <PrivateRoute path="/worlds" component={Worlds} />
+               <PrivateRoute path="/" component={AppRoutes} />
             </Switch>
-            <button type="button" onClick={this.logoff}>Logoff</button>
+            <button type="button" onClick={this.logoff}>
+               Logoff
+            </button>
          </AppWrapper>
       )
    }
@@ -74,3 +74,13 @@ const AppWrapper = styled.div`
    background-color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
    color: ${props => (props.darkMode ? colors.dark.BODY_TEXT : colors.light.BODY_TEXT)};
 `
+
+const AppRoutes = () => (
+   <React.Fragment>
+      <Route path="/" component={Navbar} />
+      <Switch>
+         <Route path="/" component={Welcome} />
+         <Route path="/worlds" component={Worlds} />
+      </Switch>
+   </React.Fragment>
+)
