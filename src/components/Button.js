@@ -19,11 +19,12 @@ const Button = styled.button`
    font-family: 'upgrade', sans-serif;
    font-weight: 400;
    cursor: pointer;
-   opacity: 1;
+   opacity: ${props => (props.loading ? '0.75' : '1')};
    transition: opacity 300ms;
    :hover {
-      opacity: .75;
+      opacity: 0.75;
    }
+   pointer-events: ${props => (props.loading ? 'none' : 'auto')};
 `
 
 const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
