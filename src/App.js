@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader'
 import { Switch, Route } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import store from '~/redux/store'
+// import store from '~/redux/store'
+import colors from '~/constants/colors'
 import { Metas } from '~/components/Metas'
 import Favicon from '~/components/Favicon'
 import PrivateRoute from '~/components/PrivateRoute'
@@ -15,9 +18,14 @@ const description = 'A sample website.'
 // const cover = "";
 
 class App extends Component {
+   static propTypes = {
+      darkMode: PropTypes.bool.isRequired
+   }
+
    render() {
+      const { darkMode } = this.props
       return (
-         <Provider store={store}>
+         <AppWrapper darkMode={darkMode}>
             <Metas title={title} description={description} />
             <Favicon />
             <Switch>
@@ -25,9 +33,16 @@ class App extends Component {
                <PrivateRoute path="/" component={Login} />
                <PrivateRoute path="/worlds" component={Login} />
             </Switch>
-         </Provider>
+         </AppWrapper>
       )
    }
 }
 
-export default hot(module)(App)
+const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const connectedApp = connect(mapStateToProps)(App)
+export default hot(module)(connectedApp)
+
+const AppWrapper = styled.div`
+   background-color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
+   color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
+`
