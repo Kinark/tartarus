@@ -14,7 +14,7 @@ class LogoSection extends PureComponent {
       const { darkMode } = this.props
       return (
          <LogoSectionWrapper>
-            {darkMode ? <LogoNormal /> : <LogoOutline />}
+            {darkMode ? <LogoOutline height="68" /> : <LogoNormal height="62" />}
             Tartarus
          </LogoSectionWrapper>
       )
@@ -23,7 +23,13 @@ class LogoSection extends PureComponent {
 
 const LogoSectionWrapper = styled.div`
    font-family: 'upgrade', sans-serif;
-   font-weight: 500;
+   font-weight: 600;
+   display: flex;
+   align-items: center;
+   font-size: 35px;
+   img {
+      margin-right: 10px;
+   }
 `
 
 const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
