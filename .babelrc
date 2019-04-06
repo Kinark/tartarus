@@ -9,7 +9,19 @@
       ],
       "@babel/preset-react"
    ],
-   "plugins": ["add-module-exports", "react-hot-loader/babel"],
+   "plugins": [
+      "add-module-exports",
+      "react-hot-loader/babel",
+      [
+         "module-resolver",
+         {
+            "root": ["./src"],
+            "alias": {
+               "~": "./src"
+            }
+         }
+      ]
+   ],
    "env": {
       "production": {
          "presets": ["react-optimize"],
