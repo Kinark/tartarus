@@ -79,7 +79,7 @@ const AppRoutes = () => (
    <React.Fragment>
       <Route path="/" component={Navbar} />
       <Switch>
-         <Route path="/" component={Welcome} />
+         <Route path="/" component={Welcome} exact />
          <Route path="/worlds" component={Worlds} />
       </Switch>
    </React.Fragment>
