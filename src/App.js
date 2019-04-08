@@ -25,9 +25,7 @@ class App extends Component {
       darkMode: PropTypes.bool.isRequired
    }
 
-   componentDidMount = () => {
-      this.setBodyColor()
-   }
+   componentDidMount = () => this.setBodyColor()
 
    componentDidUpdate = prevProps => {
       const { darkMode } = this.props
@@ -78,9 +76,11 @@ const AppWrapper = styled.div`
 const AppRoutes = () => (
    <React.Fragment>
       <Route path="/" component={Navbar} />
-      <Switch>
-         <Route path="/" component={Welcome} exact />
-         <Route path="/worlds" component={Worlds} />
-      </Switch>
+      <div className="row">
+         <Switch>
+            <Route path="/" component={Welcome} exact />
+            <Route path="/worlds" component={Worlds} />
+         </Switch>
+      </div>
    </React.Fragment>
 )
