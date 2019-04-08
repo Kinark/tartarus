@@ -52,7 +52,7 @@ const Info = styled.div`
    span {
       display: block;
       font-size: 16px;
-      color: ${({ darkMode }) => (darkMode ? colors.dark.TITLE_INFO : colors.light.TITLE_INFO)};
+      color: ${props => (props.darkMode ? colors.dark.TITLE_INFO : colors.light.TITLE_INFO)};
    }
 `
 
