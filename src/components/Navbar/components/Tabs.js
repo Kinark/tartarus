@@ -18,13 +18,14 @@ export default class Tabs extends PureComponent {
    }
 }
 
-const TabsWrapper = styled.ul`
+const TabsWrapper = connect(state => ({ playMode: state.app.playMode }))(styled.ul`
    position: absolute;
-   bottom: 0;
-   left: 0;
+   bottom: ${props => (props.playMode ? '20px' : '0')};
+   left: ${props => (props.playMode ? '180px' : '0')};
    margin: 0 15px;
    padding: 0;
-`
+   transition: bottom 300ms, left 300ms;
+`)
 
 const NavLinkWarningFix = ({ dispatch, ...rest }) => <NavLink {...rest} />
 
