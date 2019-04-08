@@ -34,7 +34,7 @@ const LogoSectionWrapper = connect(state => ({ playMode: state.app.playMode }))(
 `)
 
 const LogoOutlineStyled = connect(state => ({ playMode: state.app.playMode }))(styled(LogoOutline)`
-   height: ${props => (props.playMode ? '46px' : '68px')};
+   height: ${props => (props.playMode ? '46px' : '62px')};
    transition: height 300ms;
 `)
 
