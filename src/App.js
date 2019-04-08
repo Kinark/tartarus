@@ -54,9 +54,6 @@ class App extends Component {
                <Route path="/login" component={Login} />
                <PrivateRoute path="/" component={AppRoutes} />
             </Switch>
-            <button type="button" onClick={this.logoff}>
-               Logoff
-            </button>
          </AppWrapper>
       )
    }
