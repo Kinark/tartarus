@@ -12,7 +12,7 @@ class NonConnectedLogoOutline extends PureComponent {
    }
 
    render() {
-      const { theme, dispatch, ...rest } = this.props
+      const { theme, dispatch, playMode, ...rest } = this.props
       if (theme === 'dark') return <img {...rest} src={LogoOutlineDarkSVG} alt="Tartarus" />
       return <img {...rest} src={LogoOutlineLightSVG} alt="Tartarus" />
    }
@@ -24,6 +24,7 @@ export const LogoOutline = connect(mapStateToProps)(NonConnectedLogoOutline)
 
 export class LogoNormal extends PureComponent {
    render() {
-      return <img src={LogoNormalSVG} alt="Tartarus" {...this.props} />
+      const { theme, dispatch, playMode, ...rest } = this.props
+      return <img src={LogoNormalSVG} alt="Tartarus" {...rest} />
    }
 }
