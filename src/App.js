@@ -10,11 +10,9 @@ import colors from '~/constants/colors'
 import { Metas } from '~/components/Metas'
 import Favicon from '~/components/Favicon'
 import PrivateRoute from '~/components/PrivateRoute'
-import Navbar from '~/components/Navbar'
+import AppRoutes from '~/components/AppRoutes'
 
 import Login from '~/views/Login'
-import Welcome from '~/views/Welcome'
-import Worlds from '~/views/Worlds'
 
 const title = 'Sample Website'
 const description = 'A sample website.'
@@ -71,16 +69,7 @@ export default hot(module)(connectedApp)
 const AppWrapper = styled.div`
    background-color: ${({ theme }) => colors[theme].BG};
    color: ${({ theme }) => colors[theme].BODY_TEXT};
+   display: flex;
+   height: 100%;
+   flex-direction: column;
 `
-
-const AppRoutes = () => (
-   <React.Fragment>
-      <Route path="/" component={Navbar} />
-      <div className="row">
-         <Switch>
-            <Route path="/" component={Welcome} exact />
-            <Route path="/worlds" component={Worlds} />
-         </Switch>
-      </div>
-   </React.Fragment>
-)

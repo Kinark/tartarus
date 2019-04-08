@@ -22,4 +22,5 @@ const Nav = styled.nav`
    justify-content: space-between;
    padding: 15px 20px 50px;
    position: relative;
+   flex: 0;
 `
