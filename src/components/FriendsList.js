@@ -3,19 +3,12 @@ import React, { PureComponent } from 'react'
 
 import Sidebar from '~/components/Sidebar'
 
-export default class index extends PureComponent {
+export default class FriendsList extends PureComponent {
    render() {
       return (
-         <Sidebar>
+         <Sidebar align="left" title="Lista de amigos" titleInfo="Lute com animops">
             Friendslist
          </Sidebar>
       )
    }
 }
-
-// const Nav = styled.nav`
-//    display: flex;
-//    justify-content: space-between;
-//    padding: 15px 20px 50px;
-//    position: relative;
-// `
