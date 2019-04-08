@@ -1,8 +1,10 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import styled from 'styled-components'
 
 import Navbar from '~/components/Navbar'
-import AppContentWrapper from '~/components/AppContentWrapper'
+import FriendsList from '~/components/FriendsList'
+import AppMainWrapper from '~/components/AppMainWrapper'
 import BottomBar from '~/components/BottomBar'
 
 import Welcome from '~/views/Welcome'
@@ -12,11 +14,19 @@ export default () => (
    <React.Fragment>
       <Route path="/" component={Navbar} />
       <AppContentWrapper>
-         <Switch>
-            <Route path="/" component={Welcome} exact />
-            <Route path="/worlds" component={Worlds} />
-         </Switch>
+         <Route path="/" component={FriendsList} />
+         <AppMainWrapper>
+            <Switch>
+               <Route path="/" component={Welcome} exact />
+               <Route path="/worlds" component={Worlds} />
+            </Switch>
+         </AppMainWrapper>
       </AppContentWrapper>
       <Route path="/" component={BottomBar} />
    </React.Fragment>
 )
+
+const AppContentWrapper = styled.div`
+   display: flex;
+   height: 100%;
+`
