@@ -5,10 +5,9 @@ const initialStore = {
    settings: {
       theme: 'light'
    },
-   // app: {
-   //    playMode: false,
-   //    tabs: []
-   // }
+   app: {
+      playMode: false,
+   }
 }
 
 export default initialStore
