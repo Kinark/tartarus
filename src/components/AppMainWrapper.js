@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import colors from '~/constants/colors'
 
 const AppMainWrapper = styled.main`
-   height: 100vh;
+   flex: 1 0;
    background-color: ${({ theme }) => colors[theme].SECTION_2};
 `
 
