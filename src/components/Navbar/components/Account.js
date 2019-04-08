@@ -5,16 +5,11 @@ import styled from 'styled-components'
 
 import colors from '~/constants/colors'
 
-class LogoSection extends PureComponent {
-   static propTypes = {
-      theme: PropTypes.string.isRequired
-   }
-
+export default class LogoSection extends PureComponent {
    render() {
-      const { theme } = this.props
       return (
          <AccountWrapper>
-            <Info theme={theme}>
+            <Info>
                Matheus-kun
                <span>Online</span>
             </Info>
@@ -44,7 +39,7 @@ const AvatarWrapper = styled.div`
    }
 `
 
-const Info = styled.div`
+const Info = connect(state => ({ theme: state.settings.theme }))(styled.div`
    font-size: 18px;
    line-height: 18px;
    font-family: 'upgrade', sans-serif;
@@ -54,7 +49,4 @@ const Info = styled.div`
       font-size: 16px;
       color: ${({ theme }) => colors[theme].TITLE_INFO};
    }
-`
-
-const mapStateToProps = state => ({ theme: state.settings.theme })
-export default connect(mapStateToProps)(LogoSection)
+`)
