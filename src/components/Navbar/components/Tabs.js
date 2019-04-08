@@ -8,17 +8,17 @@ import colors from '~/constants/colors'
 
 class Tabs extends PureComponent {
    static propTypes = {
-      darkMode: PropTypes.bool.isRequired
+      theme: PropTypes.string.isRequired
    }
 
    render() {
-      const { darkMode } = this.props
+      const { theme } = this.props
       return (
          <TabsWrapper>
-            <Tab darkmode={darkMode ? 1 : 0} to="/" exact>
+            <Tab theme={theme} to="/" exact>
                Welcome
             </Tab>
-            <Tab darkmode={darkMode ? 1 : 0} to="/worlds">
+            <Tab theme={theme} to="/worlds">
                Worlds
             </Tab>
          </TabsWrapper>
@@ -26,7 +26,7 @@ class Tabs extends PureComponent {
    }
 }
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export default connect(mapStateToProps)(Tabs)
 
 const TabsWrapper = styled.div`
@@ -38,7 +38,7 @@ const TabsWrapper = styled.div`
 
 const Tab = styled(NavLink)`
    font-size: 24px;
-   border-right: solid 1px ${props => (props.darkmode ? colors.dark.DIVIDER_STRONG : colors.light.DIVIDER_STRONG)};
+   border-right: solid 1px ${({ theme }) => colors[theme].DIVIDER_STRONG};
    padding: 0 13px;
    opacity: 1;
    transition: opacity 300ms;

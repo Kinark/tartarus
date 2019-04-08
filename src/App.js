@@ -22,14 +22,14 @@ const description = 'A sample website.'
 
 class App extends Component {
    static propTypes = {
-      darkMode: PropTypes.bool.isRequired
+      theme: PropTypes.string.isRequired
    }
 
    componentDidMount = () => this.setBodyColor()
 
    componentDidUpdate = prevProps => {
-      const { darkMode } = this.props
-      if (darkMode !== prevProps.darkMode) this.setBodyColor()
+      const { theme } = this.props
+      if (theme !== prevProps.theme) this.setBodyColor()
    }
 
    componentWillUnmount = () => {
@@ -37,8 +37,8 @@ class App extends Component {
    }
 
    setBodyColor = () => {
-      const { darkMode } = this.props
-      document.body.style.backgroundColor = darkMode ? colors.dark.BG : colors.light.BG
+      const { theme } = this.props
+      document.body.style.backgroundColor = colors[theme].BG
    }
 
    logoff = () => {
@@ -47,9 +47,9 @@ class App extends Component {
    }
 
    render() {
-      const { darkMode } = this.props
+      const { theme } = this.props
       return (
-         <AppWrapper darkMode={darkMode}>
+         <AppWrapper theme={theme}>
             <Metas title={title} description={description} />
             <Favicon />
             <Switch>
@@ -64,13 +64,13 @@ class App extends Component {
    }
 }
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 const connectedApp = connect(mapStateToProps)(App)
 export default hot(module)(connectedApp)
 
 const AppWrapper = styled.div`
-   background-color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
-   color: ${props => (props.darkMode ? colors.dark.BODY_TEXT : colors.light.BODY_TEXT)};
+   background-color: ${({ theme }) => colors[theme].BG};
+   color: ${({ theme }) => colors[theme].BODY_TEXT};
 `
 
 const AppRoutes = () => (

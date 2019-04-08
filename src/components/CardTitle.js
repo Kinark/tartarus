@@ -5,9 +5,9 @@ import colors from '~/constants/colors'
 
 const CardTitle = styled.h3`
    font-size: 30px;
-   color: ${props => (props.darkMode ? colors.dark.TITLE : colors.light.TITLE)};
+   color: ${({ theme }) => colors[theme].TITLE};
    margin-bottom:0;
 `
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export default connect(mapStateToProps)(CardTitle)

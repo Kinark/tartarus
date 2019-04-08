@@ -6,8 +6,8 @@ import colors from '~/constants/colors'
 const Button = styled.button`
    font-size: 15px;
    border-radius: 5px;
-   color: ${props => (props.darkMode ? colors.dark.BG : colors.light.BG)};
-   background-color: ${props => (props.darkMode ? colors.dark.TITLE : colors.light.TITLE)};
+   color: ${({ theme }) => colors[theme].BG};
+   background-color: ${({ theme }) => colors[theme].TITLE};
    display: ${props => (props.inline ? 'inline-block' : 'block')};
    width: ${props => (props.inline ? 'auto' : '100%')};
    margin: 5px 0;
@@ -29,7 +29,7 @@ const Button = styled.button`
       content: "";
       height: 3px;
       width: ${props => (props.loading ? '100%' : '0%')};
-      background-color: ${props => (props.darkMode ? colors.light.TITLE : colors.dark.TITLE)};
+      background-color: ${({ theme }) => colors[theme].TITLE};
       bottom: 0;
       left: 0;
       transition: width 500ms;
@@ -38,5 +38,5 @@ const Button = styled.button`
    }
 `
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export default connect(mapStateToProps)(Button)

@@ -8,17 +8,17 @@ import LogoOutlineLightSVG from './images/outline-light.svg'
 
 class NonConnectedLogoOutline extends PureComponent {
    static propTypes = {
-      darkMode: PropTypes.bool.isRequired
+      theme: PropTypes.string.isRequired
    }
 
    render() {
-      const { darkMode, dispatch, ...rest } = this.props
-      if (darkMode) return <img {...rest} src={LogoOutlineDarkSVG} alt="Tartarus" />
+      const { theme, dispatch, ...rest } = this.props
+      if (theme === 'dark') return <img {...rest} src={LogoOutlineDarkSVG} alt="Tartarus" />
       return <img {...rest} src={LogoOutlineLightSVG} alt="Tartarus" />
    }
 }
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export const LogoOutline = connect(mapStateToProps)(NonConnectedLogoOutline)
 
 

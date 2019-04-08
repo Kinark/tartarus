@@ -7,14 +7,14 @@ import colors from '~/constants/colors'
 
 class LogoSection extends PureComponent {
    static propTypes = {
-      darkMode: PropTypes.bool.isRequired
+      theme: PropTypes.string.isRequired
    }
 
    render() {
-      const { darkMode } = this.props
+      const { theme } = this.props
       return (
          <AccountWrapper>
-            <Info darkMode={darkMode}>
+            <Info theme={theme}>
                Matheus-kun
                <span>Online</span>
             </Info>
@@ -52,9 +52,9 @@ const Info = styled.div`
    span {
       display: block;
       font-size: 16px;
-      color: ${props => (props.darkMode ? colors.dark.TITLE_INFO : colors.light.TITLE_INFO)};
+      color: ${({ theme }) => colors[theme].TITLE_INFO};
    }
 `
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export default connect(mapStateToProps)(LogoSection)

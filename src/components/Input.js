@@ -7,13 +7,13 @@ const Input = styled.input`
    font-family: upgrade-lights, sans-serif;
    font-size: 16px;
    border-radius: 5px;
-   color: ${props => (props.darkMode ? colors.dark.TITLE : colors.light.TITLE)};
+   color: ${({ theme }) => colors[theme].TITLE};
    margin: 5px 0;
    padding: 10px 18px;
-   border: solid 1px ${props => (props.darkMode ? colors.dark.TITLE : colors.light.TITLE)};
+   border: solid 1px ${({ theme }) => colors[theme].TITLE};
    background-color: transparent;
    width: 100%;
 `
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export default connect(mapStateToProps)(Input)

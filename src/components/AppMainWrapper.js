@@ -5,5 +5,5 @@ const AppMainWrapper = styled.div`
    height: 100vh;
 `;
 
-const mapStateToProps = state => ({ darkMode: state.settings.darkMode })
+const mapStateToProps = state => ({ theme: state.settings.theme })
 export default connect(mapStateToProps)(AppMainWrapper)

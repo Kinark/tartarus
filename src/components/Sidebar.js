@@ -17,5 +17,5 @@ export default class index extends PureComponent {
 
 const SideNav = styled.aside`
    height: 100%;
-   background-color: ${props => (props.darkMode ? colors.dark.SECTION_1 : colors.light.SECTION_1)};
+   background-color: ${({ theme }) => colors[theme].SECTION_1};
 `

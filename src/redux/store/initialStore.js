@@ -3,7 +3,7 @@ const initialStore = {
    //    nick: ''
    // },
    settings: {
-      darkMode: false
+      theme: 'light'
    },
    // app: {
    //    playMode: false,
