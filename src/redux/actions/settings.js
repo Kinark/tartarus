@@ -1,3 +1,3 @@
-export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE'
+export const SET_THEME = 'SET_THEME'
 
-export const setTheme = value => ({ type: TOGGLE_DARK_MODE, value })
+export const setTheme = value => ({ type: SET_THEME, value })
