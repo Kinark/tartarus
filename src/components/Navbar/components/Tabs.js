@@ -40,6 +40,11 @@ const Tab = styled(NavLink)`
    font-size: 24px;
    border-right: solid 1px ${({ darkmode }) => (darkmode ? colors.dark.DIVIDER_STRONG : colors.light.DIVIDER_STRONG)};
    padding: 0 13px;
+   opacity: 1;
+   transition: opacity 300ms;
+   :hover {
+      opacity: 0.75;
+   }
    &.active {
       font-family: 'upgrade', sans-serif;
       font-weight: 500;
