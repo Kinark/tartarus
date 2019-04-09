@@ -1,9 +1,9 @@
 import { applyMiddleware, createStore } from 'redux'
-import socketMiddleware from '../middlewares'
 import ReduxThunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
+import socketMiddleware from '../middlewares/socketMiddleware'
 import * as settingsActions from '../actions/settings'
 import * as appActions from '../actions/app'
 import rootReducer from '../reducers'
