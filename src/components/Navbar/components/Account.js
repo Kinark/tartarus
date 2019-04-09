@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
-
-import colors from '~/constants/colors'
 
 export default class LogoSection extends PureComponent {
    render() {
@@ -38,7 +35,7 @@ const AvatarWrapper = styled.div`
    }
 `
 
-const Info = connect(state => ({ theme: state.settings.theme }))(styled.div`
+const Info = styled.div`
    font-size: 18px;
    line-height: 18px;
    font-family: 'upgrade', sans-serif;
@@ -46,6 +43,6 @@ const Info = connect(state => ({ theme: state.settings.theme }))(styled.div`
    span {
       display: block;
       font-size: 16px;
-      color: ${({ theme }) => colors[theme].TITLE_INFO};
+      color: ${({ theme }) => theme.TITLE_INFO};
    }
-`)
+`

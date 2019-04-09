@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-import colors from '~/constants/colors'
-
 export default class Tabs extends PureComponent {
    render() {
       return (
@@ -27,11 +25,9 @@ const TabsWrapper = connect(state => ({ playMode: state.app.playMode }))(styled.
    transition: bottom 300ms, left 300ms;
 `)
 
-const NavLinkWarningFix = ({ dispatch, ...rest }) => <NavLink {...rest} />
-
-const Tab = connect(state => ({ theme: state.settings.theme }))(styled(NavLinkWarningFix)`
+const Tab = styled(NavLink)`
    font-size: 24px;
-   border-right: solid 1px ${({ theme }) => colors[theme].DIVIDER_STRONG};
+   border-right: solid 1px ${({ theme }) => theme.DIVIDER_STRONG};
    padding: 0 13px;
    opacity: 1;
    transition: opacity 300ms;
@@ -46,4 +42,4 @@ const Tab = connect(state => ({ theme: state.settings.theme }))(styled(NavLinkWa
    :last-child {
       border-right: none;
    }
-`)
+`

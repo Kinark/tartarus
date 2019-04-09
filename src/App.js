@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 
 // import store from '~/redux/store'
 import colors from '~/constants/colors'
@@ -47,14 +47,16 @@ class App extends Component {
    render() {
       const { theme } = this.props
       return (
-         <AppWrapper theme={theme}>
-            <Metas title={title} description={description} />
-            <Favicon />
-            <Switch>
-               <Route path="/login" component={Login} />
-               <PrivateRoute path="/" component={AppRoutes} />
-            </Switch>
-         </AppWrapper>
+         <ThemeProvider theme={colors[theme]}>
+            <AppWrapper>
+               <Metas title={title} description={description} />
+               <Favicon />
+               <Switch>
+                  <Route path="/login" component={Login} />
+                  <PrivateRoute path="/" component={AppRoutes} />
+               </Switch>
+            </AppWrapper>
+         </ThemeProvider>
       )
    }
 }
@@ -64,8 +66,8 @@ const connectedApp = connect(mapStateToProps)(App)
 export default hot(module)(connectedApp)
 
 const AppWrapper = styled.div`
-   background-color: ${({ theme }) => colors[theme].BG};
-   color: ${({ theme }) => colors[theme].BODY_TEXT};
+   background-color: ${({ theme }) => theme.BG};
+   color: ${({ theme }) => theme.BODY_TEXT};
    display: flex;
    height: 100%;
    flex-direction: column;

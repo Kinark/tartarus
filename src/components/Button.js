@@ -1,13 +1,10 @@
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 
-import colors from '~/constants/colors'
-
-const Button = styled.button`
+export default styled.button`
    font-size: 15px;
    border-radius: 5px;
-   color: ${({ theme }) => colors[theme].BG};
-   background-color: ${({ theme }) => colors[theme].TITLE};
+   color: ${({ theme }) => theme.BG};
+   background-color: ${({ theme }) => theme.TITLE};
    display: ${props => (props.inline ? 'inline-block' : 'block')};
    width: ${props => (props.inline ? 'auto' : '100%')};
    margin: 5px 0;
@@ -29,7 +26,7 @@ const Button = styled.button`
       content: "";
       height: 3px;
       width: ${props => (props.loading ? '100%' : '0%')};
-      background-color: ${({ theme }) => colors[theme].TITLE};
+      background-color: ${({ theme }) => theme.TITLE};
       bottom: 0;
       left: 0;
       transition: width 500ms;
@@ -37,6 +34,3 @@ const Button = styled.button`
       opacity: 0.5;
    }
 `
-
-const mapStateToProps = state => ({ theme: state.settings.theme })
-export default connect(mapStateToProps)(Button)
