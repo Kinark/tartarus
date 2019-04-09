@@ -1,4 +1,5 @@
 import { applyMiddleware, createStore } from 'redux'
+import socketMiddleware from '../middlewares'
 import ReduxThunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -8,7 +9,7 @@ import * as appActions from '../actions/app'
 import rootReducer from '../reducers'
 import initialStore from './initialStore'
 
-let middlewares = [ReduxThunk]
+let middlewares = [socketMiddleware, ReduxThunk]
 
 if (process.env.NODE_ENV === 'development') {
    const composeEnhancers = composeWithDevTools({
