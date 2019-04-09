@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-export default styled.input`
+import colors from '~/constants/colors'
+
+const Input = styled.input`
    font-family: upgrade-lights, sans-serif;
    font-size: 16px;
    border-radius: 5px;
@@ -11,3 +13,6 @@ export default styled.input`
    background-color: transparent;
    width: 100%;
 `
+Input.defaultProps = { theme: colors.light }
+
+export default Input

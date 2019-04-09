@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
+import colors from '~/constants/colors'
+
 export default class LogoSection extends PureComponent {
    render() {
       return (
@@ -46,3 +48,4 @@ const Info = styled.div`
       color: ${({ theme }) => theme.TITLE_INFO};
    }
 `
+Info.defaultProps = { theme: colors.light }

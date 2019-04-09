@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
+import colors from '~/constants/colors'
+
 export default class Tabs extends PureComponent {
    render() {
       return (
@@ -43,3 +45,4 @@ const Tab = styled(NavLink)`
       border-right: none;
    }
 `
+Tab.defaultProps = { theme: colors.light }

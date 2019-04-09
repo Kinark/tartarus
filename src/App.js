@@ -72,3 +72,4 @@ const AppWrapper = styled.div`
    height: 100%;
    flex-direction: column;
 `
+AppWrapper.defaultProps = { theme: colors.light }

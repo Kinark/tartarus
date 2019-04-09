@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-export default styled.button`
+import colors from '~/constants/colors'
+
+const Button = styled.button`
    font-size: 15px;
    border-radius: 5px;
    color: ${({ theme }) => theme.BG};
@@ -34,3 +36,6 @@ export default styled.button`
       opacity: 0.5;
    }
 `
+Button.defaultProps = { theme: colors.light }
+
+export default Button
