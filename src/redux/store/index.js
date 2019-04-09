@@ -1,4 +1,5 @@
 import { applyMiddleware, createStore } from 'redux'
+import ReduxThunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
@@ -7,7 +8,7 @@ import * as appActions from '../actions/app'
 import rootReducer from '../reducers'
 import initialStore from './initialStore'
 
-let middlewares
+let middlewares = [ReduxThunk]
 
 if (process.env.NODE_ENV === 'development') {
    const composeEnhancers = composeWithDevTools({
@@ -16,7 +17,10 @@ if (process.env.NODE_ENV === 'development') {
          appActions
       }
    })
-   middlewares = composeEnhancers(applyMiddleware(logger))
+   middlewares.push(logger)
+   middlewares = composeEnhancers(applyMiddleware(...middlewares))
+} else if (process.env.NODE_ENV === 'production') {
+   middlewares = applyMiddleware(...middlewares)
 }
 
 const store = createStore(rootReducer, initialStore, middlewares)
