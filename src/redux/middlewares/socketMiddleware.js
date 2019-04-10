@@ -20,7 +20,7 @@ export default function socketMiddleware() {
 
       let handleEvent = handle
       if (typeof handleEvent === 'string') {
-         handleEvent = result => dispatch({ type: handle, result, ...rest })
+         handleEvent = payload => dispatch({ type: handle, payload, ...rest })
       }
       return socket.on(event, handleEvent)
    }
