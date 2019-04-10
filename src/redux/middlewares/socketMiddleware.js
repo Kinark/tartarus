@@ -1,8 +1,6 @@
-import io from 'socket.io-client'
+import socket from '~/instances/socket'
 
 export default function socketMiddleware() {
-   const socket = io()
-
    return ({ dispatch }) => next => action => {
       if (typeof action === 'function') {
          return next(action)
