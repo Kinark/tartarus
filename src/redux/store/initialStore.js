@@ -5,8 +5,11 @@ const initialStore = {
    settings: {
       theme: 'light'
    },
+   data: {
+      friends: []
+   },
    app: {
-      playMode: false,
+      playMode: false
    }
 }
 
