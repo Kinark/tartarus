@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-// import { connect } from 'react-redux'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
+
+import { logUserIn } from '~/redux/actions/auth'
 
 import colors from '~/constants/colors'
 
@@ -12,49 +14,58 @@ import TitleInfo from '~/components/TitleInfo'
 import Input from '~/components/Input'
 import Button from '~/components/Button'
 
-export default class Login extends Component {
+class Login extends PureComponent {
+   static propTypes = {
+      dispatch: PropTypes.func.isRequired,
+      loggedIn: PropTypes.bool.isRequired,
+      loading: PropTypes.bool.isRequired,
+   }
+
    state = {
-      redirect: false,
-      loading: false
+      email: '',
+      password: ''
    }
 
-   componentDidMount = () => {
-      if (localStorage.getItem('JWToken')) this.setState({ redirect: true })
+   login = () => {
+      const { dispatch } = this.props
+      const { email, password } = this.state
+      dispatch(logUserIn(email, password))
    }
 
-   login = async () => {
-      await this.setState({ loading: true })
-      setTimeout(() => {
-         localStorage.setItem('JWToken', Date.now())
-         this.setState({ redirect: true, loading: false })
-      }, 500)
-   }
+   inputHandler = ({ target }) => this.setState({ [target.name]: target.value })
 
-   loginBtnClickHandler = () => this.login()
+   submitHandler = e => {
+      e.preventDefault()
+      this.login()
+   }
 
    render() {
-      const { redirect, loading } = this.state
-      if (redirect) return <Redirect to="/" />
+      const { loggedIn, loading } = this.props
+      const { email, pass } = this.state
+      if (loggedIn) return <Redirect to="/" />
       return (
          <LoginWrapper>
-            <OutlinedCard>
+            <OutlinedCardForm onSubmit={this.submitHandler}>
                <LogoNormalStyled height="90" />
                <CardTitle>Login</CardTitle>
                <TitleInfo>Onde nada é belo ou feio</TitleInfo>
-               <Input className="center" placeholder="Email" />
-               <Input className="center" placeholder="Password" />
-               <Button loading={loading} onClick={this.loginBtnClickHandler}>
+               <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" />
+               <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" />
+               <Button type="submit" loading={loading}>
                   ENTRAR
                </Button>
                <div className="row">
                   <div className="col xs5 left-align">Criar uma conta</div>
                   <div className="col xs7 right-align">Esqueci minha senha</div>
                </div>
-            </OutlinedCard>
+            </OutlinedCardForm>
          </LoginWrapper>
       )
    }
 }
+
+const mapStateToProps = state => ({ loggedIn: state.auth.loggedIn, loading: state.auth.loading })
+export default connect(mapStateToProps)(Login)
 
 const LogoNormalStyled = styled(LogoOutline)`
    margin: 25px auto;
@@ -66,7 +77,7 @@ const LoginWrapper = styled.div`
    margin: 85px auto;
 `
 
-const OutlinedCard = styled.div`
+const OutlinedCardForm = styled.form`
    border-radius: 6px;
    border: 1px solid ${colors.light.TITLE_INFO};
    text-align: center;

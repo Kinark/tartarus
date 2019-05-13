@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import { togglePlayMode } from '~/redux/actions/app'
 import { setTheme } from '~/redux/actions/settings'
+import { logUserOff } from '~/redux/actions/auth'
 
 class BottomBar extends PureComponent {
    static propTypes = {
@@ -24,8 +25,8 @@ class BottomBar extends PureComponent {
    }
 
    logoff = () => {
-      localStorage.removeItem('JWToken')
-      document.location.reload()
+      const { dispatch } = this.props
+      dispatch(logUserOff())
    }
 
    render() {
