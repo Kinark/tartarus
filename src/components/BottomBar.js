@@ -10,18 +10,17 @@ class BottomBar extends PureComponent {
    static propTypes = {
       theme: PropTypes.string.isRequired,
       playMode: PropTypes.bool.isRequired,
-      dispatchSetTheme: PropTypes.func.isRequired,
-      dispatchTogglePlayMode: PropTypes.func.isRequired
+      dispatch: PropTypes.func.isRequired
    }
 
    handleThemeClick = () => {
-      const { theme, dispatchSetTheme } = this.props
-      dispatchSetTheme(theme === 'dark' ? 'light' : 'dark')
+      const { theme, dispatch } = this.props
+      dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'))
    }
 
    handlePlayModeClick = () => {
-      const { playMode, dispatchTogglePlayMode } = this.props
-      dispatchTogglePlayMode(!playMode)
+      const { playMode, dispatch } = this.props
+      dispatch(togglePlayMode(!playMode))
    }
 
    logoff = () => {
@@ -41,15 +40,8 @@ class BottomBar extends PureComponent {
    }
 }
 
-const mapDispatchToProps = dispatch => ({
-   dispatchSetTheme: theme => dispatch(setTheme(theme)),
-   dispatchTogglePlayMode: value => dispatch(togglePlayMode(value))
-})
 const mapStateToProps = state => ({ theme: state.settings.theme, playMode: state.app.playMode })
-export default connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(BottomBar)
+export default connect(mapStateToProps)(BottomBar)
 
 const BottomBarUl = styled.ul`
    flex: 0;
