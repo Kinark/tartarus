@@ -11,7 +11,7 @@ const initialStore = {
    auth: {
       loggedIn: !!localStorage.getItem('JWToken'),
       loading: false,
-      error: null
+      error: false
    },
    app: {
       playMode: false

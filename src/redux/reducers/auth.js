@@ -24,7 +24,7 @@ function loading(state = false, action) {
    }
 }
 
-function error(state = null, action) {
+function error(state = false, action) {
    switch (action.type) {
       case LOGIN_FAILURE:
          return action.payload
