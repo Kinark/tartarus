@@ -19,6 +19,20 @@ class Login extends PureComponent {
       dispatch: PropTypes.func.isRequired,
       loggedIn: PropTypes.bool.isRequired,
       loading: PropTypes.bool.isRequired,
+      error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
+   }
+
+   static errorTranslator = err => {
+      switch (err) {
+         case 'missing-info':
+            return 'Informação faltando'
+         case 'wrong-info':
+            return 'E-mail ou senha incorretos.'
+         case 'something-wrong':
+            return 'Algo de estranho aconteceu...'
+         default:
+            return 'Algo de muito estranho aconteceu...'
+      }
    }
 
    state = {
@@ -40,7 +54,7 @@ class Login extends PureComponent {
    }
 
    render() {
-      const { loggedIn, loading } = this.props
+      const { loggedIn, loading, error } = this.props
       const { email, pass } = this.state
       if (loggedIn) return <Redirect to="/" />
       return (
@@ -49,6 +63,7 @@ class Login extends PureComponent {
                <LogoNormalStyled height="90" />
                <CardTitle>Login</CardTitle>
                <TitleInfo>Onde nada é belo ou feio</TitleInfo>
+               {!!error && <div className="center red">{Login.errorTranslator(error)}</div>}
                <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" />
                <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" />
                <Button type="submit" loading={loading}>
@@ -64,7 +79,7 @@ class Login extends PureComponent {
    }
 }
 
-const mapStateToProps = state => ({ loggedIn: state.auth.loggedIn, loading: state.auth.loading })
+const mapStateToProps = state => ({ loggedIn: state.auth.loggedIn, loading: state.auth.loading, error: state.auth.error })
 export default connect(mapStateToProps)(Login)
 
 const LogoNormalStyled = styled(LogoOutline)`
