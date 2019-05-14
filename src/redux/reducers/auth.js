@@ -28,6 +28,8 @@ function error(state = false, action) {
    switch (action.type) {
       case LOGIN_FAILURE:
          return action.payload
+      case LOGIN_SUCCESS:
+         return false
       default:
          return state
    }
