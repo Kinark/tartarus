@@ -33,6 +33,7 @@ class BottomBar extends PureComponent {
       const { theme } = this.props
       return (
          <BottomBarUl>
+            <Item onClick={this.handleThemeClick}>Novo mundo</Item>
             <Item onClick={this.handleThemeClick}>Modo {theme === 'dark' ? 'escuro' : 'claro'}</Item>
             <Item onClick={this.handlePlayModeClick}>Modo jogar</Item>
             <Item onClick={this.logoff}>Logoff</Item>
