@@ -2,6 +2,11 @@ const initialStore = {
    // user: {
    //    nick: ''
    // },
+   newWorld: {
+      modal: false,
+      loading: false,
+      error: false
+   },
    settings: {
       theme: 'light'
    },
