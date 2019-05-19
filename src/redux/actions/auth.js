@@ -1,5 +1,4 @@
-import axios from 'axios'
-import apiUrl from '~/constants/apiUrl'
+import axios from '~/instances/axios'
 
 export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -14,7 +13,7 @@ export const logoff = () => ({ type: LOGOFF })
 export const logUserIn = (email, password) => dispatch => {
    dispatch(loginStart())
       axios
-         .post(`${apiUrl}/login`, { email, password })
+         .post('login', { email, password })
          .then(response => {
             localStorage.setItem('JWToken', response.data.token)
             return dispatch(loginSuccess())
