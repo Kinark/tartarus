@@ -5,6 +5,6 @@ const token = localStorage.getItem('JWToken')
 
 export default axios.create({
    baseURL: `${apiUrl}/`,
-   timeout: 1000,
+   timeout: 8000,
    headers: token ? { Authorization: `Bearer ${token}` } : undefined
 })
