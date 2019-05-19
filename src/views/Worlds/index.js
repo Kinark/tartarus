@@ -1,18 +1,15 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-import CustomScroll from '~/components/CustomScroll'
-import SectionTitle from '~/components/SectionTitle'
-import TitleInfo from '~/components/TitleInfo'
-import SectionContent from '~/components/SectionContent'
+import MyWorlds from './components/MyWorlds'
 
-export default class Worlds extends Component {
+export default class Worlds extends PureComponent {
    render() {
       return (
-         <SectionContent>
-            <SectionTitle>Procurar novos mundos</SectionTitle>
-            <TitleInfo>Encontre seus animops</TitleInfo>
-            <CustomScroll>Procuraaaa</CustomScroll>
-         </SectionContent>
+         <div className="row">
+            <div className="col xs12">
+               <MyWorlds />
+            </div>
+         </div>
       )
    }
 }
