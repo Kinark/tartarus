@@ -56,7 +56,8 @@ module.exports = {
       'react/prefer-stateless-function': 'off',
       'react/no-multi-comp': 'off',
       'no-confusing-arrow': 'off',
-      'implicit-arrow-linebreak': 'off'
+      'implicit-arrow-linebreak': 'off',
+      'no-underscore-dangle': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
