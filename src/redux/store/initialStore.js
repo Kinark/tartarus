@@ -2,6 +2,11 @@ const initialStore = {
    // user: {
    //    nick: ''
    // },
+   myWorlds: {
+      loading: false,
+      error: false,
+      content: []
+   },
    newWorld: {
       modal: false,
       loading: false,
