@@ -14,6 +14,6 @@ export const fetchMyWorlds = () => dispatch => {
    dispatch(fetchMyWorldsStart())
    axios
       .get('my-worlds')
-      .then(() => dispatch(fetchMyWorldsSuccess()))
+      .then(({ data }) => dispatch(fetchMyWorldsSuccess(data)))
       .catch(err => dispatch(fetchMyWorldsFailure(err.response.data.code)))
 }
