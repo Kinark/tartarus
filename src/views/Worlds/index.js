@@ -6,7 +6,7 @@ export default class Worlds extends PureComponent {
    render() {
       return (
          <div className="row">
-            <div className="col xs12">
+            <div className="col xs12 m4">
                <MyWorlds />
             </div>
          </div>
