@@ -14,12 +14,13 @@ class MyWorlds extends PureComponent {
       dispatch: PropTypes.func.isRequired,
       content: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
       loading: PropTypes.bool.isRequired,
+      done: PropTypes.bool.isRequired,
       error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
    }
 
    componentDidMount = () => {
-      const { dispatch } = this.props
-      dispatch(fetchMyWorlds())
+      const { dispatch, done } = this.props
+      if (!done) dispatch(fetchMyWorlds())
    }
 
    renderWorlds = () => {
@@ -41,5 +42,5 @@ class MyWorlds extends PureComponent {
    }
 }
 
-const mapStateToProps = state => ({ content: state.myWorlds.content, loading: state.myWorlds.loading, error: state.myWorlds.error })
+const mapStateToProps = state => ({ content: state.myWorlds.content, loading: state.myWorlds.loading, error: state.myWorlds.error, done: state.myWorlds.done })
 export default connect(mapStateToProps)(MyWorlds)

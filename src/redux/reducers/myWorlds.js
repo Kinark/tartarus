@@ -33,8 +33,18 @@ function content(state = false, action) {
    }
 }
 
+function done(state = false, action) {
+   switch (action.type) {
+      case FETCH_MY_WORLDS_SUCCESS:
+         return true
+      default:
+         return state
+   }
+}
+
 export default combineReducers({
    loading,
    error,
-   content
+   content,
+   done
 })

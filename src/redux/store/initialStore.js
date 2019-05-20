@@ -5,6 +5,7 @@ const initialStore = {
    myWorlds: {
       loading: false,
       error: false,
+      done: false,
       content: []
    },
    newWorld: {
