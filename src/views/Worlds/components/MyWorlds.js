@@ -8,6 +8,7 @@ import CustomScroll from '~/components/CustomScroll'
 import SectionTitle from '~/components/SectionTitle'
 import TitleInfo from '~/components/TitleInfo'
 import SectionContent from '~/components/SectionContent'
+import WorldLink from '~/components/WorldLink'
 
 class MyWorlds extends PureComponent {
    static propTypes = {
@@ -27,7 +28,7 @@ class MyWorlds extends PureComponent {
       const { content, loading, error } = this.props
       if (loading) return 'Loading'
       if (error) return 'Error'
-      return content.map(world => <div key={world._id}>{world.name}</div>)
+      return content.map(world => <WorldLink data={world} key={world._id} />)
    }
 
    render() {
