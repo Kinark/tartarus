@@ -28,6 +28,8 @@ class Login extends PureComponent {
             return 'Informação faltando'
          case 'wrong-info':
             return 'E-mail ou senha incorretos.'
+         case 'cannot-connect':
+            return 'Não encontramos o portal para Tartarus'
          case 'something-wrong':
             return 'Algo de estranho aconteceu...'
          default:
@@ -64,8 +66,8 @@ class Login extends PureComponent {
                <CardTitle>Login</CardTitle>
                <TitleInfo>Onde nada é belo ou feio</TitleInfo>
                {!!error && <div className="center red">{Login.errorTranslator(error)}</div>}
-               <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" />
-               <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" />
+               <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" required />
+               <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" required />
                <Button type="submit" loading={loading}>
                   ENTRAR
                </Button>
