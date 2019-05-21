@@ -25,7 +25,8 @@ const initialStore = {
       error: false
    },
    app: {
-      playMode: false
+      playMode: false,
+      tabs: []
    }
 }
 
