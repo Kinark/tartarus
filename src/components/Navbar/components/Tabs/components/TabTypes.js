@@ -16,8 +16,8 @@ class DisconnectedTab extends PureComponent {
    }
 
    closeTab = () => {
-      const { dispatch, to } = this.props
-      dispatch(leaveRoomAndRemoveTab(to))
+      const { dispatch, worldId } = this.props
+      dispatch(leaveRoomAndRemoveTab(worldId))
    }
 
    render() {

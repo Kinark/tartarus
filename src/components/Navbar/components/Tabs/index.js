@@ -24,7 +24,7 @@ class Tabs extends PureComponent {
             </BasicTab>
             <BasicTab to="/worlds">Worlds</BasicTab>
             {openedTabs.map(world => (
-               <Tab key={world._id} to={world._id}>
+               <Tab key={world._id} worldId={world._id} to={`/world/${world._id}`}>
                   {world.name}
                </Tab>
             ))}
