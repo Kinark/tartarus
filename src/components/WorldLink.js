@@ -47,7 +47,7 @@ const World = styled(Link)`
       opacity: 0.6;
    }
 `
-World.defaultProps = { theme: colors.light, covered: false }
+World.defaultProps = { theme: colors.light }
 
 const WorldTitle = styled.div`
    font-family: 'upgrade', sans-serif;
