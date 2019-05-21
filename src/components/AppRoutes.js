@@ -9,6 +9,7 @@ import BottomBar from '~/components/BottomBar'
 
 import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
+import World from '~/views/World'
 
 export default () => (
    <React.Fragment>
@@ -19,6 +20,7 @@ export default () => (
             <Switch>
                <Route path="/" component={Welcome} exact />
                <Route path="/worlds" component={Worlds} />
+               <Route path="/world/:worldId" component={World} />
             </Switch>
          </AppMainWrapper>
       </AppContentWrapper>
