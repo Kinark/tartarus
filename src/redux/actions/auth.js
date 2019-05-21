@@ -18,7 +18,7 @@ export const logUserIn = (email, password) => dispatch => {
             localStorage.setItem('JWToken', response.data.token)
             return dispatch(loginSuccess())
          })
-         .catch(err => dispatch(loginFailure(err.response.data.code)))
+         .catch(err => dispatch(loginFailure(err.response.data.code || 'something-wrong')))
 }
 
 export const logUserOff = () => dispatch => {
