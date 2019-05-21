@@ -22,7 +22,7 @@ class World extends PureComponent {
    componentDidMount = () => {
       const { openedTabs, dispatch, match } = this.props
       const { worldId } = match.params
-      if (!openedTabs.find(world => world !== worldId)) dispatch(enterRoomAndAddTab(worldId))
+      if (!openedTabs.find(world => world._id === worldId)) dispatch(enterRoomAndAddTab(worldId))
    }
 
    render() {
