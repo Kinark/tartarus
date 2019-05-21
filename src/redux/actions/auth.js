@@ -12,13 +12,17 @@ export const logoff = () => ({ type: LOGOFF })
 
 export const logUserIn = (email, password) => dispatch => {
    dispatch(loginStart())
-      axios
-         .post('login', { email, password })
-         .then(response => {
-            localStorage.setItem('JWToken', response.data.token)
-            return dispatch(loginSuccess())
-         })
-         .catch(err => dispatch(loginFailure(err.response.data.code || 'something-wrong')))
+   axios
+      .post('login', { email, password })
+      .then(response => {
+         localStorage.setItem('JWToken', response.data.token)
+         return dispatch(loginSuccess())
+      })
+      .catch(err => {
+         if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
+         if (err.request) return dispatch(loginFailure('cannot-connect'))
+         return dispatch(loginFailure('something-really-wrong'))
+      })
 }
 
 export const logUserOff = () => dispatch => {
