@@ -21,7 +21,7 @@ class DisconnectedTab extends PureComponent {
    }
 
    render() {
-      const { children, dispatch, ...rest } = this.props
+      const { worldId, children, dispatch, ...rest } = this.props
       return (
          <TabWrapper>
             <TabClose to="/" onClick={this.closeTab}>
@@ -76,6 +76,8 @@ const TabBase = styled(NavLink)`
 Tab.defaultProps = { theme: colors.light }
 
 const TabClose = styled(Link)`
+   font-family: 'upgrade', sans-serif;
+   font-weight: 500;
    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, ${({ theme }) => theme.BG} 50%, ${({ theme }) => theme.BG} 100%);
    position: absolute;
    z-index: 1;
@@ -84,7 +86,7 @@ const TabClose = styled(Link)`
    bottom: 0;
    margin: auto;
    height: 100%;
-   padding: 0 20px 0 40px;
+   padding: 0 12px 0 24px;
    text-align: center;
    font-size: 18px;
    opacity: 0;
