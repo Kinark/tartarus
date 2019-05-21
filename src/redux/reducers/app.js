@@ -13,11 +13,12 @@ function playMode(state = false, action) {
 function tabs(state = [], action) {
    switch (action.type) {
       case ADD_WORLD_TAB:
-         if (state.find(world => world === action.payload)) return state
+         if (state.find(world => world._id === action.payload)) return state
          return [...state, action.payload]
       case REMOVE_WORLD_TAB:
-         if (!state.find(world => world === action.payload)) return state
-         return state.filter(world => world !== action.payload)
+         if (!state.find(world => world._id === action.payload)) return state
+         console.log('a')
+         return state.filter(world => world._id !== action.payload)
       default:
          return state
    }
