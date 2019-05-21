@@ -7,7 +7,11 @@ import { enterRoomAndAddTab } from '~/redux/actions/app'
 class World extends PureComponent {
    static propTypes = {
       dispatch: PropTypes.func.isRequired,
-      openedTabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+      openedTabs: PropTypes.arrayOf(
+         PropTypes.shape({
+            _id: PropTypes.string.isRequired
+         })
+      ).isRequired,
       match: PropTypes.shape({
          params: PropTypes.shape({
             worldId: PropTypes.string.isRequired
