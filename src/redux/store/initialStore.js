@@ -20,7 +20,7 @@ const initialStore = {
       friends: []
    },
    auth: {
-      loggedIn: !!localStorage.getItem('JWToken'),
+      loggedIn: () => !!localStorage.getItem('JWToken'),
       loading: false,
       error: false
    },
