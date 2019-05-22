@@ -57,7 +57,8 @@ module.exports = {
       'react/no-multi-comp': 'off',
       'no-confusing-arrow': 'off',
       'implicit-arrow-linebreak': 'off',
-      'no-underscore-dangle': 'off'
+      'no-underscore-dangle': 'off',
+      'no-param-reassign': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
