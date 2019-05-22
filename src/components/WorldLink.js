@@ -42,6 +42,7 @@ const World = styled(Link)`
    margin: 0 12px 12px 0;
    padding: 8px 10px;
    opacity: 1;
+   font-size: 17px;
    transition: opacity 300ms;
    &:hover {
       opacity: 0.6;
