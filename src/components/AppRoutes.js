@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -11,22 +11,26 @@ import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
 import World from '~/views/World'
 
-export default () => (
-   <React.Fragment>
-      <Route path="/" component={Navbar} />
-      <AppContentWrapper>
-         <Route path="/" component={FriendsList} />
-         <AppMainWrapper>
-            <Switch>
-               <Route path="/" component={Welcome} exact />
-               <Route path="/worlds" component={Worlds} />
-               <Route path="/world/:worldId" component={World} />
-            </Switch>
-         </AppMainWrapper>
-      </AppContentWrapper>
-      <Route path="/" component={BottomBar} />
-   </React.Fragment>
-)
+export default class AppRoutes extends PureComponent {
+   render() {
+      return (
+         <React.Fragment>
+            <Route path="/" component={Navbar} />
+            <AppContentWrapper>
+               <Route path="/" component={FriendsList} />
+               <AppMainWrapper>
+                  <Switch>
+                     <Route path="/" component={Welcome} exact />
+                     <Route path="/worlds" component={Worlds} />
+                     <Route path="/world/:worldId" component={World} />
+                  </Switch>
+               </AppMainWrapper>
+            </AppContentWrapper>
+            <Route path="/" component={BottomBar} />
+         </React.Fragment>
+      )
+   }
+}
 
 const AppContentWrapper = styled.div`
    display: flex;
