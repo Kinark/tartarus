@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
+
+import { connectAppAndDispatch } from '~/redux/actions/app'
 
 import Navbar from '~/components/Navbar'
 import FriendsList from '~/components/FriendsList'
@@ -11,7 +15,16 @@ import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
 import World from '~/views/World'
 
-export default class AppRoutes extends PureComponent {
+class AppRoutes extends PureComponent {
+   static propTypes = {
+      dispatch: PropTypes.func.isRequired
+   }
+
+   componentDidMount = () => {
+      const { dispatch } = this.props
+      dispatch(connectAppAndDispatch())
+   }
+
    render() {
       return (
          <React.Fragment>
@@ -31,6 +44,7 @@ export default class AppRoutes extends PureComponent {
       )
    }
 }
+export default connect()(AppRoutes)
 
 const AppContentWrapper = styled.div`
    display: flex;
