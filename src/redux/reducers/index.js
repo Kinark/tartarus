@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux'
+import { LOGOFF } from '../actions/auth'
+
 import settings from './settings'
 import app from './app'
 import data from './data'
@@ -6,7 +8,7 @@ import auth from './auth'
 import newWorld from './newWorld'
 import myWorlds from './myWorlds'
 
-export default combineReducers({
+const appReducer = combineReducers({
    myWorlds,
    newWorld,
    settings,
@@ -14,3 +16,10 @@ export default combineReducers({
    auth,
    app
 })
+
+const rootReducer = (state, action) => {
+   if (action.type === LOGOFF) state = undefined
+   return appReducer(state, action)
+}
+
+export default rootReducer
