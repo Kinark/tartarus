@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { enterRoomAndAddTab } from '~/redux/actions/app'
+import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
 
 class World extends PureComponent {
    static propTypes = {
@@ -22,7 +22,13 @@ class World extends PureComponent {
    componentDidMount = () => {
       const { openedTabs, dispatch, match } = this.props
       const { worldId } = match.params
+      dispatch(togglePlayMode(true))
       if (!openedTabs.find(world => world._id === worldId)) dispatch(enterRoomAndAddTab(worldId))
+   }
+
+   componentWillUnmount = () => {
+      const { dispatch } = this.props
+      dispatch(togglePlayMode(false))
    }
 
    render() {
