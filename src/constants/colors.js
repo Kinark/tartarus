@@ -6,7 +6,8 @@ const light = {
    BODY_TEXT: '#745043',
    TITLE_INFO: '#978274',
    DIVIDER_STRONG: '#707070',
-   DIVIER_SOFT: '#rgba(112, 112, 112, 0.25)'
+   DIVIER_SOFT: 'rgba(112, 112, 112, 0.25)',
+   CHAT_BG_COLOR: 'rgb(116, 80, 67)'
 }
 
 const dark = {
@@ -17,7 +18,8 @@ const dark = {
    BODY_TEXT: '#EBE3D0',
    TITLE_INFO: '#978274',
    DIVIDER_STRONG: '#707070',
-   DIVIER_SOFT: '#rgba(112, 112, 112, 0.25)'
+   DIVIER_SOFT: 'rgba(112, 112, 112, 0.25)',
+   CHAT_BG_COLOR: 'rgb(116, 80, 67)'
 }
 
 export default { light, dark }
