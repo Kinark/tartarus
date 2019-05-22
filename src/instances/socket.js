@@ -1,3 +1,4 @@
 import io from 'socket.io-client'
+import apiUrl from '~/constants/apiUrl'
 
-export default io()
+export default io(`${apiUrl}/gateway`)
