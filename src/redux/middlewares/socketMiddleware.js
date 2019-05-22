@@ -1,7 +1,11 @@
-import socket from '~/instances/socket'
+import io from 'socket.io-client'
+import apiUrl from '~/constants/apiUrl'
 
 export default function socketMiddleware() {
+   const socket = io(`${apiUrl}/gateway`)
+
    return ({ dispatch }) => next => action => {
+      return next(action)
       if (typeof action === 'function') {
          return next(action)
       }
