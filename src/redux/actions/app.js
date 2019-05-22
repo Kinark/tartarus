@@ -10,7 +10,6 @@ export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 
 export const enterRoomAndAddTab = _id => dispatch => {
-   console.log(_id)
    axios
       .get(`world/${_id}`)
       .then(({ data }) => dispatch(addWorldTab(data)))
