@@ -20,9 +20,9 @@ class Tabs extends PureComponent {
       return (
          <TabsWrapper>
             <BasicTab to="/" exact>
-               Welcome
+               Boas vindas
             </BasicTab>
-            <BasicTab to="/worlds">Worlds</BasicTab>
+            <BasicTab to="/worlds">Mundos</BasicTab>
             {openedTabs.map(world => (
                <Tab key={world._id} worldId={world._id} to={`/world/${world._id}`}>
                   {world.name}
