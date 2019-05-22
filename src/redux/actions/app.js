@@ -5,10 +5,26 @@ import socket from '~/instances/socket'
 export const TOGGLE_PLAY_MODE = 'TOGGLE_PLAY_MODE'
 export const ADD_WORLD_TAB = 'ADD_WORLD_TAB'
 export const REMOVE_WORLD_TAB = 'REMOVE_WORLD_TAB'
+export const CONNECTED_APP = 'CONNECTED_APP'
+export const ADD_MESSAGE = 'ADD_MESSAGE'
 
 export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
 export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
+export const connectApp = payload => ({ type: CONNECTED_APP, payload })
+export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
+
+
+export const connectAppAndDispatch = () => dispatch => {
+   socket.on('message', msg => dispatch(addMessage(msg)))
+   dispatch(connectApp(true))
+}
+
+export const disconnectAppAndDispatch = () => dispatch => {
+   socket.removeListener('message')
+   dispatch(connectApp(false))
+}
+
 
 export const enterRoomAndAddTab = roomId => dispatch => {
    socket.emit('enter-room', roomId)

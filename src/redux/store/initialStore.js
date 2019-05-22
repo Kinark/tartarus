@@ -25,6 +25,8 @@ const initialStore = {
       error: false
    },
    app: {
+      connected: false,
+      messages: [],
       playMode: false,
       tabs: []
    }
