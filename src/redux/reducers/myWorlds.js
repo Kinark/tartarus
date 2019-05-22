@@ -24,7 +24,7 @@ function error(state = false, action) {
    }
 }
 
-function content(state = false, action) {
+function content(state = [], action) {
    switch (action.type) {
       case FETCH_MY_WORLDS_SUCCESS:
          return action.payload
