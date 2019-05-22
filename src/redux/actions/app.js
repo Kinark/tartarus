@@ -1,4 +1,5 @@
 import axios from '~/instances/axios'
+import socket from '~/instances/socket'
 // import { listeners } from '~/constants/socketEvents'
 
 export const TOGGLE_PLAY_MODE = 'TOGGLE_PLAY_MODE'
@@ -10,6 +11,7 @@ export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 
 export const enterRoomAndAddTab = roomId => dispatch => {
+   socket.emit('enter-room', roomId)
    axios
       .get(`world/${roomId}`)
       .then(({ data }) => dispatch(addWorldTab(data)))
@@ -21,5 +23,6 @@ export const enterRoomAndAddTab = roomId => dispatch => {
 }
 
 export const leaveRoomAndRemoveTab = roomId => dispatch => {
+   socket.emit('leave-room', roomId)
    dispatch(removeWorldTab(roomId))
 }
