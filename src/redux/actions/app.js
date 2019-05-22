@@ -9,9 +9,9 @@ export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
 export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 
-export const enterRoomAndAddTab = _id => dispatch => {
+export const enterRoomAndAddTab = roomId => dispatch => {
    axios
-      .get(`world/${_id}`)
+      .get(`world/${roomId}`)
       .then(({ data }) => dispatch(addWorldTab(data)))
       .catch(() => {
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
@@ -20,6 +20,6 @@ export const enterRoomAndAddTab = _id => dispatch => {
       })
 }
 
-export const leaveRoomAndRemoveTab = room => dispatch => {
-   dispatch(removeWorldTab(room))
+export const leaveRoomAndRemoveTab = roomId => dispatch => {
+   dispatch(removeWorldTab(roomId))
 }
