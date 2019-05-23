@@ -58,7 +58,8 @@ module.exports = {
       'no-confusing-arrow': 'off',
       'implicit-arrow-linebreak': 'off',
       'no-underscore-dangle': 'off',
-      'no-param-reassign': 'off'
+      'no-param-reassign': 'off',
+      'no-case-declarations': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
