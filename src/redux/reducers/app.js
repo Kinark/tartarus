@@ -13,6 +13,12 @@ function connected(state = false, action) {
 function messages(state = [], action) {
    switch (action.type) {
       case ADD_MESSAGE:
+         const messageLoading = state.findIndex(msg => msg.nonce === action.payload.nonce)
+         if (messageLoading !== -1) {
+            const newArray = [...state]
+            newArray[messageLoading] = action.payload
+            return newArray
+         }
          return [...state, action.payload]
       default:
          return state
