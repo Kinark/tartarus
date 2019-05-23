@@ -14,7 +14,7 @@ export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 export const connectApp = payload => ({ type: CONNECTED_APP, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
-export const addSeveralMessage = payload => ({ type: ADD_MESSAGE, payload })
+export const addSeveralMessages = payload => ({ type: ADD_MESSAGE, payload })
 
 export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
@@ -55,8 +55,9 @@ export const enterRoomAndAddTab = roomId => dispatch => {
       })
    axios
       .get(`messages/${roomId}`)
-      .then(({ data }) => dispatch(addSeveralMessage(data)))
-      .catch(() => {
+      .then(({ data }) => dispatch(addSeveralMessages(data)))
+      .catch(err => {
+         console.log(err)
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
          // if (err.request) return dispatch(loginFailure('cannot-connect'))
          // return dispatch(loginFailure('something-really-wrong'))
