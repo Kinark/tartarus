@@ -7,12 +7,14 @@ export const ADD_WORLD_TAB = 'ADD_WORLD_TAB'
 export const REMOVE_WORLD_TAB = 'REMOVE_WORLD_TAB'
 export const CONNECTED_APP = 'CONNECTED_APP'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
+export const ADD_SEVERAL_MESSAGES = 'ADD_SEVERAL_MESSAGES'
 
 export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
 export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 export const connectApp = payload => ({ type: CONNECTED_APP, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
+export const addSeveralMessage = payload => ({ type: ADD_MESSAGE, payload })
 
 export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
@@ -46,6 +48,14 @@ export const enterRoomAndAddTab = roomId => dispatch => {
    axios
       .get(`world/${roomId}`)
       .then(({ data }) => dispatch(addWorldTab(data)))
+      .catch(() => {
+         // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
+         // if (err.request) return dispatch(loginFailure('cannot-connect'))
+         // return dispatch(loginFailure('something-really-wrong'))
+      })
+   axios
+      .get(`messages/${roomId}`)
+      .then(({ data }) => dispatch(addSeveralMessage(data)))
       .catch(() => {
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
          // if (err.request) return dispatch(loginFailure('cannot-connect'))
