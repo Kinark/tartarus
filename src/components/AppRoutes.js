@@ -5,6 +5,7 @@ import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { connectAppAndDispatch } from '~/redux/actions/app'
+import { logUserIn } from '~/redux/actions/auth'
 
 import Navbar from '~/components/Navbar'
 import FriendsList from '~/components/FriendsList'
@@ -20,9 +21,15 @@ class AppRoutes extends PureComponent {
       dispatch: PropTypes.func.isRequired
    }
 
-   componentDidMount = () => {
+   componentDidMount = () => this.appStartRoutine()
+
+   componentWillUnmount = () => clearInterval(this.JWTRenewInterval)
+
+   appStartRoutine = () => {
       const { dispatch } = this.props
       dispatch(connectAppAndDispatch())
+      dispatch(logUserIn())
+      this.JWTRenewInterval = setInterval(() => dispatch(logUserIn()), 1 * 60 * 60 * 1000)
    }
 
    render() {
