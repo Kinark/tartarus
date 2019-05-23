@@ -1,14 +1,21 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import colors from '~/constants/colors'
 
-export default class LogoSection extends PureComponent {
+class LogoSection extends PureComponent {
+   static propTypes = {
+      username: PropTypes.string.isRequired
+   }
+
    render() {
+      const { username } = this.props
       return (
          <AccountWrapper>
             <Info>
-               Matheus-kun
+               {username}
                <span>Online</span>
             </Info>
             <AvatarWrapper>
@@ -18,6 +25,8 @@ export default class LogoSection extends PureComponent {
       )
    }
 }
+const mapStateToProps = state => ({ username: state.auth.username })
+export default connect(mapStateToProps)(LogoSection)
 
 const AccountWrapper = styled.div`
    display: flex;
