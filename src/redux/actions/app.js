@@ -56,7 +56,7 @@ export const enterRoomAndAddTab = roomId => dispatch => {
       .get(`messages/${roomId}`)
       .then(({ data }) => {
          console.log(data)
-        return dispatch(addSeveralMessages(data))
+         return dispatch(addSeveralMessages(data))
       })
       .catch(err => {
          console.log(err)
