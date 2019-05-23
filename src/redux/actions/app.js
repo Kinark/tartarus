@@ -14,6 +14,22 @@ export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 export const connectApp = payload => ({ type: CONNECTED_APP, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
 
+export const sendNewMessage = msgObject => dispatch => {
+   dispatch(addMessage(msgObject))
+   axios
+      .post('message', msgObject)
+      .then(({ data }) => {
+         console.log('a')
+         return dispatch(addMessage(data))
+      })
+      .catch(err => {
+         console.log(err)
+         console.log(err.message)
+         // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
+         // if (err.request) return dispatch(loginFailure('cannot-connect'))
+         // return dispatch(loginFailure('something-really-wrong'))
+      })
+}
 
 export const connectAppAndDispatch = () => dispatch => {
    socket.on('message', msg => dispatch(addMessage(msg)))
@@ -24,7 +40,6 @@ export const disconnectAppAndDispatch = () => dispatch => {
    socket.removeListener('message')
    dispatch(connectApp(false))
 }
-
 
 export const enterRoomAndAddTab = roomId => dispatch => {
    socket.emit('enter-room', roomId)
