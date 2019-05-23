@@ -20,6 +20,8 @@ function messages(state = [], action) {
             return newArray
          }
          return [...state, action.payload]
+      case REMOVE_WORLD_TAB:
+         return state.filter(msg => msg.room !== action.payload)
       default:
          return state
    }
