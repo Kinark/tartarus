@@ -15,7 +15,7 @@ function loggedIn(state = false, action) {
 function username(state = '', action) {
    switch (action.type) {
       case LOGIN_SUCCESS:
-         return action.payload.username
+         return action.payload.name
       default:
          return state
    }
@@ -24,7 +24,7 @@ function username(state = '', action) {
 function userId(state = '', action) {
    switch (action.type) {
       case LOGIN_SUCCESS:
-         return action.payload.userId
+         return action.payload._id
       default:
          return state
    }
