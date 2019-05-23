@@ -21,7 +21,6 @@ export const sendNewMessage = msgObject => dispatch => {
    axios
       .post('message', msgObject)
       .then(({ data }) => {
-         console.log('a')
          return dispatch(addMessage(data))
       })
       .catch(err => {
@@ -55,7 +54,10 @@ export const enterRoomAndAddTab = roomId => dispatch => {
       })
    axios
       .get(`messages/${roomId}`)
-      .then(({ data }) => dispatch(addSeveralMessages(data)))
+      .then(({ data }) => {
+         console.log(data)
+        return dispatch(addSeveralMessages(data))
+      })
       .catch(err => {
          console.log(err)
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
