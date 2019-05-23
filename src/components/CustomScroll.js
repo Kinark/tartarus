@@ -1,30 +1,31 @@
 import styled from 'styled-components'
 
-export default styled.div`
+import colors from '~/constants/colors'
+
+const CustomScroll = styled.div`
+   padding-right: 6px;
+   overflow-y: auto;
    ::-webkit-scrollbar-button {
       display: none;
-      height: 13px;
-      border-radius: 0px;
-      background-color: #aaa;
-   }
-   ::-webkit-scrollbar-button:hover {
-      background-color: #aaa;
    }
    ::-webkit-scrollbar-thumb {
-      background-color: #ccc;
+      background-color: ${({ theme }) => theme.CHAT_BG_COLOR};
       border-radius: 6px;
+      display:none;
+      transition: opacity 300ms;
    }
-   ::-webkit-scrollbar-thumb:hover {
-      background-color: #ccc;
+   &:hover {
+      ::-webkit-scrollbar-thumb {
+         display: block;
+      }
    }
    ::-webkit-scrollbar-track {
-      background-color: transparent;
-      border-radius: 4px;
-   }
-   ::-webkit-scrollbar-track:hover {
       background-color: transparent;
    }
    ::-webkit-scrollbar {
       width: 3px;
    }
 `
+CustomScroll.defaultProps = { theme: colors.light }
+
+export default CustomScroll
