@@ -14,7 +14,7 @@ export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 export const connectApp = payload => ({ type: CONNECTED_APP, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
-export const addSeveralMessages = payload => ({ type: ADD_MESSAGE, payload })
+export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payload })
 
 export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
