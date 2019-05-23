@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types'
 
 export const messagePropTypes = {
-   _id: PropTypes.string.isRequired,
-   roomId: PropTypes.string.isRequired,
+   _id: PropTypes.string,
+   room: PropTypes.string.isRequired,
    type: PropTypes.string,
    subroom: PropTypes.string,
-   author: PropTypes.string.isRequired,
+   author: PropTypes.shape({
+      _id: PropTypes.string,
+      username: PropTypes.string,
+      avatar: PropTypes.string
+   }),
    content: PropTypes.string.isRequired,
-   sentAt: PropTypes.string.isRequired
+   timestamp: PropTypes.string,
+   nonce: PropTypes.string.isRequired
 }
 
 export const messageDefaultProps = {
    type: null,
-   subroom: null,
+   subroom: null
 }
