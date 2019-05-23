@@ -12,6 +12,24 @@ function loggedIn(state = false, action) {
    }
 }
 
+function username(state = '', action) {
+   switch (action.type) {
+      case LOGIN_SUCCESS:
+         return action.payload.username
+      default:
+         return state
+   }
+}
+
+function userId(state = '', action) {
+   switch (action.type) {
+      case LOGIN_SUCCESS:
+         return action.payload.userId
+      default:
+         return state
+   }
+}
+
 function loading(state = false, action) {
    switch (action.type) {
       case LOGIN_START:
@@ -37,6 +55,8 @@ function error(state = false, action) {
 
 export default combineReducers({
    loggedIn,
+   username,
+   userId,
    loading,
    error
 })

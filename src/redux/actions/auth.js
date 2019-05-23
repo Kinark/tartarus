@@ -6,7 +6,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGOFF = 'LOGOFF'
 
 export const loginStart = () => ({ type: LOGIN_START })
-export const loginSuccess = () => ({ type: LOGIN_SUCCESS })
+export const loginSuccess = payload => ({ type: LOGIN_SUCCESS, payload })
 export const loginFailure = payload => ({ type: LOGIN_FAILURE, payload })
 export const logoff = () => ({ type: LOGOFF })
 
@@ -14,9 +14,9 @@ export const logUserIn = (email, password) => dispatch => {
    dispatch(loginStart())
    axios
       .post('login', { email, password })
-      .then(response => {
-         localStorage.setItem('JWToken', response.data.token)
-         return dispatch(loginSuccess())
+      .then(({ data }) => {
+         localStorage.setItem('JWToken', data.token)
+         return dispatch(loginSuccess(data))
       })
       .catch(err => {
          if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))

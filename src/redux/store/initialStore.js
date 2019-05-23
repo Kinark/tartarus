@@ -1,7 +1,4 @@
 const initialStore = {
-   // user: {
-   //    nick: ''
-   // },
    myWorlds: {
       loading: false,
       error: false,
@@ -20,7 +17,9 @@ const initialStore = {
       friends: []
    },
    auth: {
-      loggedIn: () => !!localStorage.getItem('JWToken'),
+      loggedIn: !!localStorage.getItem('JWToken'),
+      username: '',
+      userId: '',
       loading: false,
       error: false
    },
