@@ -20,9 +20,7 @@ export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
    axios
       .post('message', msgObject)
-      .then(({ data }) => {
-         return dispatch(addMessage(data))
-      })
+      .then(({ data }) => dispatch(addMessage(data)))
       .catch(err => {
          console.log(err)
          console.log(err.message)
