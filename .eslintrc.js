@@ -59,7 +59,8 @@ module.exports = {
       'implicit-arrow-linebreak': 'off',
       'no-underscore-dangle': 'off',
       'no-param-reassign': 'off',
-      'no-case-declarations': 'off'
+      'no-case-declarations': 'off',
+      'no-return-assign': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
