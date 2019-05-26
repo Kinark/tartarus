@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { messagePropTypes } from '~/propTypes/message'
+
 import CustomScroll from '~/components/CustomScroll'
 
 import Message from './components/Message'
@@ -9,7 +11,7 @@ import TypeBar from './components/TypeBar'
 
 export default class Chat extends PureComponent {
    static propTypes = {
-      data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+      data: PropTypes.arrayOf(PropTypes.shape(messagePropTypes)).isRequired,
       title: PropTypes.string.isRequired,
       room: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired
