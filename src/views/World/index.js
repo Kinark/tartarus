@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import { messagePropTypes } from '~/propTypes/message'
 import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
 
 import Chat from '~/components/Chat'
@@ -15,7 +16,7 @@ class World extends PureComponent {
             _id: PropTypes.string.isRequired
          })
       ).isRequired,
-      messages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+      messages: PropTypes.arrayOf(messagePropTypes).isRequired,
       match: PropTypes.shape({
          params: PropTypes.shape({
             worldId: PropTypes.string.isRequired
