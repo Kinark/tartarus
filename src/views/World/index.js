@@ -16,7 +16,7 @@ class World extends PureComponent {
             _id: PropTypes.string.isRequired
          })
       ).isRequired,
-      messages: PropTypes.arrayOf(messagePropTypes).isRequired,
+      messages: PropTypes.arrayOf(PropTypes.shape(messagePropTypes)).isRequired,
       match: PropTypes.shape({
          params: PropTypes.shape({
             worldId: PropTypes.string.isRequired
