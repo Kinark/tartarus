@@ -12,7 +12,8 @@ class TypeBar extends PureComponent {
       room: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       myId: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired
+      username: PropTypes.string.isRequired,
+      scrollChatDown: PropTypes.func.isRequired
    }
 
    state = {
@@ -21,7 +22,7 @@ class TypeBar extends PureComponent {
 
    sendMessage = e => {
       const { message } = this.state
-      const { dispatch, room, type, myId, username } = this.props
+      const { dispatch, room, type, myId, username, scrollChatDown } = this.props
       e.preventDefault()
       const messageObject = {
          author: {
@@ -36,6 +37,7 @@ class TypeBar extends PureComponent {
       }
       dispatch(sendNewMessage(messageObject))
       this.setState({ message: '' })
+      scrollChatDown()
    }
 
    render() {
