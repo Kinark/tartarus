@@ -22,7 +22,9 @@ export default class Chat extends PureComponent {
    }
 
    componentDidMount() {
+      const { locked } = this.state
       this.chatScroll.addEventListener('scroll', this.unlockOnManualScroll, { passive: true })
+      if (locked) this.scrollChatDown()
    }
 
    componentDidUpdate = () => {
