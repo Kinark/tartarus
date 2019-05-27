@@ -21,18 +21,24 @@ class DisconnectedTab extends PureComponent {
    }
 
    render() {
-      const { worldId, children, dispatch, ...rest } = this.props
+      const { worldId, children, dispatch, openedTabs, to, ...rest } = this.props
+      const currentTabIndex = openedTabs.findIndex(tab => tab._id === to.replace('/world/', ''))
+      const previousTab = openedTabs[currentTabIndex - 1]
+      const previousTabLink = previousTab ? `/world/${previousTab._id}` : '/worlds'
       return (
          <TabWrapper>
-            <TabClose to="/" onClick={this.closeTab}>
+            <TabClose to={previousTabLink} onClick={this.closeTab}>
                X
             </TabClose>
-            <TabBase {...rest}>{children}</TabBase>
+            <TabBase {...rest} to={to}>
+               {children}
+            </TabBase>
          </TabWrapper>
       )
    }
 }
-export const Tab = connect()(DisconnectedTab)
+const mapStateToProps = state => ({ openedTabs: state.app.tabs })
+export const Tab = connect(mapStateToProps)(DisconnectedTab)
 
 export class BasicTab extends PureComponent {
    static propTypes = {
