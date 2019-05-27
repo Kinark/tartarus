@@ -1,8 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import colors from '~/constants/colors'
 
-const Button = styled.button`
+const buttonBase = css`
+   text-align: center;
    font-size: 15px;
    border-radius: 5px;
    color: ${({ theme }) => theme.BG};
@@ -25,7 +27,7 @@ const Button = styled.button`
       opacity: 0.75;
    }
    &::before {
-      content: "";
+      content: '';
       height: 3px;
       width: ${props => (props.loading ? '100%' : '0%')};
       background-color: ${({ theme }) => theme.TITLE};
@@ -36,6 +38,14 @@ const Button = styled.button`
       opacity: 0.5;
    }
 `
-Button.defaultProps = { theme: colors.light }
+buttonBase.defaultProps = { theme: colors.light }
 
-export default Button
+const Button = styled.button`
+   ${buttonBase}
+`
+
+const ButtonLink = styled(Link)`
+   ${buttonBase}
+`
+
+export { Button, ButtonLink }
