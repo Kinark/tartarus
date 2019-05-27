@@ -13,6 +13,7 @@ import PrivateRoute from '~/components/PrivateRoute'
 import AppRoutes from '~/components/AppRoutes'
 
 import Login from '~/views/Login'
+import Signup from '~/views/Signup'
 
 const title = 'Sample Website'
 const description = 'A sample website.'
@@ -52,6 +53,7 @@ class App extends Component {
                <Metas title={title} description={description} />
                <Favicon />
                <Switch>
+                  <Route path="/signup" component={Signup} />
                   <Route path="/login" component={Login} />
                   <PrivateRoute path="/" component={AppRoutes} />
                </Switch>

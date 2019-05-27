@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 import { logUserIn } from '~/redux/actions/auth'
 
@@ -12,7 +12,7 @@ import { LogoOutline } from '~/components/Logo'
 import CardTitle from '~/components/CardTitle'
 import TitleInfo from '~/components/TitleInfo'
 import Input from '~/components/Input'
-import Button from '~/components/Button'
+import { Button } from '~/components/Button'
 
 class Login extends PureComponent {
    static propTypes = {
@@ -64,7 +64,7 @@ class Login extends PureComponent {
             <OutlinedCardForm onSubmit={this.submitHandler}>
                <LogoNormalStyled height="90" />
                <CardTitle>Login</CardTitle>
-               <TitleInfo>Onde nada é belo ou feio</TitleInfo>
+               <TitleInfo>Mostre-se digno de Tartarus</TitleInfo>
                {!!error && <div className="center red">{Login.errorTranslator(error)}</div>}
                <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" required />
                <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" required />
@@ -72,7 +72,9 @@ class Login extends PureComponent {
                   ENTRAR
                </Button>
                <div className="row">
-                  <div className="col xs5 left-align">Criar uma conta</div>
+                  <Link to="/signup" className="col xs5 left-align">
+                     Criar uma conta
+                  </Link>
                   <div className="col xs7 right-align">Esqueci minha senha</div>
                </div>
             </OutlinedCardForm>
