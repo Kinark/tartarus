@@ -48,9 +48,7 @@ class Signup extends PureComponent {
       this.setState({ loading: true })
       axios
          .post('signup', { name, email, password })
-         .then(() => {
-            return this.setState({ done: true, loading: false, error: false })
-         })
+         .then(() => this.setState({ done: true, loading: false, error: false }))
          .catch(err => {
             if (err.response) return this.setState({ loading: false, error: err.response.data.code || 'something-wrong' })
             if (err.request) return this.setState({ loading: false, error: 'cannot-connect' })
