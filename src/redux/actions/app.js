@@ -31,12 +31,14 @@ export const sendNewMessage = msgObject => dispatch => {
 }
 
 export const connectAppAndDispatch = () => dispatch => {
-   socket.emit('authenticate', { token: localStorage.getItem('JWToken') })
+   socket.connect()
+   socket.emit('authenticate', localStorage.getItem('JWToken'))
    socket.on('message', msg => dispatch(addMessage(msg)))
    dispatch(connectApp(true))
 }
 
 export const disconnectAppAndDispatch = () => dispatch => {
+   socket.disconnect()
    socket.removeListener('message')
    dispatch(connectApp(false))
 }
