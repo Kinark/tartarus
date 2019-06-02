@@ -32,6 +32,7 @@ export default class WorldLink extends PureComponent {
 }
 
 const World = styled(Link)`
+   max-width: 445px;
    border-radius: 8px;
    border: ${({ theme, covered }) => (covered ? 'none' : `solid 1px ${theme.TITLE}`)};
    color: ${({ theme, covered }) => (covered ? colors.dark.TITLE : theme.TITLE)};
