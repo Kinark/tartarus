@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { sendNewMessage } from '~/redux/actions/app'
 
-import Input from '~/components/Input'
+import { Input } from '~/components/Input'
 
 class TypeBar extends PureComponent {
    static propTypes = {

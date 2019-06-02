@@ -10,7 +10,7 @@ import OutlinedCard from '~/components/OutlinedCard'
 import { LogoOutline } from '~/components/Logo'
 import CardTitle from '~/components/CardTitle'
 import TitleInfo from '~/components/TitleInfo'
-import Input from '~/components/Input'
+import { Input } from '~/components/Input'
 import { Button, ButtonLink } from '~/components/Button'
 
 class Signup extends PureComponent {

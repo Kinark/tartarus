@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import colors from '~/constants/colors'
 
-const Input = styled.input`
+const inputBase = css`
    font-family: upgrade-lights, sans-serif;
    font-size: 16px;
    border-radius: 5px;
@@ -13,6 +13,12 @@ const Input = styled.input`
    background-color: transparent;
    width: 100%;
 `
-Input.defaultProps = { theme: colors.light }
+inputBase.defaultProps = { theme: colors.light }
 
-export default Input
+export const Input = styled.input`
+   ${inputBase}
+`
+
+export const Textarea = styled.textarea`
+   ${inputBase}
+`
