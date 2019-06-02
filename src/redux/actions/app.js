@@ -31,6 +31,7 @@ export const sendNewMessage = msgObject => dispatch => {
 }
 
 export const connectAppAndDispatch = () => dispatch => {
+   socket.emit('authenticate', { token: localStorage.getItem('JWToken') })
    socket.on('message', msg => dispatch(addMessage(msg)))
    dispatch(connectApp(true))
 }
