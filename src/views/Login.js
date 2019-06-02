@@ -6,8 +6,7 @@ import { Redirect, Link } from 'react-router-dom'
 
 import { logUserIn } from '~/redux/actions/auth'
 
-import colors from '~/constants/colors'
-
+import OutlinedCard from '~/components/OutlinedCard'
 import { LogoOutline } from '~/components/Logo'
 import CardTitle from '~/components/CardTitle'
 import TitleInfo from '~/components/TitleInfo'
@@ -61,23 +60,25 @@ class Login extends PureComponent {
       if (loggedIn) return <Redirect to="/" />
       return (
          <LoginWrapper>
-            <OutlinedCardForm onSubmit={this.submitHandler}>
-               <LogoNormalStyled height="90" />
-               <CardTitle>Login</CardTitle>
-               <TitleInfo>Mostre-se digno de Tartarus</TitleInfo>
-               {!!error && <div className="center red">{Login.errorTranslator(error)}</div>}
-               <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" required />
-               <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" required />
-               <Button type="submit" loading={loading}>
-                  ENTRAR
-               </Button>
-               <div className="row">
-                  <Link to="/signup" className="col xs5 left-align">
-                     Criar uma conta
-                  </Link>
-                  <div className="col xs7 right-align">Esqueci minha senha</div>
-               </div>
-            </OutlinedCardForm>
+            <OutlinedCard>
+               <form onSubmit={this.submitHandler}>
+                  <LogoNormalStyled height="90" />
+                  <CardTitle>Login</CardTitle>
+                  <TitleInfo>Mostre-se digno de Tartarus</TitleInfo>
+                  {!!error && <div className="center red">{Login.errorTranslator(error)}</div>}
+                  <Input className="center" onChange={this.inputHandler} value={email} placeholder="Email" name="email" required />
+                  <Input className="center" onChange={this.inputHandler} value={pass} placeholder="Password" name="password" required />
+                  <Button type="submit" loading={loading}>
+                     ENTRAR
+                  </Button>
+                  <div className="row">
+                     <Link to="/signup" className="col xs5 left-align">
+                        Criar uma conta
+                     </Link>
+                     <div className="col xs7 right-align">Esqueci minha senha</div>
+                  </div>
+               </form>
+            </OutlinedCard>
          </LoginWrapper>
       )
    }
@@ -94,11 +95,4 @@ const LoginWrapper = styled.div`
    width: 95%;
    max-width: 410px;
    margin: 85px auto;
-`
-
-const OutlinedCardForm = styled.form`
-   border-radius: 6px;
-   border: 1px solid ${colors.light.TITLE_INFO};
-   text-align: center;
-   padding: 30px 60px;
 `

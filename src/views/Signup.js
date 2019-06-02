@@ -6,8 +6,7 @@ import { Redirect, Link } from 'react-router-dom'
 
 import axios from '~/instances/axios'
 
-import colors from '~/constants/colors'
-
+import OutlinedCard from '~/components/OutlinedCard'
 import { LogoOutline } from '~/components/Logo'
 import CardTitle from '~/components/CardTitle'
 import TitleInfo from '~/components/TitleInfo'
@@ -69,12 +68,12 @@ class Signup extends PureComponent {
       if (loggedIn) return <Redirect to="/" />
       return (
          <SignupWrapper>
-            <OutlinedCardForm onSubmit={this.submitHandler}>
+            <OutlinedCard>
                <LogoNormalStyled height="90" />
                {done ? (
                   <Success />
                ) : (
-                  <React.Fragment>
+                  <form onSubmit={this.submitHandler}>
                      <CardTitle>Registre-se</CardTitle>
                      <TitleInfo>Dê o seu nome para o guardião</TitleInfo>
                      {!!error && <div className="center red">{Signup.errorTranslator(error)}</div>}
@@ -90,9 +89,9 @@ class Signup extends PureComponent {
                         </Link>
                         <div className="col xs7 right-align">Esqueci minha senha</div>
                      </div>
-                  </React.Fragment>
+                  </form>
                )}
-            </OutlinedCardForm>
+            </OutlinedCard>
          </SignupWrapper>
       )
    }
@@ -107,9 +106,7 @@ class Success extends PureComponent {
          <React.Fragment>
             <CardTitle>Você se cadastrou.</CardTitle>
             <TitleInfo>O guardião aceitou seu nome</TitleInfo>
-            <ButtonLink to="/login">
-               ATRAVESSE OS PORTÕES
-            </ButtonLink>
+            <ButtonLink to="/login">ATRAVESSE OS PORTÕES</ButtonLink>
          </React.Fragment>
       )
    }
@@ -123,11 +120,4 @@ const SignupWrapper = styled.div`
    width: 95%;
    max-width: 410px;
    margin: 85px auto;
-`
-
-const OutlinedCardForm = styled.form`
-   border-radius: 6px;
-   border: 1px solid ${colors.light.TITLE_INFO};
-   text-align: center;
-   padding: 30px 60px;
 `
