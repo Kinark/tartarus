@@ -9,12 +9,12 @@ export default class WorldLink extends PureComponent {
    static propTypes = {
       data: PropTypes.shape({
          _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        description: PropTypes.string,
-        members: PropTypes.arrayOf(PropTypes.string).isRequired,
-        ruleset: PropTypes.string,
+         name: PropTypes.string.isRequired,
+         description: PropTypes.string,
+         members: PropTypes.arrayOf(PropTypes.string).isRequired,
+         ruleset: PropTypes.string
       }).isRequired,
-      className: PropTypes.string,
+      className: PropTypes.string
    }
 
    static defaultProps = {
@@ -48,8 +48,9 @@ const World = styled(Link)`
    margin: 0 12px 12px 0;
    padding: 8px 10px;
    opacity: 1;
-   font-size: 17px;
    transition: opacity 300ms;
+   font-size: 14px;
+   line-height: normal;
    &:hover {
       opacity: 0.6;
    }
@@ -59,10 +60,12 @@ World.defaultProps = { theme: colors.light }
 const WorldTitle = styled.div`
    font-family: 'upgrade', sans-serif;
    font-weight: 500;
+   font-size: 17px;
 `
 
 const WorldMembers = styled.div`
    font-size: 11px;
    text-transform: uppercase;
    display: flex;
+   justify-content: space-between;
 `
