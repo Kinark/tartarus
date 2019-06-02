@@ -11,7 +11,7 @@ const buttonBase = css`
    background-color: ${({ theme }) => theme.TITLE};
    display: ${props => (props.inline ? 'inline-block' : 'block')};
    width: ${props => (props.inline ? 'auto' : '100%')};
-   margin: 5px 0;
+   margin: 8px 0;
    padding: 8px 24px;
    text-transform: uppercase;
    text-align: center;
