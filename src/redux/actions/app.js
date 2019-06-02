@@ -1,6 +1,5 @@
 import axios from '~/instances/axios'
 import socket from '~/instances/socket'
-// import { listeners } from '~/constants/socketEvents'
 
 export const TOGGLE_PLAY_MODE = 'TOGGLE_PLAY_MODE'
 export const ADD_WORLD_TAB = 'ADD_WORLD_TAB'
@@ -18,6 +17,7 @@ export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payl
 
 export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
+   // socket.emit('new-message', data => dispatch(addMessage(data)))
    axios
       .post('message', msgObject)
       .then(({ data }) => dispatch(addMessage(data)))
@@ -52,10 +52,7 @@ export const enterRoomAndAddTab = roomId => dispatch => {
       })
    axios
       .get(`messages/${roomId}`)
-      .then(({ data }) => {
-         console.log(data)
-         return dispatch(addSeveralMessages(data))
-      })
+      .then(({ data }) => dispatch(addSeveralMessages(data)))
       .catch(err => {
          console.log(err)
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
