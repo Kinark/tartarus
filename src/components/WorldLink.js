@@ -14,12 +14,17 @@ export default class WorldLink extends PureComponent {
         members: PropTypes.arrayOf(PropTypes.string).isRequired,
         ruleset: PropTypes.string,
       }).isRequired,
+      className: PropTypes.string,
+   }
+
+   static defaultProps = {
+      className: ''
    }
 
    render() {
-      const { data } = this.props
+      const { data, className } = this.props
       return (
-         <World to={`/world/${data._id}`}>
+         <World to={`/world/${data._id}`} className={className}>
             <WorldTitle>{data.name}</WorldTitle>
             {!!data.description && <div>{data.description}</div>}
             <WorldMembers>
