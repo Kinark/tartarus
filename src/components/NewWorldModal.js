@@ -63,7 +63,6 @@ class NewWorldModal extends PureComponent {
    handleRequestCloseFunc = () => {
       const { dispatch } = this.props
       dispatch(toggleNewWorldModal(false))
-      console.log('trying to close')
    }
 
    render() {
