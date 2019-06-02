@@ -17,12 +17,12 @@ class Message extends PureComponent {
    render() {
       const { myId, data } = this.props
       return (
-         <MessageWrapper>
+         <MessageWrapper loading={!data._id}>
             <AvatarColumn owned={data.author._id === myId}>
                <Avatar src={DefaultAvatar} alt="Default Avatar" />
             </AvatarColumn>
             <ContentColumn owned={data.author._id === myId}>
-               <Author>{data.author.username} {!data._id && 'Loading'}</Author>
+               <Author>{data.author.username}</Author>
                <Content owned={data.author._id === myId}>{data.content}</Content>
             </ContentColumn>
          </MessageWrapper>
@@ -35,6 +35,8 @@ export default connect(mapStateToProps)(Message)
 const MessageWrapper = styled.div`
    display: flex;
    margin: 20px 0;
+   opacity: ${({ loading }) => loading ? '.5' : '1'};
+   transition: opacity 300ms;
 `
 
 const AvatarColumn = styled.div`
