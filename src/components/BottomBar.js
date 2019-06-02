@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { togglePlayMode, disconnectAppAndDispatch } from '~/redux/actions/app'
+import { toggleNewWorldModal, togglePlayMode, disconnectAppAndDispatch } from '~/redux/actions/app'
 import { setTheme } from '~/redux/actions/settings'
 import { logUserOff } from '~/redux/actions/auth'
 
@@ -12,6 +12,11 @@ class BottomBar extends PureComponent {
       theme: PropTypes.string.isRequired,
       playMode: PropTypes.bool.isRequired,
       dispatch: PropTypes.func.isRequired
+   }
+
+   handleNewWorld = () => {
+      const { dispatch } = this.props
+      dispatch(toggleNewWorldModal(true))
    }
 
    handleThemeClick = () => {
@@ -34,7 +39,7 @@ class BottomBar extends PureComponent {
       const { theme } = this.props
       return (
          <BottomBarUl>
-            <Item onClick={this.handleThemeClick}>Novo mundo</Item>
+            <Item onClick={this.handleNewWorld}>Novo mundo</Item>
             <Item onClick={this.handleThemeClick}>Modo {theme === 'dark' ? 'escuro' : 'claro'}</Item>
             <Item onClick={this.handlePlayModeClick}>Modo jogar</Item>
             <Item onClick={this.logoff}>Logoff</Item>

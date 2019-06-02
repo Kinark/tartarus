@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { connectAppAndDispatch } from '~/redux/actions/app'
 import { logUserIn } from '~/redux/actions/auth'
 
+import NewWorldModal from '~/components/NewWorldModal'
 import Navbar from '~/components/Navbar'
 import FriendsList from '~/components/FriendsList'
 import AppMainWrapper from '~/components/AppMainWrapper'
@@ -35,6 +36,7 @@ class AppRoutes extends PureComponent {
    render() {
       return (
          <React.Fragment>
+            <NewWorldModal />
             <Route path="/" component={Navbar} />
             <AppContentWrapper>
                <Route path="/" component={FriendsList} />

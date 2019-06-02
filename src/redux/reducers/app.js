@@ -1,5 +1,14 @@
 import { combineReducers } from 'redux'
-import { TOGGLE_PLAY_MODE, ADD_WORLD_TAB, REMOVE_WORLD_TAB, CONNECTED_APP, ADD_MESSAGE, ADD_SEVERAL_MESSAGES } from '../actions/app'
+import { TOGGLE_PLAY_MODE, ADD_WORLD_TAB, REMOVE_WORLD_TAB, CONNECTED_APP, ADD_MESSAGE, ADD_SEVERAL_MESSAGES, TOGGLE_NEW_WORLD_MODAL } from '../actions/app'
+
+function newWorldModalOpen(state = false, action) {
+   switch (action.type) {
+      case TOGGLE_NEW_WORLD_MODAL:
+         return action.payload
+      default:
+         return state
+   }
+}
 
 function connected(state = false, action) {
    switch (action.type) {
@@ -52,6 +61,7 @@ function tabs(state = [], action) {
 }
 
 export default combineReducers({
+   newWorldModalOpen,
    connected,
    messages,
    playMode,

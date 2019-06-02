@@ -24,6 +24,7 @@ const initialStore = {
       error: false
    },
    app: {
+      newWorldModalOpen: false,
       connected: false,
       messages: [],
       playMode: false,
