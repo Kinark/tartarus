@@ -17,6 +17,19 @@ export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
 export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payload })
 export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, payload })
 
+export const connectAppAndDispatch = () => dispatch => {
+   socket.connect()
+   socket.emit('authenticate', localStorage.getItem('JWToken'))
+   socket.on('message', msg => dispatch(addMessage(msg)))
+   dispatch(connectApp(true))
+}
+
+export const disconnectAppAndDispatch = () => dispatch => {
+   socket.disconnect()
+   socket.removeListener('message')
+   dispatch(connectApp(false))
+}
+
 export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
    // socket.emit('new-message', data => dispatch(addMessage(data)))
@@ -30,19 +43,6 @@ export const sendNewMessage = msgObject => dispatch => {
          // if (err.request) return dispatch(loginFailure('cannot-connect'))
          // return dispatch(loginFailure('something-really-wrong'))
       })
-}
-
-export const connectAppAndDispatch = () => dispatch => {
-   socket.connect()
-   socket.emit('authenticate', localStorage.getItem('JWToken'))
-   socket.on('message', msg => dispatch(addMessage(msg)))
-   dispatch(connectApp(true))
-}
-
-export const disconnectAppAndDispatch = () => dispatch => {
-   socket.disconnect()
-   socket.removeListener('message')
-   dispatch(connectApp(false))
 }
 
 export const enterRoomAndAddTab = roomId => dispatch => {
