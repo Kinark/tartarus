@@ -8,6 +8,7 @@ export const CONNECTED_APP = 'CONNECTED_APP'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const ADD_SEVERAL_MESSAGES = 'ADD_SEVERAL_MESSAGES'
 export const TOGGLE_NEW_WORLD_MODAL = 'TOGGLE_NEW_WORLD_MODAL'
+export const TOGGLE_LOADING_ROOM_MODAL = 'TOGGLE_LOADING_ROOM_MODAL'
 
 export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
 export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
@@ -16,6 +17,7 @@ export const connectApp = payload => ({ type: CONNECTED_APP, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
 export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payload })
 export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, payload })
+export const toggleLoadingRoomModal = payload => ({ type: TOGGLE_LOADING_ROOM_MODAL, payload })
 
 export const connectAppAndDispatch = () => dispatch => {
    socket.connect()

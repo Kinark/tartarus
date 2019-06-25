@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import colors from '~/constants/colors'
+import { toggleLoadingRoomModal } from '~/redux/actions/app'
 
-export default class WorldLink extends PureComponent {
+class WorldLink extends PureComponent {
    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
       data: PropTypes.shape({
          _id: PropTypes.string.isRequired,
          name: PropTypes.string.isRequired,
@@ -21,12 +24,19 @@ export default class WorldLink extends PureComponent {
       className: ''
    }
 
+   clickHandler = e => {
+      const { dispatch, data } = this.props
+      dispatch(toggleLoadingRoomModal(data._id))
+
+      e.preventDefault()
+   }
+
    render() {
       const { data, className } = this.props
       return (
-         <World to={`/world/${data._id}`} className={className}>
+         <World onClick={this.clickHandler} href={`/world/${data._id}`} className={className}>
             <WorldTitle>{data.name}</WorldTitle>
-            {!!data.description && <div>{data.description}</div>}
+            {!!data.description && <OverflowText>{data.description}</OverflowText>}
             <WorldMembers>
                <div>{data.members.length} MEMBROS</div>
                {!!data.ruleset && <div>{data.ruleset}</div>}
@@ -35,8 +45,9 @@ export default class WorldLink extends PureComponent {
       )
    }
 }
+export default connect()(WorldLink)
 
-const World = styled(Link)`
+const World = styled.a`
    max-width: 445px;
    border-radius: 8px;
    border: ${({ theme, covered }) => (covered ? 'none' : `solid 1px ${theme.TITLE}`)};
@@ -57,7 +68,13 @@ const World = styled(Link)`
 `
 World.defaultProps = { theme: colors.light }
 
-const WorldTitle = styled.div`
+const OverflowText = styled.div`
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
+`
+
+const WorldTitle = styled(OverflowText)`
    font-family: 'upgrade', sans-serif;
    font-weight: 500;
    font-size: 17px;

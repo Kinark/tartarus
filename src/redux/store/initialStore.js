@@ -25,6 +25,7 @@ const initialStore = {
    },
    app: {
       newWorldModalOpen: false,
+      loadingRoomModal: false,
       connected: false,
       messages: [],
       playMode: false,
