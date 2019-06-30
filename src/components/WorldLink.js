@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 // import { Link } from 'react-router-dom'
+import { Key } from 'react-feather'
 import styled from 'styled-components'
 
 import colors from '~/constants/colors'
@@ -10,12 +11,14 @@ import { toggleLoadingRoomModal } from '~/redux/actions/app'
 class WorldLink extends PureComponent {
    static propTypes = {
       dispatch: PropTypes.func.isRequired,
+      theme: PropTypes.string.isRequired,
       data: PropTypes.shape({
          _id: PropTypes.string.isRequired,
          name: PropTypes.string.isRequired,
          description: PropTypes.string,
          members: PropTypes.arrayOf(PropTypes.string).isRequired,
-         ruleset: PropTypes.string
+         ruleset: PropTypes.string,
+         locked: PropTypes.bool.isRequired
       }).isRequired,
       className: PropTypes.string
    }
@@ -32,20 +35,25 @@ class WorldLink extends PureComponent {
    }
 
    render() {
-      const { data, className } = this.props
+      const { theme, data, className } = this.props
+      console.log(data.password)
       return (
          <World onClick={this.clickHandler} href={`/world/${data._id}`} className={className}>
-            <WorldTitle>{data.name}</WorldTitle>
+            <FirstLine>
+               <WorldTitle>{data.name}</WorldTitle>
+               {data.locked && <Key color={colors[theme].TITLE} size={20} />}
+            </FirstLine>
             {!!data.description && <OverflowText>{data.description}</OverflowText>}
-            <WorldMembers>
+            <ThirdLine>
                <div>{data.members.length} MEMBROS</div>
                {!!data.ruleset && <div>{data.ruleset}</div>}
-            </WorldMembers>
+            </ThirdLine>
          </World>
       )
    }
 }
-export default connect()(WorldLink)
+const mapStateToProps = state => ({ theme: state.settings.theme })
+export default connect(mapStateToProps)(WorldLink)
 
 const World = styled.a`
    max-width: 445px;
@@ -80,7 +88,12 @@ const WorldTitle = styled(OverflowText)`
    font-size: 17px;
 `
 
-const WorldMembers = styled.div`
+const FirstLine = styled.div`
+   display: flex;
+   justify-content: space-between;
+`
+
+const ThirdLine = styled.div`
    font-size: 11px;
    text-transform: uppercase;
    display: flex;
