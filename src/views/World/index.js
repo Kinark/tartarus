@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 import { messagePropTypes } from '~/propTypes/message'
 import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
