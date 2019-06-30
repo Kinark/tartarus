@@ -1,19 +1,21 @@
 import React, { PureComponent } from 'react'
 
+import FullHeight from '~/components/FullHeight'
+
 import SearchWorlds from './components/SearchWorlds'
 import MyWorlds from './components/MyWorlds'
 
 export default class Worlds extends PureComponent {
    render() {
       return (
-         <div className="row">
-            <div className="col xs12 m4">
+         <FullHeight className="row">
+            <FullHeight className="col xs12 m4">
                <SearchWorlds />
-            </div>
-            <div className="col xs12 m4">
+            </FullHeight>
+            <FullHeight className="col xs12 m4">
                <MyWorlds />
-            </div>
-         </div>
+            </FullHeight>
+         </FullHeight>
       )
    }
 }
