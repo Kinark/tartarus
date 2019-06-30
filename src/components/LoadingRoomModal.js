@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom'
 
 import axios from '~/instances/axios'
 import colors from '~/constants/colors'
+import { fetchWhereILive } from '~/redux/actions/whereILive'
 import { toggleLoadingRoomModal } from '~/redux/actions/app'
 
 import CardTitle from '~/components/CardTitle'
@@ -72,11 +73,14 @@ class LoadingRoomModal extends PureComponent {
    }
 
    joinWorld = () => {
-      const { worldId } = this.props
+      const { worldId, dispatch } = this.props
       const { password } = this.state
       axios
          .patch('join-world', { _id: worldId, password })
-         .then(() => this.setState({ redirect: true }, () => this.handleRequestCloseFunc()))
+         .then(() => {
+            dispatch(fetchWhereILive())
+            return this.setState({ redirect: true }, () => this.handleRequestCloseFunc())
+         })
          .catch(err => {
             if (err.response) return this.setState({ loading: false, error: err.response.data.code || 'something-wrong' })
             if (err.request) return this.setState({ loading: false, error: 'cannot-connect' })
