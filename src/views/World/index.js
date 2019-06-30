@@ -6,6 +6,7 @@ import { messagePropTypes } from '~/propTypes/message'
 import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
 
 import FullHeight from '~/components/FullHeight'
+import SectionContent from '~/components/SectionContent'
 
 import Chat from '~/components/Chat'
 
@@ -41,10 +42,19 @@ class World extends PureComponent {
       const { match, messages } = this.props
       const { worldId } = match.params
       const filteredMessages = messages.filter(msg => msg.room === worldId)
+      const adventureMessages = filteredMessages.filter(msg => msg.type === 'adventure')
+      const chatMessages = filteredMessages.filter(msg => msg.type === 'talk')
       return (
          <FullHeight className="row">
             <FullHeight className="col xs12 m6">
-               <Chat data={filteredMessages} title="Aventura" room={worldId} type="adventure" />
+               <SectionContent className="no-pad" bordered>
+                  <Chat data={adventureMessages} title="Aventura" room={worldId} type="adventure" />
+               </SectionContent>
+            </FullHeight>
+            <FullHeight className="col xs12 m6">
+               <SectionContent className="no-pad" bordered>
+                  <Chat data={chatMessages} title="Conversa" room={worldId} type="talk" />
+               </SectionContent>
             </FullHeight>
          </FullHeight>
       )
