@@ -72,15 +72,15 @@ export const Metas = ({ title, description, cover, url, color }) => (
 Metas.propTypes = {
    title: PropTypes.string,
    description: PropTypes.string,
-   cover: PropTypes.shape({}),
+   cover: PropTypes.string,
    url: PropTypes.string,
    color: PropTypes.string,
 }
 
 Metas.defaultProps = {
-   title: '',
-   description: '',
-   cover: {},
-   url: '',
-   color: '',
+   title: undefined,
+   description: undefined,
+   cover: undefined,
+   url: undefined,
+   color: undefined,
 }
