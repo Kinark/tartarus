@@ -7,9 +7,11 @@ import data from './data'
 import auth from './auth'
 import newWorld from './newWorld'
 import myWorlds from './myWorlds'
+import whereILive from './whereILive'
 
 const appReducer = combineReducers({
    myWorlds,
+   whereILive,
    newWorld,
    settings,
    data,

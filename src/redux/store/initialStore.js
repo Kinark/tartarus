@@ -5,6 +5,12 @@ const initialStore = {
       done: false,
       content: []
    },
+   whereILive: {
+      loading: false,
+      error: false,
+      done: false,
+      content: []
+   },
    newWorld: {
       modal: false,
       loading: false,

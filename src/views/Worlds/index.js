@@ -4,6 +4,7 @@ import FullHeight from '~/components/FullHeight'
 
 import SearchWorlds from './components/SearchWorlds'
 import MyWorlds from './components/MyWorlds'
+import WhereILive from './components/WhereILive'
 
 export default class Worlds extends PureComponent {
    render() {
@@ -14,6 +15,9 @@ export default class Worlds extends PureComponent {
             </FullHeight>
             <FullHeight className="col xs12 m4">
                <MyWorlds />
+            </FullHeight>
+            <FullHeight className="col xs12 m4">
+               <WhereILive />
             </FullHeight>
          </FullHeight>
       )
