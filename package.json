@@ -80,6 +80,7 @@
       "prop-types": "^15.6.2",
       "react": "^16.6.3",
       "react-dom": "^16.6.3",
+      "react-feather": "^1.1.6",
       "react-helmet": "^6.0.0-beta",
       "react-modal": "^3.8.1",
       "react-redux": "^6.0.1",
