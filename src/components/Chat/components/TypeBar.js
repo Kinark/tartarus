@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import { sendNewMessage } from '~/redux/actions/app'
 
+import SectionTitle from '~/components/SectionTitle'
 import { Input } from '~/components/Input'
 
 class TypeBar extends PureComponent {
@@ -42,8 +43,10 @@ class TypeBar extends PureComponent {
 
    render() {
       const { message } = this.state
+      const { type } = this.props
       return (
          <form onSubmit={this.sendMessage}>
+            <SectionTitle small>{type === 'adventure' ? 'Aventura' : 'Conversa'}</SectionTitle>
             <Input name="message" value={message} onChange={e => this.setState({ message: e.target.value })} placeholder="Digite sua mensagem aqui." />
          </form>
       )
