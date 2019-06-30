@@ -46,7 +46,7 @@ export default class SearchWorlds extends PureComponent {
          <SectionContent bordered>
             <SectionTitle>Procurar mundos</SectionTitle>
             <TitleInfo>Encontre seus animops</TitleInfo>
-            <form onSubmit={this.handleFormSubmit}>
+            <form onSubmit={this.handleFormSubmit} style={{ paddingRight: '6px' }}>
                <Input placeholder="O que você procura?" value={search} onChange={e => this.setState({ search: e.target.value })} />
             </form>
             <CustomScroll>{this.renderWorlds()}</CustomScroll>
