@@ -5,7 +5,7 @@ import colors from '~/constants/colors'
 const SectionTitle = styled.h3`
    font-family: 'upgrade', sans-serif;
    font-weight: 500;
-   font-size: 32px;
+   font-size: ${({ small }) => (small ? '24px' : '32px')};
    color: ${({ theme }) => theme.TITLE};
    margin-top: 0;
    margin-bottom: 0;
