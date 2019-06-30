@@ -36,7 +36,7 @@ class MyWorlds extends PureComponent {
       return (
          <SectionContent bordered>
             <SectionTitle>Meus mundos</SectionTitle>
-            <TitleInfo>Encontre seus animops</TitleInfo>
+            <TitleInfo>Tome posse daquilo que é seu</TitleInfo>
             <CustomScroll>{this.renderWorlds()}</CustomScroll>
          </SectionContent>
       )
