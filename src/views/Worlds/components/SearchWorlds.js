@@ -45,7 +45,7 @@ export default class SearchWorlds extends PureComponent {
       return (
          <SectionContent bordered>
             <SectionTitle>Procurar mundos</SectionTitle>
-            <TitleInfo>Encontre seus animops</TitleInfo>
+            <TitleInfo>Procure por através das dimensões</TitleInfo>
             <form onSubmit={this.handleFormSubmit} style={{ paddingRight: '6px' }}>
                <Input placeholder="O que você procura?" value={search} onChange={e => this.setState({ search: e.target.value })} />
             </form>
