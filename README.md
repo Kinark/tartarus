@@ -1,48 +1,19 @@
-A dead-simple react/sass boilerplate.
+![Small demo](src/components/Logo/images/normal.svg)  
 
-It cointains:
+# Projeto Tartarus
 
-### **General:**
-* Webpack (3 config files set)
-   * Img Loader
-   * Font Loader
-   * Alias: "~" == "./src/"
-   * Auto bundle injection (html-webpack-plugin)
-* CSS Modules
-* Styled-components
-* SASS Ready
-* [React](https://reactjs.org/)
-* [Axios](https://github.com/axios/axios)
-* [React Helmet](https://github.com/nfl/react-helmet)
-* [Sweet Alert](https://sweetalert.js.org/)
+Tartarus é uma plataforma em desenvolvimento onde players e mestres de RPG de mesa poderão se encontrar e jogar partidas.
 
-### **Development:**
-* [PropTypes](https://github.com/facebook/prop-types)
-* [Classnames](https://github.com/JedWatson/classnames)
-* Utility components
-   * Favicon (just put your [favicomatic](http://www.favicomatic.com/) (obsessive) files in the component images folder)
-   * Metas (integrated with helmet, an easy way to define meta tags (for almost all social networks))
-* Development server: 0.0.0.0:8080
-* ESLint
-   * React
-   * Prettier
-   * Custom rules
-   * Airbnb extended
-   * Extra stuff (check .eslintrc.js)
-* Prettier
-* Hot Module Replacement + React Hot Loader
-* Cheap Module Source Map
-* Webpack proxy: /ajax redirects to port localhost:8070
-* [Blueprint Templates](https://marketplace.visualstudio.com/items?itemName=teamchilla.blueprint) (VSCode)
+Este é o repositório da parte front-end do projeto.
 
-### **Production:**
-* CSS Auto prefix (production)
-* CSS Extract Plugin
-* UglifyJS
-* Image Minifier
-* Disabled temporarily: PurifyCSS (remove not used CSS (only global ones))
-* MinifyCSS
+## Pré-requisitos
+- Node.js
+- NPM
 
-### **NPM Scripts**
-* `npm start`: Start webpack development server (port 8080)
-* `npm build`: Make a build
+## Começando
+Para rodar o projeto em seu computador, siga os passos abaixo:
+
+1. Tenha uma instância rodando da [tartarus-api](https://github.com/Kinark/tartarus-api)
+2. Instale as dependências com `npm install`
+3. Inicie o projeto localmente com `npm start`
+4. Acesse a plataforma em http://localhost:8080
