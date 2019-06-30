@@ -34,7 +34,7 @@ class MyWorlds extends PureComponent {
    render() {
       // const { content, loading, error } = this.props
       return (
-         <SectionContent>
+         <SectionContent bordered>
             <SectionTitle>Meus mundos</SectionTitle>
             <TitleInfo>Encontre seus animops</TitleInfo>
             <CustomScroll>{this.renderWorlds()}</CustomScroll>
