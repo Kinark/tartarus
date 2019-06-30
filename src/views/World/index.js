@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { messagePropTypes } from '~/propTypes/message'
 import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
 
+import FullHeight from '~/components/FullHeight'
+
 import Chat from '~/components/Chat'
 
 class World extends PureComponent {
@@ -51,7 +53,3 @@ class World extends PureComponent {
 }
 const mapStateToProps = state => ({ openedTabs: state.app.tabs, messages: state.app.messages })
 export default connect(mapStateToProps)(World)
-
-const FullHeight = styled.div`
-   height: 100%;
-`
