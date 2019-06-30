@@ -1,6 +1,13 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-export default styled.div`
-   margin: 30px 30px 0;
+import colors from '~/constants/colors'
+
+const SectionContent = styled.div`
+   padding: 30px 30px 0;
    height: 100%;
+   border-right: ${({ bordered, theme }) => (bordered ? `solid 1px ${theme.DIVIER_SOFT}` : 'none')};
 `
+
+SectionContent.defaultProps = { theme: colors.light }
+
+export default SectionContent
