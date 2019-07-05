@@ -36,7 +36,6 @@ class WorldLink extends PureComponent {
 
    render() {
       const { theme, data, className } = this.props
-      console.log(data.password)
       return (
          <World onClick={this.clickHandler} href={`/world/${data._id}`} className={className}>
             <FirstLine>
