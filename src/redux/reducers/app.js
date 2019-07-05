@@ -28,7 +28,7 @@ function loadingRoomModal(state = false, action) {
    }
 }
 
-function connected(state = false, action) {
+function connected(state = true, action) {
    switch (action.type) {
       case CONNECTED_APP:
          return action.payload

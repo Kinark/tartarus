@@ -20,6 +20,7 @@ export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, p
 export const toggleLoadingRoomModal = payload => ({ type: TOGGLE_LOADING_ROOM_MODAL, payload })
 
 export const activateSocketListeners = () => dispatch => {
+   dispatch(connectApp(false))
    socket.on('connect', () => dispatch(connectApp(true)))
    socket.on('disconnect', () => dispatch(connectApp(false)))
 }
