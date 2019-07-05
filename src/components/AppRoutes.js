@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { connectAppAndDispatch } from '~/redux/actions/app'
+import { activateAppListeners } from '~/redux/actions/app'
 import { logUserIn } from '~/redux/actions/auth'
 
 import LoadingRoomModal from '~/components/LoadingRoomModal'
@@ -29,7 +29,7 @@ class AppRoutes extends PureComponent {
 
    appStartRoutine = () => {
       const { dispatch } = this.props
-      dispatch(connectAppAndDispatch())
+      dispatch(activateAppListeners())
       dispatch(logUserIn())
       this.JWTRenewInterval = setInterval(() => dispatch(logUserIn()), 1 * 60 * 60 * 1000)
    }

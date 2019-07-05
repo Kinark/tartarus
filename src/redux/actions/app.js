@@ -19,17 +19,20 @@ export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payl
 export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, payload })
 export const toggleLoadingRoomModal = payload => ({ type: TOGGLE_LOADING_ROOM_MODAL, payload })
 
-export const connectAppAndDispatch = () => dispatch => {
-   socket.connect()
-   socket.emit('authenticate', localStorage.getItem('JWToken'))
-   socket.on('message', msg => dispatch(addMessage(msg)))
-   dispatch(connectApp(true))
+export const activateSocketListeners = () => dispatch => {
+   socket.on('connect', () => dispatch(connectApp(true)))
+   socket.on('disconnect', () => dispatch(connectApp(false)))
 }
 
-export const disconnectAppAndDispatch = () => dispatch => {
-   socket.disconnect()
+export const activateAppListeners = () => dispatch => {
+   // socket.connect()
+   socket.emit('authenticate', localStorage.getItem('JWToken'))
+   socket.on('message', msg => dispatch(addMessage(msg)))
+}
+
+export const deactivateAppListeners = () => () => {
+   // socket.disconnect()
    socket.removeListener('message')
-   dispatch(connectApp(false))
 }
 
 export const sendNewMessage = msgObject => dispatch => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { toggleNewWorldModal, togglePlayMode, disconnectAppAndDispatch } from '~/redux/actions/app'
+import { toggleNewWorldModal, togglePlayMode, deactivateAppListeners } from '~/redux/actions/app'
 import { setTheme } from '~/redux/actions/settings'
 import { logUserOff } from '~/redux/actions/auth'
 
@@ -31,7 +31,7 @@ class BottomBar extends PureComponent {
 
    logoff = () => {
       const { dispatch } = this.props
-      dispatch(disconnectAppAndDispatch())
+      dispatch(deactivateAppListeners())
       dispatch(logUserOff())
    }
 

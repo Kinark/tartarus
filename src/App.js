@@ -5,8 +5,9 @@ import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 
-// import store from '~/redux/store'
 import colors from '~/constants/colors'
+import { activateSocketListeners } from '~/redux/actions/app'
+
 import { Metas } from '~/components/Metas'
 import Favicon from '~/components/Favicon'
 import PrivateRoute from '~/components/PrivateRoute'
@@ -15,16 +16,22 @@ import AppRoutes from '~/components/AppRoutes'
 import Login from '~/views/Login'
 import Signup from '~/views/Signup'
 
-const title = 'Sample Website'
+const title = 'Tartarus'
 const description = 'A sample website.'
 // const cover = "";
 
 class App extends Component {
    static propTypes = {
-      theme: PropTypes.string.isRequired
+      dispatch: PropTypes.func.isRequired,
+      theme: PropTypes.string.isRequired,
+      connected: PropTypes.bool.isRequired
    }
 
-   componentDidMount = () => this.setBodyColor()
+   componentDidMount = () => {
+      const { dispatch } = this.props
+      dispatch(activateSocketListeners())
+      this.setBodyColor()
+   }
 
    componentDidUpdate = prevProps => {
       const { theme } = this.props
@@ -46,24 +53,28 @@ class App extends Component {
    }
 
    render() {
-      const { theme } = this.props
+      const { theme, connected } = this.props
       return (
          <ThemeProvider theme={colors[theme]}>
             <AppWrapper>
                <Metas title={title} description={description} />
                <Favicon />
-               <Switch>
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/login" component={Login} />
-                  <PrivateRoute path="/" component={AppRoutes} />
-               </Switch>
+               {connected ? (
+                  <Switch>
+                     <Route path="/signup" component={Signup} />
+                     <Route path="/login" component={Login} />
+                     <PrivateRoute path="/" component={AppRoutes} />
+                  </Switch>
+               ) : (
+                  'Connecting...'
+               )}
             </AppWrapper>
          </ThemeProvider>
       )
    }
 }
 
-const mapStateToProps = state => ({ theme: state.settings.theme })
+const mapStateToProps = state => ({ theme: state.settings.theme, connected: state.app.connected })
 const connectedApp = connect(mapStateToProps)(App)
 export default hot(module)(connectedApp)
 
