@@ -1,1 +1,1 @@
-export default (process.env.NODE_ENV === 'development' ? '//localhost:3000' : '//api.tartarusrpg.com')
+export default (process.env.NODE_ENV === 'development' ? '//192.168.15.250:3000' : '//api.tartarusrpg.com')
