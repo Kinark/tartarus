@@ -11,7 +11,6 @@ import LoadingRoomModal from '~/components/LoadingRoomModal'
 import NewWorldModal from '~/components/NewWorldModal'
 import Navbar from '~/components/Navbar'
 import FriendsList from '~/components/FriendsList'
-import AppMainWrapper from '~/components/AppMainWrapper'
 import BottomBar from '~/components/BottomBar'
 
 import Welcome from '~/views/Welcome'
