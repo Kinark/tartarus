@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { messagePropTypes } from '~/propTypes/message'
 import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
 
+import AppMainWrapper from '~/components/AppMainWrapper'
 import FullHeight from '~/components/FullHeight'
 import SectionContent from '~/components/SectionContent'
 import PlayersList from '~/components/PlayersList'
@@ -48,18 +49,20 @@ class World extends PureComponent {
       return (
          <React.Fragment>
             <PlayersList />
-            <FullHeight className="row">
-               <FullHeight className="col xs12 m6">
-                  <SectionContent className="no-pad" bordered>
-                     <Chat data={adventureMessages} title="Aventura" room={worldId} type="adventure" />
-                  </SectionContent>
+            <AppMainWrapper>
+               <FullHeight className="row">
+                  <FullHeight className="col xs12 m6">
+                     <SectionContent className="no-pad" bordered>
+                        <Chat data={adventureMessages} title="Aventura" room={worldId} type="adventure" />
+                     </SectionContent>
+                  </FullHeight>
+                  <FullHeight className="col xs12 m6">
+                     <SectionContent className="no-pad" bordered>
+                        <Chat data={chatMessages} title="Conversa" room={worldId} type="talk" />
+                     </SectionContent>
+                  </FullHeight>
                </FullHeight>
-               <FullHeight className="col xs12 m6">
-                  <SectionContent className="no-pad" bordered>
-                     <Chat data={chatMessages} title="Conversa" room={worldId} type="talk" />
-                  </SectionContent>
-               </FullHeight>
-            </FullHeight>
+            </AppMainWrapper>
          </React.Fragment>
       )
    }

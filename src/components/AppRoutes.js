@@ -42,13 +42,11 @@ class AppRoutes extends PureComponent {
             <Route path="/" component={Navbar} />
             <AppContentWrapper>
                <Route path="(/|/worlds)" component={FriendsList} />
-               <AppMainWrapper>
-                  <Switch>
-                     <Route path="/" component={Welcome} exact />
-                     <Route path="/worlds" component={Worlds} />
-                     <Route path="/world/:worldId" component={World} />
-                  </Switch>
-               </AppMainWrapper>
+               <Switch>
+                  <Route path="/" component={Welcome} exact />
+                  <Route path="/worlds" component={Worlds} />
+                  <Route path="/world/:worldId" component={World} />
+               </Switch>
             </AppContentWrapper>
             <Route path="/" component={BottomBar} />
          </React.Fragment>
