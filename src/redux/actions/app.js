@@ -83,7 +83,7 @@ export const enterRoomAndAddTab = roomId => dispatch => {
       })
    axios
       .get(`get-active-members-from-world/${roomId}`)
-      .then(({ data }) => dispatch(addSeveralMessages(data)))
+      .then(({ data }) => dispatch(addSeveralPlayers(data)))
       .catch(err => {
          console.log(err)
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
