@@ -84,7 +84,7 @@ function players(state = [], action) {
       case ADD_SEVERAL_PLAYERS:
          return [...state, ...action.payload]
       case REMOVE_WORLD_TAB:
-         return state.filter(msg => msg.room !== action.payload)
+         return state.filter(player => player.room !== action.payload)
       case CONNECTED_APP:
          if (!action.payload) return []
          return state
