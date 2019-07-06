@@ -35,7 +35,7 @@ const initialStore = {
       authenticated: false,
       connected: false,
       messages: [],
-      // players: [],
+      players: [],
       playMode: false,
       tabs: []
    }

@@ -5,6 +5,9 @@ import {
    ADD_WORLD_TAB,
    REMOVE_WORLD_TAB,
    CONNECTED_APP,
+   REMOVE_PLAYER,
+   ADD_PLAYER,
+   ADD_SEVERAL_PLAYERS,
    ADD_MESSAGE,
    ADD_SEVERAL_MESSAGES,
    TOGGLE_NEW_WORLD_MODAL,
@@ -72,6 +75,24 @@ function messages(state = [], action) {
    }
 }
 
+function players(state = [], action) {
+   switch (action.type) {
+      case REMOVE_PLAYER:
+         return state.filter(player => player._id !== action.payload)
+      case ADD_PLAYER:
+         return [...state, ...action.payload]
+      case ADD_SEVERAL_PLAYERS:
+         return [...state, ...action.payload]
+      case REMOVE_WORLD_TAB:
+         return state.filter(msg => msg.room !== action.payload)
+      case CONNECTED_APP:
+         if (!action.payload) return []
+         return state
+      default:
+         return state
+   }
+}
+
 function playMode(state = false, action) {
    switch (action.type) {
       case TOGGLE_PLAY_MODE:
@@ -102,6 +123,7 @@ export default combineReducers({
    loadingRoomModal,
    authenticated,
    connected,
+   players,
    messages,
    playMode,
    tabs

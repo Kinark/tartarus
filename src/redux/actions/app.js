@@ -8,6 +8,9 @@ export const REMOVE_WORLD_TAB = 'REMOVE_WORLD_TAB'
 export const CONNECTED_APP = 'CONNECTED_APP'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const ADD_SEVERAL_MESSAGES = 'ADD_SEVERAL_MESSAGES'
+export const REMOVE_PLAYER = 'REMOVE_PLAYER'
+export const ADD_PLAYER = 'ADD_PLAYER'
+export const ADD_SEVERAL_PLAYERS = 'ADD_SEVERAL_PLAYERS'
 export const TOGGLE_NEW_WORLD_MODAL = 'TOGGLE_NEW_WORLD_MODAL'
 export const TOGGLE_LOADING_ROOM_MODAL = 'TOGGLE_LOADING_ROOM_MODAL'
 
@@ -18,6 +21,9 @@ export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 export const connectApp = payload => ({ type: CONNECTED_APP, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
 export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payload })
+export const removePlayer = payload => ({ type: REMOVE_PLAYER, payload })
+export const addPlayer = payload => ({ type: ADD_PLAYER, payload })
+export const addSeveralPlayers = payload => ({ type: ADD_SEVERAL_PLAYERS, payload })
 export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, payload })
 export const toggleLoadingRoomModal = payload => ({ type: TOGGLE_LOADING_ROOM_MODAL, payload })
 
@@ -32,6 +38,8 @@ export const activateAppListeners = () => dispatch => {
       dispatch(toggleAuthenticated(authenticated))
    })
    socket.on('message', msg => dispatch(addMessage(msg)))
+   socket.on('joining-player', player => dispatch(addPlayer(player)))
+   socket.on('leaving-player', player => dispatch(removePlayer(player)))
 }
 
 export const deactivateAppListeners = () => () => {
@@ -66,6 +74,15 @@ export const enterRoomAndAddTab = roomId => dispatch => {
       })
    axios
       .get(`messages/${roomId}`)
+      .then(({ data }) => dispatch(addSeveralMessages(data)))
+      .catch(err => {
+         console.log(err)
+         // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
+         // if (err.request) return dispatch(loginFailure('cannot-connect'))
+         // return dispatch(loginFailure('something-really-wrong'))
+      })
+   axios
+      .get(`get-active-members-from-world/${roomId}`)
       .then(({ data }) => dispatch(addSeveralMessages(data)))
       .catch(err => {
          console.log(err)
