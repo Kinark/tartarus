@@ -41,7 +41,7 @@ class AppRoutes extends PureComponent {
             <NewWorldModal />
             <Route path="/" component={Navbar} />
             <AppContentWrapper>
-               <Route path="/" component={FriendsList} />
+               <Route path="(/|/worlds)" component={FriendsList} />
                <AppMainWrapper>
                   <Switch>
                      <Route path="/" component={Welcome} exact />
