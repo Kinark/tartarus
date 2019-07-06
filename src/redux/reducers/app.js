@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import {
+   TOGGLE_AUTHENTICATED,
    TOGGLE_PLAY_MODE,
    ADD_WORLD_TAB,
    REMOVE_WORLD_TAB,
@@ -28,7 +29,19 @@ function loadingRoomModal(state = false, action) {
    }
 }
 
-function connected(state = true, action) {
+function authenticated(state = false, action) {
+   switch (action.type) {
+      case TOGGLE_AUTHENTICATED:
+         return action.payload
+      case CONNECTED_APP:
+         if (!action.payload) return false
+         return state
+      default:
+         return state
+   }
+}
+
+function connected(state = false, action) {
    switch (action.type) {
       case CONNECTED_APP:
          return action.payload
@@ -51,6 +64,9 @@ function messages(state = [], action) {
          return [...state, ...action.payload]
       case REMOVE_WORLD_TAB:
          return state.filter(msg => msg.room !== action.payload)
+      case CONNECTED_APP:
+         if (!action.payload) return []
+         return state
       default:
          return state
    }
@@ -73,6 +89,9 @@ function tabs(state = [], action) {
       case REMOVE_WORLD_TAB:
          if (!state.find(world => world._id === action.payload)) return state
          return state.filter(world => world._id !== action.payload)
+      case CONNECTED_APP:
+         if (!action.payload) return []
+         return state
       default:
          return state
    }
@@ -81,6 +100,7 @@ function tabs(state = [], action) {
 export default combineReducers({
    newWorldModalOpen,
    loadingRoomModal,
+   authenticated,
    connected,
    messages,
    playMode,

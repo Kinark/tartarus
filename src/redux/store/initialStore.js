@@ -32,8 +32,10 @@ const initialStore = {
    app: {
       newWorldModalOpen: false,
       loadingRoomModal: false,
-      connected: true,
+      authenticated: false,
+      connected: false,
       messages: [],
+      // players: [],
       playMode: false,
       tabs: []
    }

@@ -1,6 +1,7 @@
 import axios from '~/instances/axios'
 import socket from '~/instances/socket'
 
+export const TOGGLE_AUTHENTICATED = 'TOGGLE_AUTHENTICATED'
 export const TOGGLE_PLAY_MODE = 'TOGGLE_PLAY_MODE'
 export const ADD_WORLD_TAB = 'ADD_WORLD_TAB'
 export const REMOVE_WORLD_TAB = 'REMOVE_WORLD_TAB'
@@ -10,6 +11,7 @@ export const ADD_SEVERAL_MESSAGES = 'ADD_SEVERAL_MESSAGES'
 export const TOGGLE_NEW_WORLD_MODAL = 'TOGGLE_NEW_WORLD_MODAL'
 export const TOGGLE_LOADING_ROOM_MODAL = 'TOGGLE_LOADING_ROOM_MODAL'
 
+export const toggleAuthenticated = payload => ({ type: TOGGLE_AUTHENTICATED, payload })
 export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
 export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
@@ -20,14 +22,15 @@ export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, p
 export const toggleLoadingRoomModal = payload => ({ type: TOGGLE_LOADING_ROOM_MODAL, payload })
 
 export const activateSocketListeners = () => dispatch => {
-   dispatch(connectApp(false))
    socket.on('connect', () => dispatch(connectApp(true)))
    socket.on('disconnect', () => dispatch(connectApp(false)))
 }
 
 export const activateAppListeners = () => dispatch => {
    // socket.connect()
-   socket.emit('authenticate', localStorage.getItem('JWToken'))
+   socket.emit('authenticate', localStorage.getItem('JWToken'), authenticated => {
+      dispatch(toggleAuthenticated(authenticated))
+   })
    socket.on('message', msg => dispatch(addMessage(msg)))
 }
 

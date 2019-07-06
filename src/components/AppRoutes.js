@@ -19,7 +19,8 @@ import World from '~/views/World'
 
 class AppRoutes extends PureComponent {
    static propTypes = {
-      dispatch: PropTypes.func.isRequired
+      dispatch: PropTypes.func.isRequired,
+      authenticated: PropTypes.bool.isRequired
    }
 
    componentDidMount = () => this.appStartRoutine()
@@ -34,6 +35,8 @@ class AppRoutes extends PureComponent {
    }
 
    render() {
+      const { authenticated } = this.props
+      if (!authenticated) return 'Authenticating...'
       return (
          <React.Fragment>
             <LoadingRoomModal />
@@ -52,7 +55,8 @@ class AppRoutes extends PureComponent {
       )
    }
 }
-export default connect()(AppRoutes)
+const mapStateToProps = state => ({ authenticated: state.app.authenticated })
+export default connect(mapStateToProps)(AppRoutes)
 
 const AppContentWrapper = styled.div`
    display: flex;
