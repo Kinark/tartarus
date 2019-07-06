@@ -80,6 +80,7 @@ function players(state = [], action) {
       case REMOVE_PLAYER:
          return state.filter(player => player._id !== action.payload)
       case ADD_PLAYER:
+         if (state.find(player => player._id === action.payload._id)) return state
          return [...state, action.payload]
       case ADD_SEVERAL_PLAYERS:
          return [...state, ...action.payload]
