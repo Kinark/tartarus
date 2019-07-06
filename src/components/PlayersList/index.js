@@ -17,7 +17,7 @@ export default class PlayersList extends PureComponent {
       const { data } = this.props
       return (
          <Sidebar align="left" title="Lista de jogadores" titleInfo="Fale com seus companheiros">
-            {data.map(player => <div>{player.name}</div>)}
+            {data.map(player => <div key={player._id}>{player.name}</div>)}
          </Sidebar>
       )
    }
