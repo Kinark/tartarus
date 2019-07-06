@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import { LOGOFF } from '../actions/auth'
 
+import initialStore from '../store/initialStore'
+
 import settings from './settings'
 import app from './app'
 import data from './data'
@@ -20,7 +22,7 @@ const appReducer = combineReducers({
 })
 
 const rootReducer = (state, action) => {
-   if (action.type === LOGOFF) state = undefined
+   if (action.type === LOGOFF) state = Object.assign(initialStore, { app: { connected: true } })
    return appReducer(state, action)
 }
 
