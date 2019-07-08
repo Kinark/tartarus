@@ -29,8 +29,11 @@ class AppRoutes extends PureComponent {
 
    appStartRoutine = () => {
       const { dispatch } = this.props
-      dispatch(activateAppListeners())
-      dispatch(logUserIn())
+      dispatch(
+         logUserIn(null, null, () => {
+            dispatch(activateAppListeners())
+         })
+      )
       this.JWTRenewInterval = setInterval(() => dispatch(logUserIn()), 1 * 60 * 60 * 1000)
    }
 
