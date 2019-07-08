@@ -22,7 +22,7 @@ class Message extends PureComponent {
                <Avatar src={DefaultAvatar} alt="Default Avatar" />
             </AvatarColumn>
             <ContentColumn owned={data.author._id === myId}>
-               <Author>{data.author.username}</Author>
+               <Author>{data.author.name}</Author>
                <Content owned={data.author._id === myId}>{data.content}</Content>
             </ContentColumn>
          </MessageWrapper>

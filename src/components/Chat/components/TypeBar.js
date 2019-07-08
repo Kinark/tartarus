@@ -13,7 +13,7 @@ class TypeBar extends PureComponent {
       room: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       myId: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       scrollChatDown: PropTypes.func.isRequired
    }
 
@@ -23,12 +23,12 @@ class TypeBar extends PureComponent {
 
    sendMessage = e => {
       const { message } = this.state
-      const { dispatch, room, type, myId, username, scrollChatDown } = this.props
+      const { dispatch, room, type, myId, name, scrollChatDown } = this.props
       e.preventDefault()
       const messageObject = {
          author: {
             _id: myId,
-            username
+            name
          },
          content: message,
          room,
@@ -52,5 +52,5 @@ class TypeBar extends PureComponent {
       )
    }
 }
-const mapStateToProps = state => ({ myId: state.auth.userId, username: state.auth.username })
+const mapStateToProps = state => ({ myId: state.auth.userId, name: state.auth.username })
 export default connect(mapStateToProps)(TypeBar)
