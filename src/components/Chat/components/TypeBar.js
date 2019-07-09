@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { sendNewMessage } from '~/redux/actions/app'
+import commands from '~/constants/commands'
 
 import SectionTitle from '~/components/SectionTitle'
 import { Input } from '~/components/Input'
@@ -21,10 +22,24 @@ class TypeBar extends PureComponent {
       message: ''
    }
 
-   sendMessage = e => {
+   commanderProxy = e => {
+      e.preventDefault()
+      const { message } = this.state
+
+      if (message.charAt(0) !== '/') return this.sendMessage()
+      this.setState({ message: '' })
+
+      const pureCommand = message.substr(1).split(' ')[0]
+      const args = message.substr(1).split(' ').shift()
+
+      if (typeof commands[pureCommand] === 'undefined') return false
+      commands[pureCommand](args, this.props)
+   }
+
+   sendMessage = () => {
       const { message } = this.state
       const { dispatch, room, type, myId, name, scrollChatDown } = this.props
-      e.preventDefault()
+
       const messageObject = {
          author: {
             _id: myId,
@@ -45,7 +60,7 @@ class TypeBar extends PureComponent {
       const { message } = this.state
       const { type } = this.props
       return (
-         <form onSubmit={this.sendMessage}>
+         <form onSubmit={this.commanderProxy}>
             <SectionTitle small>{type === 'adventure' ? 'Aventura' : 'Conversa'}</SectionTitle>
             <Input name="message" value={message} onChange={e => this.setState({ message: e.target.value })} placeholder="Digite sua mensagem aqui." />
          </form>
