@@ -6,6 +6,7 @@ const commands = {
    roll: (dices, { dispatch, room, type, myId, name }) => {
       const nonce = myId + Date.now()
       const messageObject = {
+         content: 'Rolando dados...',
          author: {
             _id: myId,
             name
