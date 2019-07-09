@@ -25,7 +25,7 @@ class Message extends PureComponent {
                <Author>{data.author.name}</Author>
                {data.dicesResults && data.dicesResults.length > 0 ? (
                   <ContentRoll owned={data.author._id === myId}>
-                     <RollResult>{data.content}</RollResult>
+                     <RollResult owned={data.author._id === myId}>{data.content}</RollResult>
                      <RollDices>
                         {data.dices.map((dice, i) => (
                            <EachDice key={i}>
@@ -102,14 +102,14 @@ ContentColumn.defaultProps = { theme: colors.light }
 
 const RollResult = styled.div`
    flex: 0;
-   border-radius: 0 0 ${({ owned }) => (owned ? '0 7px' : '7px 0')};
+   border-radius: 0 0 ${({ owned }) => (owned ? '7px 0' : '0 7px')};
    background-color: ${({ theme }) => theme.TITLE};
    padding: 3px 16px;
    font-family: 'upgrade',sans-serif;
    font-size: 32px;
    font-weight: 500;
    color: ${({ theme }) => theme.BG};
-   order: ${({ owned }) => (owned ? '0' : '1')};
+   order: ${({ owned }) => (owned ? '1' : '0')};
 `
 RollResult.defaultProps = { theme: colors.light }
 
