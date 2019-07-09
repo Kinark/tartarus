@@ -29,6 +29,10 @@ const initialStore = {
       loading: false,
       error: false
    },
+   toastNotifications: {
+      queue: [],
+      active: ''
+   },
    app: {
       newWorldModalOpen: false,
       loadingRoomModal: false,
