@@ -6,6 +6,7 @@ export const TOGGLE_PLAY_MODE = 'TOGGLE_PLAY_MODE'
 export const ADD_WORLD_TAB = 'ADD_WORLD_TAB'
 export const REMOVE_WORLD_TAB = 'REMOVE_WORLD_TAB'
 export const CONNECTED_APP = 'CONNECTED_APP'
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const ADD_SEVERAL_MESSAGES = 'ADD_SEVERAL_MESSAGES'
 export const REMOVE_PLAYER = 'REMOVE_PLAYER'
@@ -19,6 +20,7 @@ export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
 export const addWorldTab = payload => ({ type: ADD_WORLD_TAB, payload })
 export const removeWorldTab = payload => ({ type: REMOVE_WORLD_TAB, payload })
 export const connectApp = payload => ({ type: CONNECTED_APP, payload })
+export const removeMessage = payload => ({ type: ADD_MESSAGE, payload })
 export const addMessage = payload => ({ type: ADD_MESSAGE, payload })
 export const addSeveralMessages = payload => ({ type: ADD_SEVERAL_MESSAGES, payload })
 export const removePlayer = payload => ({ type: REMOVE_PLAYER, payload })

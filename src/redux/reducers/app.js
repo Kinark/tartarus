@@ -8,6 +8,7 @@ import {
    REMOVE_PLAYER,
    ADD_PLAYER,
    ADD_SEVERAL_PLAYERS,
+   REMOVE_MESSAGE,
    ADD_MESSAGE,
    ADD_SEVERAL_MESSAGES,
    TOGGLE_NEW_WORLD_MODAL,
@@ -65,6 +66,8 @@ function messages(state = [], action) {
          return [...state, action.payload]
       case ADD_SEVERAL_MESSAGES:
          return [...state, ...action.payload]
+      case REMOVE_MESSAGE:
+         return state.filter(msg => msg.nonce !== action.payload)
       case REMOVE_WORLD_TAB:
          return state.filter(msg => msg.room !== action.payload)
       case CONNECTED_APP:
