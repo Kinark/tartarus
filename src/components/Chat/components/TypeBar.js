@@ -30,7 +30,8 @@ class TypeBar extends PureComponent {
       this.setState({ message: '' })
 
       const pureCommand = message.substr(1).split(' ')[0]
-      const args = message.substr(1).split(' ').shift()
+      const args = message.split(' ')
+      args.shift()
 
       if (typeof commands[pureCommand] === 'undefined') return false
       commands[pureCommand](args, this.props)
@@ -60,7 +61,7 @@ class TypeBar extends PureComponent {
       const { message } = this.state
       const { type } = this.props
       return (
-         <form onSubmit={this.commanderProxy}>
+         <form autoComplete="off" onSubmit={this.commanderProxy}>
             <SectionTitle small>{type === 'adventure' ? 'Aventura' : 'Conversa'}</SectionTitle>
             <Input name="message" value={message} onChange={e => this.setState({ message: e.target.value })} placeholder="Digite sua mensagem aqui." />
          </form>
