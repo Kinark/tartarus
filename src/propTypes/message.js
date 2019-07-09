@@ -13,8 +13,8 @@ export const messagePropTypes = {
    content: PropTypes.string.isRequired,
    timestamp: PropTypes.string,
    nonce: PropTypes.string.isRequired,
-   dices: PropTypes.arrayOf(PropTypes.string).isRequired,
-   dicesResults: PropTypes.arrayOf(PropTypes.string).isRequired
+   dices: PropTypes.arrayOf(PropTypes.string),
+   dicesResults: PropTypes.arrayOf(PropTypes.string)
 }
 
 export const messageDefaultProps = {
