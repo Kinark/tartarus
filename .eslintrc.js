@@ -60,7 +60,8 @@ module.exports = {
       'no-underscore-dangle': 'off',
       'no-param-reassign': 'off',
       'no-case-declarations': 'off',
-      'no-return-assign': 'off'
+      'no-return-assign': 'off',
+      'react/no-array-index-key': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
