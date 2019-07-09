@@ -19,7 +19,7 @@ const appReducer = combineReducers({
    settings,
    data,
    auth,
-   app
+   app,
    toastNotifications
 })
 
