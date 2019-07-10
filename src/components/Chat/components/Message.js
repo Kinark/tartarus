@@ -123,7 +123,12 @@ const RollDices = styled.div`
 
 const EachDice = styled.div`
    margin: 0 5px;
+   &:not(:last-of-type) {
+      padding-right: 10px;
+      border-right: solid 1px ${({ theme }) => theme.DIVIER_SOFT};
+   }
    span {
       font-weight: 700;
    }
 `
+EachDice.defaultProps = { theme: colors.light }
