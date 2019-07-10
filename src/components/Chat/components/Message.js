@@ -15,29 +15,29 @@ class Message extends PureComponent {
    }
 
    render() {
-      const { myId, data } = this.props
+      const { myId, data: { _id, author, dicesResults, dices, content } } = this.props
       return (
-         <MessageWrapper loading={!data._id}>
-            <AvatarColumn owned={data.author._id === myId}>
+         <MessageWrapper loading={!_id}>
+            <AvatarColumn owned={author._id === myId}>
                <Avatar src={DefaultAvatar} alt="Default Avatar" />
             </AvatarColumn>
-            <ContentColumn owned={data.author._id === myId}>
-               <Author>{data.author.name}</Author>
-               {data.dicesResults && data.dicesResults.length > 0 ? (
-                  <ContentRoll owned={data.author._id === myId}>
-                     <RollResult owned={data.author._id === myId}>{data.content}</RollResult>
+            <ContentColumn owned={author._id === myId}>
+               <Author>{author.name}</Author>
+               {dicesResults && dicesResults.length > 0 ? (
+                  <ContentRoll owned={author._id === myId}>
+                     <RollResult owned={author._id === myId}>{content}</RollResult>
                      <RollDices>
-                        {data.dices.map((dice, i) => (
+                        {dices.map((dice, i) => (
                            <EachDice key={i}>
                               <span>{dice}</span>
                               <br />
-                              {data.dicesResults[i]}
+                              {dicesResults[i]}
                            </EachDice>
                         ))}
                      </RollDices>
                   </ContentRoll>
                ) : (
-                  <Content owned={data.author._id === myId}>{data.content}</Content>
+                  <Content owned={author._id === myId}>{content}</Content>
                )}
             </ContentColumn>
          </MessageWrapper>
