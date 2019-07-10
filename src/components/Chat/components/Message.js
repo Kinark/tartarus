@@ -16,16 +16,17 @@ class Message extends PureComponent {
 
    render() {
       const { myId, data: { _id, author, dicesResults, dices, content } } = this.props
+      const owned = author._id === myId
       return (
          <MessageWrapper loading={!_id}>
-            <AvatarColumn owned={author._id === myId}>
+            <AvatarColumn owned={owned}>
                <Avatar src={DefaultAvatar} alt="Default Avatar" />
             </AvatarColumn>
-            <ContentColumn owned={author._id === myId}>
+            <ContentColumn owned={owned}>
                <Author>{author.name}</Author>
                {dicesResults && dicesResults.length > 0 ? (
-                  <ContentRoll owned={author._id === myId}>
-                     <RollResult owned={author._id === myId}>{content}</RollResult>
+                  <ContentRoll owned={owned}>
+                     <RollResult owned={owned}>{content}</RollResult>
                      <RollDices>
                         {dices.map((dice, i) => (
                            <EachDice key={i}>
