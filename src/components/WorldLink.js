@@ -17,7 +17,7 @@ class WorldLink extends PureComponent {
          _id: PropTypes.string.isRequired,
          name: PropTypes.string.isRequired,
          description: PropTypes.string,
-         members: PropTypes.arrayOf(playerPropTypes).isRequired,
+         members: PropTypes.arrayOf(PropTypes.shape(playerPropTypes)).isRequired,
          ruleset: PropTypes.string,
          locked: PropTypes.bool.isRequired
       }).isRequired,

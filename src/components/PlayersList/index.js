@@ -13,7 +13,7 @@ class PlayersList extends PureComponent {
    static propTypes = {
       tabs: PropTypes.arrayOf(
          PropTypes.shape({
-            members: PropTypes.arrayOf(playerPropTypes).isRequired
+            members: PropTypes.arrayOf(PropTypes.shape(playerPropTypes)).isRequired
          })
       ).isRequired,
       room: PropTypes.string.isRequired
