@@ -7,7 +7,8 @@ import {
    CONNECTED_APP,
    REMOVE_PLAYER,
    ADD_PLAYER,
-   ADD_SEVERAL_PLAYERS,
+   TURN_PLAYER_ON,
+   TURN_PLAYER_OFF,
    REMOVE_MESSAGE,
    ADD_MESSAGE,
    ADD_SEVERAL_MESSAGES,
@@ -78,25 +79,6 @@ function messages(state = [], action) {
    }
 }
 
-function players(state = [], action) {
-   switch (action.type) {
-      case REMOVE_PLAYER:
-         return state.filter(player => player._id !== action.payload)
-      case ADD_PLAYER:
-         if (state.find(player => player._id === action.payload._id)) return state
-         return [...state, action.payload]
-      case ADD_SEVERAL_PLAYERS:
-         return [...state, ...action.payload]
-      case REMOVE_WORLD_TAB:
-         return state.filter(player => player.room !== action.payload)
-      case CONNECTED_APP:
-         if (!action.payload) return []
-         return state
-      default:
-         return state
-   }
-}
-
 function playMode(state = false, action) {
    switch (action.type) {
       case TOGGLE_PLAY_MODE:
@@ -117,6 +99,33 @@ function tabs(state = [], action) {
       case CONNECTED_APP:
          if (!action.payload) return []
          return state
+      case TURN_PLAYER_OFF: {
+         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
+         const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
+         const newState = [...state]
+            newState[indexOfTab].members[indexOfPlayer].online = false
+         return newState
+      }
+      case TURN_PLAYER_ON: {
+         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
+         const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
+         const newState = [...state]
+            newState[indexOfTab].members[indexOfPlayer].online = true
+         return newState
+      }
+      case ADD_PLAYER: {
+         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
+         const newState = [...state]
+         newState[indexOfTab].members.push(action.payload.player)
+         return newState
+      }
+      case REMOVE_PLAYER: {
+         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
+         const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
+         const newState = [...state]
+         newState[indexOfTab].members.splice(indexOfPlayer, 1)
+         return newState
+      }
       default:
          return state
    }
@@ -127,7 +136,6 @@ export default combineReducers({
    loadingRoomModal,
    authenticated,
    connected,
-   players,
    messages,
    playMode,
    tabs

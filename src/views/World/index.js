@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import playerPropTypes from '~/propTypes/player'
 import { messagePropTypes } from '~/propTypes/message'
 import { enterRoomAndAddTab, togglePlayMode } from '~/redux/actions/app'
 
@@ -21,7 +20,6 @@ class World extends PureComponent {
             _id: PropTypes.string.isRequired
          })
       ).isRequired,
-      players: PropTypes.arrayOf(PropTypes.shape(playerPropTypes)).isRequired,
       messages: PropTypes.arrayOf(PropTypes.shape(messagePropTypes)).isRequired,
       match: PropTypes.shape({
          params: PropTypes.shape({
@@ -43,16 +41,15 @@ class World extends PureComponent {
    }
 
    render() {
-      const { match, messages, players } = this.props
+      const { match, messages } = this.props
       const { worldId } = match.params
-      const filteredPlayers = players.filter(player => player.room === worldId)
       const filteredMessages = messages.filter(msg => msg.room === worldId)
 
       const adventureMessages = filteredMessages.filter(msg => msg.type === 'adventure')
       const chatMessages = filteredMessages.filter(msg => msg.type === 'talk')
       return (
          <React.Fragment>
-            <PlayersList data={filteredPlayers} />
+            <PlayersList room={worldId} />
             <AppMainWrapper>
                <FullHeight className="row">
                   <FullHeight className="col xs12 m6">
@@ -71,5 +68,5 @@ class World extends PureComponent {
       )
    }
 }
-const mapStateToProps = state => ({ openedTabs: state.app.tabs, messages: state.app.messages, players: state.app.players })
+const mapStateToProps = state => ({ openedTabs: state.app.tabs, messages: state.app.messages })
 export default connect(mapStateToProps)(World)
