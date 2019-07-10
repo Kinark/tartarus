@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Key } from 'react-feather'
 import styled from 'styled-components'
 
-import playerPropType from '~/propTypes/player'
+import playerPropTypes from '~/propTypes/player'
 import colors from '~/constants/colors'
 import { toggleLoadingRoomModal } from '~/redux/actions/app'
 
@@ -17,7 +17,7 @@ class WorldLink extends PureComponent {
          _id: PropTypes.string.isRequired,
          name: PropTypes.string.isRequired,
          description: PropTypes.string,
-         members: PropTypes.arrayOf(playerPropType).isRequired,
+         members: PropTypes.arrayOf(playerPropTypes).isRequired,
          ruleset: PropTypes.string,
          locked: PropTypes.bool.isRequired
       }).isRequired,
