@@ -103,14 +103,14 @@ function tabs(state = [], action) {
          const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
          const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
          const newState = [...state]
-            newState[indexOfTab].members[indexOfPlayer].online = false
+         newState[indexOfTab].members[indexOfPlayer].online = false
          return newState
       }
       case TURN_PLAYER_ON: {
          const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
          const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
          const newState = [...state]
-            newState[indexOfTab].members[indexOfPlayer].online = true
+         newState[indexOfTab].members[indexOfPlayer].online = true
          return newState
       }
       case ADD_PLAYER: {
