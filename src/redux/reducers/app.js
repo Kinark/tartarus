@@ -88,6 +88,22 @@ function playMode(state = false, action) {
    }
 }
 
+/**
+ * Utility function to extract variables in order to minimize code on tabs reducer.
+ *
+ * @param {Array} tabs - Tabs to search into
+ * @param {Object} payload - Payload containing the room (to lookup) and the player info
+ * @param {Object} payload.room - Room (world) id to search for
+ * @param {Object} [payload.player] - Player id to search for
+ * @returns {Object}
+ */
+function extractTabVariables(oldTabs, payload) {
+   const indexOfTab = oldTabs.findIndex(tab => tab._id === payload.room)
+   const indexOfPlayer = oldTabs[indexOfTab].members.findIndex(member => member.user._id === payload.player)
+   const newState = [...oldTabs]
+   return { indexOfTab, indexOfPlayer, newState }
+}
+
 function tabs(state = [], action) {
    switch (action.type) {
       case ADD_WORLD_TAB:
@@ -100,29 +116,22 @@ function tabs(state = [], action) {
          if (!action.payload) return []
          return state
       case TURN_PLAYER_OFF: {
-         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
-         const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
-         const newState = [...state]
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, action.payload)
          newState[indexOfTab].members[indexOfPlayer].online = false
          return newState
       }
       case TURN_PLAYER_ON: {
-         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
-         const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
-         const newState = [...state]
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, action.payload)
          newState[indexOfTab].members[indexOfPlayer].online = true
          return newState
       }
       case ADD_PLAYER: {
-         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
-         const newState = [...state]
+         const { indexOfTab, newState } = extractTabVariables(state, action.payload)
          newState[indexOfTab].members.push(action.payload.player)
          return newState
       }
       case REMOVE_PLAYER: {
-         const indexOfTab = state.findIndex(tab => tab._id === action.payload.room)
-         const indexOfPlayer = state[indexOfTab].members.findIndex(member => member.user._id === action.payload.player)
-         const newState = [...state]
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, action.payload)
          newState[indexOfTab].members.splice(indexOfPlayer, 1)
          return newState
       }
