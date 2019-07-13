@@ -1,4 +1,4 @@
-import axios from '~/instances/axios'
+import getWhereILive from '~/services/getWhereILive';
 
 export const FETCH_WHERE_I_LIVE_START = 'FETCH_WHERE_I_LIVE_START'
 export const FETCH_WHERE_I_LIVE_SUCCESS = 'FETCH_WHERE_I_LIVE_SUCCESS'
@@ -12,8 +12,7 @@ export const fetchWhereILiveToggleModal = payload => ({ type: FETCH_WHERE_I_LIVE
 
 export const fetchWhereILive = () => dispatch => {
    dispatch(fetchWhereILiveStart())
-   axios
-      .get('where-i-live')
+   getWhereILive()
       .then(({ data }) => dispatch(fetchWhereILiveSuccess(data)))
       .catch(err => dispatch(fetchWhereILiveFailure(err.response.data.code)))
 }

@@ -1,4 +1,4 @@
-import axios from '~/instances/axios'
+import rollDices from '~/services/rollDices'
 import { addToToastQueue } from '~/redux/actions/toastNotifications'
 import { addMessage, removeMessage } from '~/redux/actions/app'
 
@@ -19,8 +19,7 @@ const commands = {
       }
       dispatch(addMessage(messageObject))
       scrollChatDown()
-      axios
-         .post('roll', messageObject)
+      rollDices(messageObject)
          .then(({ data }) => dispatch(addMessage(data)))
          .catch(err => {
             dispatch(removeMessage(nonce))

@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import axios from '~/instances/axios'
+import newWorld from '~/services/newWorld'
 import colors from '~/constants/colors'
 import { fetchMyWorlds } from '~/redux/actions/myWorlds'
 import { toggleNewWorldModal } from '~/redux/actions/app'
@@ -59,8 +59,7 @@ class NewWorldModal extends PureComponent {
    createWorld = () => {
       const { dispatch } = this.props
       const { name, description, password, tags } = this.state
-      axios
-         .post('world', { name, description, password, tags })
+      newWorld({ name, description, password, tags })
          .then(() => {
             dispatch(fetchMyWorlds())
             this.setState({ loading: false, error: false })

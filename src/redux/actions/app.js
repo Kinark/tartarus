@@ -1,4 +1,6 @@
-import axios from '~/instances/axios'
+import getWorld from '~/services/getWorld';
+import newMessage from '~/services/newMessage';
+import getMessages from '~/services/getMessages';
 import socket from '~/instances/socket'
 
 export const TOGGLE_AUTHENTICATED = 'TOGGLE_AUTHENTICATED'
@@ -56,8 +58,7 @@ export const deactivateAppListeners = () => () => {
 export const sendNewMessage = msgObject => dispatch => {
    dispatch(addMessage(msgObject))
    // socket.emit('new-message', data => dispatch(addMessage(data)))
-   axios
-      .post('message', msgObject)
+   newMessage(msgObject)
       .then(({ data }) => dispatch(addMessage(data)))
       .catch(err => {
          console.log(err)
@@ -70,16 +71,14 @@ export const sendNewMessage = msgObject => dispatch => {
 
 export const enterRoomAndAddTab = roomId => dispatch => {
    socket.emit('enter-room', roomId)
-   axios
-      .get(`world/${roomId}`)
+   getWorld(roomId)
       .then(({ data }) => dispatch(addWorldTab(data)))
       .catch(() => {
          // if (err.response) return dispatch(loginFailure(err.response.data.code || 'something-wrong'))
          // if (err.request) return dispatch(loginFailure('cannot-connect'))
          // return dispatch(loginFailure('something-really-wrong'))
       })
-   axios
-      .get(`messages/${roomId}`)
+   getMessages(roomId)
       .then(({ data }) => dispatch(addSeveralMessages(data)))
       .catch(err => {
          console.log(err)

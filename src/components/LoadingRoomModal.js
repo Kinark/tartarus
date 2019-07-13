@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
 
-import axios from '~/instances/axios'
+import getWorld from '~/services/getWorld'
+import joinWorld from '~/services/joinWorld'
 import colors from '~/constants/colors'
 import { fetchWhereILive } from '~/redux/actions/whereILive'
 import { toggleLoadingRoomModal } from '~/redux/actions/app'
@@ -63,8 +64,7 @@ class LoadingRoomModal extends PureComponent {
    getWorld = () => {
       const { worldId, openedWorlds } = this.props
       if (openedWorlds.some(el => el._id === worldId)) return this.setState({ redirect: true }, () => this.handleRequestCloseFunc())
-      axios
-         .get(`world/${worldId}`)
+      getWorld(worldId)
          .then(({ data }) => {
             if (data.locked) return this.setState({ locked: true, loading: false })
             return this.joinWorld()
@@ -75,8 +75,7 @@ class LoadingRoomModal extends PureComponent {
    joinWorld = () => {
       const { worldId, dispatch } = this.props
       const { password } = this.state
-      axios
-         .patch('join-world', { _id: worldId, password })
+      joinWorld(worldId, password)
          .then(() => {
             dispatch(fetchWhereILive())
             return this.setState({ redirect: true }, () => this.handleRequestCloseFunc())

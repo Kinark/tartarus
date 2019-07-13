@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 // import PropTypes from 'prop-types'
 // import { connect } from 'react-redux'
 
-import axios from '~/instances/axios'
+import getWorlds from '~/services/getWorlds';
 
 import { Input } from '~/components/Input'
 import CustomScroll from '~/components/CustomScroll'
@@ -22,8 +22,7 @@ export default class SearchWorlds extends PureComponent {
    doTheSearch = () => {
       const { search } = this.state
       this.setState({ loading: true })
-      axios
-         .post('search-worlds', { search })
+      getWorlds(search)
          .then(({ data }) => this.setState({ content: data, loading: false }))
          .catch(err => this.setState({ error: err.message, loading: false }))
    }

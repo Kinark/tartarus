@@ -1,4 +1,4 @@
-import axios from '~/instances/axios'
+import getMyWorlds from '~/services/getMyWorlds'
 
 export const FETCH_MY_WORLDS_START = 'FETCH_MY_WORLDS_START'
 export const FETCH_MY_WORLDS_SUCCESS = 'FETCH_MY_WORLDS_SUCCESS'
@@ -12,8 +12,7 @@ export const fetchMyWorldsToggleModal = payload => ({ type: FETCH_MY_WORLDS_TOGG
 
 export const fetchMyWorlds = () => dispatch => {
    dispatch(fetchMyWorldsStart())
-   axios
-      .get('my-worlds')
+   getMyWorlds()
       .then(({ data }) => dispatch(fetchMyWorldsSuccess(data)))
       .catch(err => dispatch(fetchMyWorldsFailure(err.response.data.code)))
 }
