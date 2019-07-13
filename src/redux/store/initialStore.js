@@ -11,11 +11,6 @@ const initialStore = {
       done: false,
       content: []
    },
-   newWorld: {
-      modal: false,
-      loading: false,
-      error: false
-   },
    settings: {
       theme: 'light'
    },
