@@ -15,6 +15,7 @@ import AppRoutes from '~/components/AppRoutes'
 
 import Login from '~/views/Login'
 import Signup from '~/views/Signup'
+import Loading from '~/views/Loading'
 
 const title = 'Tartarus'
 const description = 'A sample website.'
@@ -66,7 +67,7 @@ class App extends Component {
                      <PrivateRoute path="/" component={AppRoutes} />
                   </Switch>
                ) : (
-                  'Connecting...'
+                  <Loading type="Connecting..." />
                )}
             </AppWrapper>
          </ThemeProvider>

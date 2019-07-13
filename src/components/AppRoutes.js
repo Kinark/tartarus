@@ -16,6 +16,7 @@ import BottomBar from '~/components/BottomBar'
 import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
 import World from '~/views/World'
+import Loading from '~/views/Loading'
 
 class AppRoutes extends PureComponent {
    static propTypes = {
@@ -39,7 +40,7 @@ class AppRoutes extends PureComponent {
 
    render() {
       const { authenticated } = this.props
-      if (!authenticated) return 'Authenticating...'
+      if (!authenticated) return <Loading type="Authenticating..." />
       return (
          <React.Fragment>
             <LoadingRoomModal />
