@@ -1,3 +1,3 @@
-import api from '~/instances/axios'
+import api from '~/instances/api'
 
 export default (email, password) => api.post('login', { email, password })

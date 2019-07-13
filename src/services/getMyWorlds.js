@@ -1,3 +1,3 @@
-import api from '~/instances/axios'
+import api from '~/instances/api'
 
 export default () => api.get('my-worlds')
