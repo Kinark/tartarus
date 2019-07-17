@@ -1,6 +1,6 @@
+import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { hot } from 'react-hot-loader'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
@@ -77,7 +77,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({ theme: state.settings.theme, connected: state.app.connected })
 const connectedApp = connect(mapStateToProps)(App)
-export default hot(module)(connectedApp)
+export default hot(connectedApp)
 
 const AppWrapper = styled.div`
    background-color: ${({ theme }) => theme.BG};
