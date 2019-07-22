@@ -28,6 +28,12 @@ const initialStore = {
       queue: [],
       active: ''
    },
+   activeRuleset: {
+      id: '',
+      name: '',
+      bgImg: '',
+      inputs: []
+   },
    app: {
       newWorldModalOpen: false,
       loadingRoomModal: false,
