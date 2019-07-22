@@ -17,6 +17,8 @@ render(
    root
 )
 
-if (module.hot) {
-   module.hot.accept()
-}
+module.hot.accept('./App.js', () => {
+   // eslint-disable-next-line global-require
+   const NextApp = require('./App.js').default
+   render(<NextApp />, root)
+})
