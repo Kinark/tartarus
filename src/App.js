@@ -34,12 +34,12 @@ class App extends Component {
       this.setBodyColor()
    }
 
-   componentDidUpdate = prevProps => {
+   componentDidUpdate(prevProps) {
       const { theme } = this.props
       if (theme !== prevProps.theme) this.setBodyColor()
    }
 
-   componentWillUnmount = () => {
+   componentWillUnmount() {
       document.body.style.backgroundColor = null
    }
 

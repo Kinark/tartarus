@@ -35,7 +35,7 @@ class World extends PureComponent {
       if (!openedTabs.find(world => world._id === worldId)) dispatch(enterRoomAndAddTab(worldId))
    }
 
-   componentWillUnmount = () => {
+   componentWillUnmount() {
       const { dispatch } = this.props
       dispatch(togglePlayMode(false))
    }

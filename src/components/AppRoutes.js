@@ -29,7 +29,9 @@ class AppRoutes extends PureComponent {
       this.appStartRoutine()
    }
 
-   componentWillUnmount = () => clearInterval(this.JWTRenewInterval)
+   componentWillUnmount() {
+      clearInterval(this.JWTRenewInterval)
+   }
 
    appStartRoutine = () => {
       const { dispatch } = this.props

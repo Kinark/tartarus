@@ -27,7 +27,7 @@ export default class Chat extends PureComponent {
       if (locked) this.scrollChatDown()
    }
 
-   componentDidUpdate = () => {
+   componentDidUpdate() {
       const { locked } = this.state
       if (locked) this.scrollChatDown()
    }
