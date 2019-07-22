@@ -61,7 +61,8 @@ module.exports = {
       'no-param-reassign': 'off',
       'no-case-declarations': 'off',
       'no-return-assign': 'off',
-      'react/no-array-index-key': 'off'
+      'react/no-array-index-key': 'off',
+      'operator-linebreak': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
