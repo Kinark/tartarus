@@ -25,7 +25,9 @@ class AppRoutes extends PureComponent {
       authenticated: PropTypes.bool.isRequired
    }
 
-   componentDidMount = () => this.appStartRoutine()
+   componentDidMount() {
+      this.appStartRoutine()
+   }
 
    componentWillUnmount = () => clearInterval(this.JWTRenewInterval)
 

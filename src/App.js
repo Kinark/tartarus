@@ -28,7 +28,7 @@ class App extends Component {
       connected: PropTypes.bool.isRequired
    }
 
-   componentDidMount = () => {
+   componentDidMount() {
       const { dispatch } = this.props
       dispatch(activateSocketListeners())
       this.setBodyColor()

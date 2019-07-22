@@ -28,7 +28,7 @@ class World extends PureComponent {
       }).isRequired
    }
 
-   componentDidMount = () => {
+   componentDidMount() {
       const { openedTabs, dispatch, match } = this.props
       const { worldId } = match.params
       dispatch(togglePlayMode(true))
