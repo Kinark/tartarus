@@ -23,6 +23,7 @@ class Tabs extends PureComponent {
                Boas vindas
             </BasicTab>
             <BasicTab to="/worlds">Mundos</BasicTab>
+            <BasicTab to="/ruleset">Sistemas</BasicTab>
             {openedTabs.map(world => (
                <Tab key={world._id} worldId={world._id} to={`/world/${world._id}`}>
                   {world.name}

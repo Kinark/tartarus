@@ -16,6 +16,7 @@ import BottomBar from '~/components/BottomBar'
 import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
 import World from '~/views/World'
+import Ruleset from '~/views/Ruleset'
 import Loading from '~/views/Loading'
 
 class AppRoutes extends PureComponent {
@@ -52,6 +53,8 @@ class AppRoutes extends PureComponent {
                   <Route path="/" component={Welcome} exact />
                   <Route path="/worlds" component={Worlds} />
                   <Route path="/world/:worldId" component={World} />
+                  <Route path="/ruleset" component={Ruleset} />
+                  <Route path="/ruleset/:rulesetId" component={Ruleset} />
                </Switch>
             </AppContentWrapper>
             <Route path="/" component={BottomBar} />
