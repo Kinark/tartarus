@@ -1,7 +1,21 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 export default class Draggable extends React.Component {
+   static propTypes = {
+      onDragStart: PropTypes.func,
+      onDrag: PropTypes.func,
+      onDragEnd: PropTypes.func,
+      children: PropTypes.node.isRequired
+   }
+
+   static defaultProps = {
+      onDragStart: undefined,
+      onDrag: undefined,
+      onDragEnd: undefined
+   }
+
    state = {
       isDragging: false,
 
@@ -23,10 +37,9 @@ export default class Draggable extends React.Component {
    handleMouseDown = ({ clientX, clientY }) => {
       window.addEventListener('mousemove', this.handleMouseMove)
       window.addEventListener('mouseup', this.handleMouseUp)
+      const { onDragStart } = this.props
 
-      if (this.props.onDragStart) {
-         this.props.onDragStart()
-      }
+      if (onDragStart) onDragStart()
 
       this.setState({
          originalX: clientX,
@@ -49,12 +62,8 @@ export default class Draggable extends React.Component {
             translateY: clientY - prevState.originalY + prevState.lastTranslateY
          }),
          () => {
-            if (onDrag) {
-               onDrag({
-                  translateX: this.state.translateX,
-                  translateY: this.state.translateY
-               })
-            }
+            const { translateX, translateY } = this.state
+            if (onDrag) onDrag({ translateX, translateY })
          }
       )
    }
@@ -62,6 +71,9 @@ export default class Draggable extends React.Component {
    handleMouseUp = () => {
       window.removeEventListener('mousemove', this.handleMouseMove)
       window.removeEventListener('mouseup', this.handleMouseUp)
+      const { onDragEnd } = this.props
+
+      const { top, left } = this.el.getBoundingClientRect()
 
       this.setState(
          {
@@ -77,9 +89,7 @@ export default class Draggable extends React.Component {
             isDragging: false
          },
          () => {
-            if (this.props.onDragEnd) {
-               this.props.onDragEnd()
-            }
+            if (onDragEnd) onDragEnd(top, left)
          }
       )
    }
@@ -89,18 +99,16 @@ export default class Draggable extends React.Component {
       const { translateX, translateY, isDragging } = this.state
 
       return (
-         <Container onMouseDown={this.handleMouseDown} x={translateX} y={translateY} isDragging={isDragging}>
+         <Container ref={el => (this.el = el)} onMouseDown={this.handleMouseDown} x={translateX} y={translateY} isDragging={isDragging}>
             {children}
          </Container>
       )
    }
 }
 
-const Container = styled.div.attrs({
-   style: ({ x, y }) => ({
-      transform: `translate(${x}px, ${y}px)`
-   })
-})`
+export const Container = styled.div.attrs(({ x, y }) => ({
+   style: { transform: `translate(${x}px, ${y}px)` }
+}))`
    cursor: grab;
 
    ${({ isDragging }) =>
