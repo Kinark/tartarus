@@ -26,6 +26,7 @@ export default class RulesetEditor extends Component {
    }
 
    state = {
+      name: '',
       bgImg: '',
       bgWidth: '',
       inputs: [],
@@ -41,7 +42,7 @@ export default class RulesetEditor extends Component {
    fetchAndSet = async () => {
       const { match } = this.props
       const { data } = await getRuleset(match.params.rulesetId)
-      this.setState({ bgImg: data.bgImg, bgWidth: data.bgWidth, inputs: data.inputs })
+      this.setState({ name: data.name, bgImg: data.bgImg, bgWidth: data.bgWidth, inputs: data.inputs })
    }
 
    addInput = (e, positionOnGrabX, positionOnGrabY) => {
@@ -117,7 +118,7 @@ export default class RulesetEditor extends Component {
    inputHandler = e => this.setState({ [e.target.name]: e.target.value, unsaved: true })
 
    render() {
-      const { bgImg, bgWidth, inputs, selectedInputNonce, unsaved } = this.state
+      const { name, bgImg, bgWidth, inputs, selectedInputNonce, unsaved } = this.state
       const selectedInputInfo = inputs.find(input => input.nonce === selectedInputNonce)
       return (
          <React.Fragment>
@@ -165,6 +166,10 @@ export default class RulesetEditor extends Component {
                </Sidebar>
             ) : (
                <Sidebar align="right" title="Sistema" titleInfo="Ajustes globais do seu sistema.">
+                  <label htmlFor="name">
+                     Nome do sistema
+                     <Input id="name" value={name} onChange={this.inputHandler} name="name" placeholder="Nome do sistema" />
+                  </label>
                   <label htmlFor="inputY">
                      URL da imagem de fundo
                      <Input id="bg" value={bgImg} onChange={this.inputHandler} name="bgImg" placeholder="URL da imagem de fundo" />
