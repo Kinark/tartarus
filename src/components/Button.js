@@ -19,10 +19,10 @@ const buttonBase = css`
    font-family: 'upgrade', sans-serif;
    font-weight: 400;
    cursor: pointer;
-   opacity: ${props => (props.loading ? '0.75' : '1')};
+   opacity: ${props => (props.loading || props.disabled ? '0.75' : '1')};
    transition: opacity 300ms;
    position: relative;
-   pointer-events: ${props => (props.loading ? 'none' : 'auto')};
+   pointer-events: ${props => (props.loading || props.disabled ? 'none' : 'auto')};
    :hover {
       opacity: 0.75;
    }
