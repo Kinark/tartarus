@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { Prompt } from 'react-router-dom'
 
 import getRuleset from '~/services/getRuleset'
+import editRuleset from '~/services/editRuleset'
 
 import Sidebar from '~/components/Sidebar'
 import AppMainWrapper from '~/components/AppMainWrapper'
@@ -15,11 +17,19 @@ import Draggable from './components/Draggable'
 import DraggableAdded from './components/DraggableAdded'
 
 export default class RulesetEditor extends Component {
+   static propTypes = {
+      match: PropTypes.shape({
+         params: PropTypes.shape({
+            rulesetId: PropTypes.string.isRequired
+         }).isRequired
+      }).isRequired
+   }
+
    state = {
-      bgImg: 'https://www.danny.com.br/wp-content/uploads/2015/12/imagem-branca-grande.png',
-      bgWidth: '1280',
+      bgImg: '',
+      bgWidth: '',
       inputs: [],
-      selectedInputId: null,
+      selectedInputNonce: null,
       unsaved: false,
       loading: true
    }
@@ -29,7 +39,9 @@ export default class RulesetEditor extends Component {
    }
 
    fetchAndSet = async () => {
-      // const fetchedRuleset = await getRuleset()
+      const { match } = this.props
+      const { data } = await getRuleset(match.params.rulesetId)
+      this.setState({ bgImg: data.bgImg, bgWidth: data.bgWidth, inputs: data.inputs })
    }
 
    addInput = (e, positionOnGrabX, positionOnGrabY) => {
@@ -50,14 +62,14 @@ export default class RulesetEditor extends Component {
       const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
       const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
 
-      const newInput = { id: Date.now(), x, y, width: 250, height: 40 }
+      const newInput = { nonce: Date.now(), x, y, width: 250, height: 40 }
       this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
-   moveInput = (id, translateX, translateY) => {
+   moveInput = (nonce, translateX, translateY) => {
       const { inputs } = this.state
       const copyInputs = [...inputs]
-      const selectedInputIndex = copyInputs.findIndex(input => input.id === id)
+      const selectedInputIndex = copyInputs.findIndex(input => input.nonce === nonce)
 
       const sheetHeight = this.sheetContainer.scrollHeight
       const sheetWidth = this.sheetContainer.scrollWidth
@@ -69,35 +81,44 @@ export default class RulesetEditor extends Component {
       this.setState({ inputs: copyInputs, unsaved: true })
    }
 
-   selectInput = id => this.setState({ selectedInputId: id })
+   selectInput = nonce => this.setState({ selectedInputNonce: nonce })
 
-   unselectInput = () => this.setState({ selectedInputId: null })
+   unselectInput = () => this.setState({ selectedInputNonce: null })
 
    editInput = e => {
-      const { inputs, selectedInputId } = this.state
+      const { inputs, selectedInputNonce } = this.state
       const copyInputs = [...inputs]
-      const selectedInputIndex = copyInputs.findIndex(input => input.id === selectedInputId)
+      const selectedInputIndex = copyInputs.findIndex(input => input.nonce === selectedInputNonce)
       copyInputs[selectedInputIndex][e.target.name] = +e.target.value
       this.setState({ inputs: copyInputs, unsaved: true })
    }
 
    deleteInput = () => {
-      const { inputs, selectedInputId } = this.state
+      const { inputs, selectedInputNonce } = this.state
       const copyInputs = [...inputs]
-      const selectedInputIndex = copyInputs.findIndex(input => input.id === selectedInputId)
+      const selectedInputIndex = copyInputs.findIndex(input => input.nonce === selectedInputNonce)
       copyInputs.splice(selectedInputIndex, 1)
-      this.setState({ selectedInputId: null, inputs: copyInputs, unsaved: true })
+      this.setState({ selectedInputNonce: null, inputs: copyInputs, unsaved: true })
    }
 
-   save = () => this.setState({ unsaved: false })
+   save = async () => {
+      const { match } = this.props
+      const { name, bgImg, bgWidth, inputs } = this.state
+      try {
+         await editRuleset(match.params.rulesetId, { name, bgImg, bgWidth, inputs })
+         this.setState({ unsaved: false })
+      } catch (error) {
+         console.log(error)
+      }
+   }
 
-   clearInputs = () => this.setState({ selectedInputId: null, inputs: [], unsaved: true })
+   clearInputs = () => this.setState({ selectedInputNonce: null, inputs: [], unsaved: true })
 
-   inputHandler = e => this.setState({ [e.target.name]: e.target.value })
+   inputHandler = e => this.setState({ [e.target.name]: e.target.value, unsaved: true })
 
    render() {
-      const { bgImg, bgWidth, inputs, selectedInputId, unsaved } = this.state
-      const selectedInputInfo = inputs.find(input => input.id === selectedInputId)
+      const { bgImg, bgWidth, inputs, selectedInputNonce, unsaved } = this.state
+      const selectedInputInfo = inputs.find(input => input.nonce === selectedInputNonce)
       return (
          <React.Fragment>
             <Prompt when={unsaved} message="Tem certeza que deseja sair sem salvar?" />
@@ -110,9 +131,9 @@ export default class RulesetEditor extends Component {
                {bgImg ? (
                   <SheetScrollFrame>
                      <SheetContainer ref={el => (this.sheetContainer = el)}>
-                        {inputs.map(({ id, x, y, width }) => (
-                           <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} id={id} key={id}>
-                              <AddedInput readOnly width={width} selected={id === selectedInputId} />
+                        {inputs.map(({ nonce, x, y, width }) => (
+                           <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} nonce={nonce} key={nonce}>
+                              <AddedInput readOnly width={width} selected={nonce === selectedInputNonce} />
                            </DraggableAdded>
                         ))}
                         <Sheet ref={el => (this.sheet = el)} onClick={this.unselectInput} src={bgImg} width={bgWidth} />
@@ -126,7 +147,7 @@ export default class RulesetEditor extends Component {
                   </EmptyPlaceholder>
                )}
             </AppMainWrapper>
-            {selectedInputId ? (
+            {selectedInputNonce ? (
                <Sidebar align="right" title="Input" titleInfo="Ajuste o input selecionado.">
                   <label htmlFor="inputWidth">
                      Largura

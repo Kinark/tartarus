@@ -8,7 +8,7 @@ export default class DraggableAdded extends PureComponent {
       onDrag: PropTypes.func,
       onDragEnd: PropTypes.func,
       onClick: PropTypes.func,
-      id: PropTypes.number.isRequired,
+      nonce: PropTypes.number.isRequired,
       translateX: PropTypes.number.isRequired,
       translateY: PropTypes.number.isRequired,
       children: PropTypes.node.isRequired
@@ -56,14 +56,14 @@ export default class DraggableAdded extends PureComponent {
 
    handleMouseMove = ({ clientX, clientY }) => {
       const { isDragging, originalX, originalY, lastTranslateX, lastTranslateY } = this.state
-      const { id, onDrag } = this.props
+      const { nonce, onDrag } = this.props
 
       if (!isDragging) return
 
       const translateX = clientX - originalX + lastTranslateX
       const translateY = clientY - originalY + lastTranslateY
 
-      onDrag(id, translateX, translateY)
+      onDrag(nonce, translateX, translateY)
 
       this.setState({ willClick: false })
    }
@@ -72,9 +72,9 @@ export default class DraggableAdded extends PureComponent {
       window.removeEventListener('mousemove', this.handleMouseMove)
       window.removeEventListener('mouseup', this.handleMouseUp)
       const { willClick } = this.state
-      const { id, translateX, translateY, onDragEnd, onClick } = this.props
+      const { nonce, translateX, translateY, onDragEnd, onClick } = this.props
 
-      if (willClick) onClick(id)
+      if (willClick) onClick(nonce)
 
       this.setState(
          {
