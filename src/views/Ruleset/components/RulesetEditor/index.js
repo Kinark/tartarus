@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
+import { Prompt } from 'react-router-dom'
 
 import Sidebar from '~/components/Sidebar'
 import AppMainWrapper from '~/components/AppMainWrapper'
 import CustomScroll from '~/components/CustomScroll'
+import EmptyPlaceholder from '~/components/EmptyPlaceholder'
 import { Button } from '~/components/Button'
 import { Input } from '~/components/Input'
 
@@ -15,14 +17,15 @@ export default class RulesetEditor extends Component {
       bgImg: 'https://www.danny.com.br/wp-content/uploads/2015/12/imagem-branca-grande.png',
       bgWidth: '1280',
       inputs: [],
-      selectedInputId: null
+      selectedInputId: null,
+      unsaved: false
    }
 
-   addInput = e => {
+   addInput = (e, positionOnGrabX, positionOnGrabY) => {
       const { inputs } = this.state
       const rect = e.target.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      const x = e.clientX - rect.left - positionOnGrabX
+      const y = e.clientY - rect.top - positionOnGrabY
       const newInput = {
          id: Date.now(),
          x,
@@ -30,19 +33,21 @@ export default class RulesetEditor extends Component {
          width: 250,
          height: 40
       }
-      this.setState({ inputs: [...inputs, newInput] })
+      this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
    moveInput = (id, translateX, translateY) => {
       const { inputs } = this.state
       const copyInputs = [...inputs]
       const selectedInputIndex = copyInputs.findIndex(input => input.id === id)
-      const containerHeight = this.sheetFrame.scrollHeight
-      const containerWidth = this.sheetFrame.scrollWidth
+
+      const sheetHeight = this.sheetContainer.scrollHeight
+      const sheetWidth = this.sheetContainer.scrollWidth
       const inputHeight = copyInputs[selectedInputIndex].height + 10
       const inputWidth = copyInputs[selectedInputIndex].width
-      copyInputs[selectedInputIndex].x = translateX < 0 ? 0 : translateX + inputWidth > containerWidth ? containerWidth - inputWidth : translateX
-      copyInputs[selectedInputIndex].y = translateY < 0 ? 0 : translateY + inputHeight > containerHeight ? containerHeight - inputHeight : translateY
+
+      copyInputs[selectedInputIndex].x = translateX < 0 ? 0 : translateX + inputWidth > sheetWidth ? sheetWidth - inputWidth : translateX
+      copyInputs[selectedInputIndex].y = translateY < 0 ? 0 : translateY + inputHeight > sheetHeight ? sheetHeight - inputHeight : translateY
       this.setState({ inputs: copyInputs })
    }
 
@@ -66,67 +71,71 @@ export default class RulesetEditor extends Component {
       this.setState({ selectedInputId: null, inputs: copyInputs })
    }
 
-   clearInputs = () => this.setState({ inputs: [] })
+   save = () => this.setState({ unsaved: false })
+
+   clearInputs = () => this.setState({ selectedInputId: null, inputs: [] })
 
    inputHandler = e => this.setState({ [e.target.name]: e.target.value })
 
    render() {
-      const { bgImg, bgWidth, inputs, selectedInputId } = this.state
+      const { bgImg, bgWidth, inputs, selectedInputId, unsaved } = this.state
       const selectedInputInfo = inputs.find(input => input.id === selectedInputId)
       return (
          <React.Fragment>
+            <Prompt when={unsaved} message="Tem certeza que deseja sair sem salvar?" />
             <Sidebar align="left" title="Campos" titleInfo="Arraste e solte para adicionar.">
                <Draggable onDragEnd={this.addInput}>
-                  <Input readOnly placeholder="Input normal" style={{ pointerEvents: 'none' }} />
+                  <AddedInput readOnly placeholder="Input normal" />
                </Draggable>
-               <button type="button" onClick={this.clearInputs}>
-                  Limpar inputs
-               </button>
             </Sidebar>
             <AppMainWrapper>
-               <SheetFrame>
-                  {inputs.map(({ id, x, y, width }) => (
-                     <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} id={id} key={id}>
-                        <AddedInput readOnly width={width} selected={id === selectedInputId} />
-                     </DraggableAdded>
-                  ))}
-                  <Sheet onClick={this.unselectInput} ref={el => (this.sheetFrame = el)} src={bgImg} width={bgWidth} />
-               </SheetFrame>
+               {bgImg ? (
+                  <SheetFrame>
+                     <SheetContainer ref={el => (this.sheetContainer = el)}>
+                        {inputs.map(({ id, x, y, width }) => (
+                           <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} id={id} key={id}>
+                              <AddedInput readOnly width={width} selected={id === selectedInputId} />
+                           </DraggableAdded>
+                        ))}
+                        <Sheet t onClick={this.unselectInput} src={bgImg} width={bgWidth} />
+                     </SheetContainer>
+                  </SheetFrame>
+               ) : (
+                  <EmptyPlaceholder>
+                     Nenhum fundo
+                     <br />
+                     ainda definido
+                  </EmptyPlaceholder>
+               )}
             </AppMainWrapper>
             {selectedInputId ? (
                <Sidebar align="right" title="Input" titleInfo="Ajuste o input selecionado.">
                   <label htmlFor="inputWidth">
                      Largura
-                     <Input
-                        id="inputWidth"
-                        type="number"
-                        value={selectedInputInfo.width}
-                        name="width"
-                        onChange={this.editInput}
-                        placeholder="Largura do input"
-                     />
+                     <Input id="inputWidth" type="number" value={selectedInputInfo.width} name="width" onChange={this.editInput} placeholder="Largura do input" />
                   </label>
                   <label htmlFor="inputX">
                      Posição horizontal
-                     <Input
-                        id="inputX"
-                        type="number"
-                        value={selectedInputInfo.x}
-                        name="x"
-                        onChange={this.editInput}
-                        placeholder="Posição horizontal do input"
-                     />
+                     <Input id="inputX" type="number" value={selectedInputInfo.x} name="x" onChange={this.editInput} placeholder="Posição horizontal do input" />
                   </label>
                   <label htmlFor="inputY">
                      Posição vertical
                      <Input id="inputY" type="number" value={selectedInputInfo.y} name="y" onChange={this.editInput} placeholder="Posição vertical do input" />
                   </label>
-                  <Button onClick={this.deleteInput}>Deletar input</Button>
+                  <Button onClick={this.deleteInput}>Excluir input</Button>
                </Sidebar>
             ) : (
                <Sidebar align="right" title="Sistema" titleInfo="Ajustes globais do seu sistema.">
-                  <Input value={bgImg} onChange={this.inputHandler} name="bgImg" placeholder="URL da imagem de fundo" />
-                  <Input value={bgWidth} type="number" onChange={this.inputHandler} name="bgWidth" placeholder="Largura da imagem de fundo" />
+                  <label htmlFor="inputY">
+                     URL da imagem de fundo
+                     <Input id="bg" value={bgImg} onChange={this.inputHandler} name="bgImg" placeholder="URL da imagem de fundo" />
+                  </label>
+                  <label htmlFor="inputY">
+                     Largura da imagem de fundo
+                     <Input id="bgWidth" value={bgWidth} type="number" onChange={this.inputHandler} name="bgWidth" placeholder="Largura da imagem de fundo" />
+                  </label>
+                  <Button onClick={this.clearInputs}>Limpar inputs</Button>
+                  <Button onClick={this.save}>Salvar</Button>
                </Sidebar>
             )}
          </React.Fragment>
@@ -135,19 +144,24 @@ export default class RulesetEditor extends Component {
 }
 
 const SheetFrame = styled(CustomScroll)`
-   position: relative;
+   text-align: center;
 `
 
 export const AddedInput = styled(Input)`
    pointer-events: none;
    user-drag: none;
    user-select: none;
-   width: ${({ width }) => width}px;
+   width: ${({ width }) => width || 250}px;
    ${({ selected }) =>
       selected &&
       css`
          border-width: 2px;
       `}
+`
+
+const SheetContainer = styled.div`
+   position: relative;
+   display: inline-block;
 `
 
 const Sheet = styled.img`

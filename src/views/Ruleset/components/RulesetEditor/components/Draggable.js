@@ -34,12 +34,16 @@ export default class Draggable extends PureComponent {
       window.removeEventListener('mouseup', this.handleMouseUp)
    }
 
-   handleMouseDown = ({ clientX, clientY }) => {
+   handleMouseDown = ({ clientX, clientY, target }) => {
       window.addEventListener('mousemove', this.handleMouseMove)
       window.addEventListener('mouseup', this.handleMouseUp)
       const { onDragStart } = this.props
 
       if (onDragStart) onDragStart()
+
+      const elementRect = target.getBoundingClientRect();
+      this.positionOnGrabX = clientX - elementRect.left
+      this.positionOnGrabY = clientY - elementRect.top
 
       this.setState({
          originalX: clientX,
@@ -85,7 +89,7 @@ export default class Draggable extends PureComponent {
             isBeingDragged: false
          },
          () => {
-            if (onDragEnd) onDragEnd(e)
+            if (onDragEnd) onDragEnd(e, this.positionOnGrabX, this.positionOnGrabY)
          }
       )
    }
