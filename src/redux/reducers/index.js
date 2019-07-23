@@ -11,6 +11,7 @@ import myWorlds from './myWorlds'
 import whereILive from './whereILive'
 import toastNotifications from './toastNotifications'
 import activeRuleset from './activeRuleset'
+import myRulesets from './myRulesets'
 
 const appReducer = combineReducers({
    myWorlds,
@@ -20,7 +21,8 @@ const appReducer = combineReducers({
    auth,
    app,
    toastNotifications,
-   activeRuleset
+   activeRuleset,
+   myRulesets
 })
 
 const rootReducer = (state, action) => {

@@ -28,11 +28,11 @@ const initialStore = {
       queue: [],
       active: ''
    },
-   activeRuleset: {
-      id: '',
-      name: '',
-      bgImg: '',
-      inputs: []
+   myRulesets: {
+      loading: false,
+      error: false,
+      done: false,
+      content: []
    },
    app: {
       newWorldModalOpen: false,
