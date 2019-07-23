@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { LogoOutline } from '~/components/Logo'
 import SectionTitle from '~/components/SectionTitle'
 
-export default class Loading extends PureComponent {
+export default class EmptyPlaceholder extends PureComponent {
    static propTypes = {
       children: PropTypes.string.isRequired
    }
