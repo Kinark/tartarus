@@ -63,7 +63,9 @@ module.exports = {
       'no-return-assign': 'off',
       'react/no-array-index-key': 'off',
       'operator-linebreak': 'off',
-      'no-nested-ternary': 'off'
+      'no-nested-ternary': 'off',
+      'jsx-a11y/label-has-associated-control': 'off',
+      'jsx-a11y/label-has-for': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
