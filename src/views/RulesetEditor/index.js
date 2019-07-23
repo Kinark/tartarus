@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { Prompt } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import getRuleset from '~/services/getRuleset'
 import editRuleset from '~/services/editRuleset'
+import { fetchMyRulesets } from '~/redux/actions/myRulesets'
 
 import Sidebar from '~/components/Sidebar'
 import AppMainWrapper from '~/components/AppMainWrapper'
@@ -16,8 +18,9 @@ import { Input } from '~/components/Input'
 import Draggable from './components/Draggable'
 import DraggableAdded from './components/DraggableAdded'
 
-export default class RulesetEditor extends Component {
+class RulesetEditor extends Component {
    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
       match: PropTypes.shape({
          params: PropTypes.shape({
             rulesetId: PropTypes.string.isRequired
@@ -103,10 +106,11 @@ export default class RulesetEditor extends Component {
    }
 
    save = async () => {
-      const { match } = this.props
+      const { match, dispatch } = this.props
       const { name, bgImg, bgWidth, inputs } = this.state
       try {
          await editRuleset(match.params.rulesetId, { name, bgImg, bgWidth, inputs })
+         dispatch(fetchMyRulesets())
          this.setState({ unsaved: false })
       } catch (error) {
          console.log(error)
@@ -188,6 +192,7 @@ export default class RulesetEditor extends Component {
       )
    }
 }
+export default connect()(RulesetEditor)
 
 const SheetScrollFrame = styled(CustomScroll)`
    text-align: center;
