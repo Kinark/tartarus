@@ -2,18 +2,23 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
-export default class Draggable extends PureComponent {
+export default class DraggableAdded extends PureComponent {
    static propTypes = {
       onDragStart: PropTypes.func,
       onDrag: PropTypes.func,
       onDragEnd: PropTypes.func,
+      onClick: PropTypes.func,
+      id: PropTypes.number.isRequired,
+      translateX: PropTypes.number.isRequired,
+      translateY: PropTypes.number.isRequired,
       children: PropTypes.node.isRequired
    }
 
    static defaultProps = {
       onDragStart: undefined,
       onDrag: undefined,
-      onDragEnd: undefined
+      onDragEnd: undefined,
+      onClick: undefined
    }
 
    state = {
@@ -21,9 +26,6 @@ export default class Draggable extends PureComponent {
 
       originalX: 0,
       originalY: 0,
-
-      translateX: 0,
-      translateY: 0,
 
       lastTranslateX: 0,
       lastTranslateY: 0
@@ -34,55 +36,53 @@ export default class Draggable extends PureComponent {
       window.removeEventListener('mouseup', this.handleMouseUp)
    }
 
-   handleMouseDown = ({ clientX, clientY }) => {
+   handleMouseDown = e => {
+      e.preventDefault()
       window.addEventListener('mousemove', this.handleMouseMove)
       window.addEventListener('mouseup', this.handleMouseUp)
-      const { onDragStart } = this.props
+      const { onDragStart, translateX, translateY } = this.props
 
       if (onDragStart) onDragStart()
 
       this.setState({
-         originalX: clientX,
-         originalY: clientY,
-         isDragging: true
+         originalX: e.clientX,
+         originalY: e.clientY,
+         lastTranslateX: translateX,
+         lastTranslateY: translateY,
+         isDragging: true,
+         willClick: true
       })
    }
 
    handleMouseMove = ({ clientX, clientY }) => {
-      const { isDragging } = this.state
-      const { onDrag } = this.props
+      const { isDragging, originalX, originalY, lastTranslateX, lastTranslateY } = this.state
+      const { id, onDrag } = this.props
 
       if (!isDragging) return
 
-      this.setState(
-         prevState => ({
-            translateX: clientX - prevState.originalX + prevState.lastTranslateX,
-            translateY: clientY - prevState.originalY + prevState.lastTranslateY,
-            isBeingDragged: true
-         }),
-         () => {
-            const { translateX, translateY } = this.state
-            if (onDrag) onDrag({ translateX, translateY })
-         }
-      )
+      const translateX = clientX - originalX + lastTranslateX
+      const translateY = clientY - originalY + lastTranslateY
+
+      onDrag(id, translateX, translateY)
+
+      this.setState({ willClick: false })
    }
 
    handleMouseUp = e => {
       window.removeEventListener('mousemove', this.handleMouseMove)
       window.removeEventListener('mouseup', this.handleMouseUp)
-      const { onDragEnd } = this.props
+      const { willClick } = this.state
+      const { id, translateX, translateY, onDragEnd, onClick } = this.props
+
+      if (willClick) onClick(id)
 
       this.setState(
          {
-            translateX: 0,
-            translateY: 0,
             originalX: 0,
             originalY: 0,
-            lastTranslateX: 0,
-            lastTranslateY: 0,
-
-            isDragging: false,
-            isBeingDragged: false
+            lastTranslateX: translateX,
+            lastTranslateY: translateY,
+            isDragging: false
          },
          () => {
             if (onDragEnd) onDragEnd(e)
@@ -91,8 +91,8 @@ export default class Draggable extends PureComponent {
    }
 
    render() {
-      const { children } = this.props
-      const { translateX, translateY, isDragging, isBeingDragged } = this.state
+      const { children, translateX, translateY } = this.props
+      const { isDragging, isBeingDragged } = this.state
 
       return (
          <Container onMouseDown={this.handleMouseDown} x={translateX} y={translateY} isDragging={isDragging} isBeingDragged={isBeingDragged}>
@@ -108,18 +108,12 @@ export const Container = styled.div.attrs(({ x, y }) => ({
    cursor: grab;
    user-drag: none;
    user-select: none;
+   position: absolute;
    ${({ isDragging }) =>
       isDragging &&
       css`
          opacity: 0.8;
          cursor: grabbing;
-         position: fixed;
          z-index: 999999;
-      `};
-
-   ${({ isBeingDragged }) =>
-      isBeingDragged &&
-      css`
-         pointer-events: none;
       `};
 `
