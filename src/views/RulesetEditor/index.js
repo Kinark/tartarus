@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import { Prompt } from 'react-router-dom'
 
+import getRuleset from '~/services/getRuleset'
+
 import Sidebar from '~/components/Sidebar'
 import AppMainWrapper from '~/components/AppMainWrapper'
 import CustomScroll from '~/components/CustomScroll'
@@ -18,7 +20,16 @@ export default class RulesetEditor extends Component {
       bgWidth: '1280',
       inputs: [],
       selectedInputId: null,
-      unsaved: false
+      unsaved: false,
+      loading: true
+   }
+
+   componentDidMount() {
+      this.fetchAndSet()
+   }
+
+   fetchAndSet = async () => {
+      // const fetchedRuleset = await getRuleset()
    }
 
    addInput = (e, positionOnGrabX, positionOnGrabY) => {
@@ -142,7 +153,9 @@ export default class RulesetEditor extends Component {
                      <Input id="bgWidth" value={bgWidth} type="number" onChange={this.inputHandler} name="bgWidth" placeholder="Largura da imagem de fundo" />
                   </label>
                   <Button onClick={this.clearInputs}>Limpar inputs</Button>
-                  <Button disabled={!unsaved} onClick={this.save}>{unsaved ? 'Salvar' : 'Salvo'}</Button>
+                  <Button disabled={!unsaved} onClick={this.save}>
+                     {unsaved ? 'Salvar' : 'Salvo'}
+                  </Button>
                </Sidebar>
             )}
          </React.Fragment>
