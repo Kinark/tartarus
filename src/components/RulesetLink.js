@@ -14,7 +14,7 @@ class WorldLink extends PureComponent {
       data: PropTypes.shape({
          _id: PropTypes.string.isRequired,
          name: PropTypes.string.isRequired,
-         bg: PropTypes.string,
+         bg: PropTypes.string
       }).isRequired,
       className: PropTypes.string
    }
@@ -26,7 +26,7 @@ class WorldLink extends PureComponent {
    render() {
       const { data, className } = this.props
       return (
-         <Ruleset to={`/ruleset/${data._id}`} style={{ backgroundImage: `url(${data.bg})` }} className={className}>
+         <Ruleset to={`/ruleset/${data._id}`} style={{ backgroundImage: `url(${data.bgImg})` }} className={className}>
             <RulesetTitle>{data.name}</RulesetTitle>
          </Ruleset>
       )
@@ -37,35 +37,45 @@ export default connect(mapStateToProps)(WorldLink)
 
 const Ruleset = styled(Link)`
    max-width: 445px;
+   height: 200px;
+   text-align: center;
+   background-size: cover;
    border-radius: 8px;
    border: ${({ theme, covered }) => (covered ? 'none' : `solid 1px ${theme.TITLE}`)};
-   color: ${({ theme, covered }) => (covered ? colors.dark.TITLE : theme.TITLE)};
-   height: 75px;
+   /* color: ${({ theme, covered }) => (covered ? colors.dark.TITLE : theme.TITLE)}; */
+   color: white;
    display: flex;
-   justify-content: space-between;
+   justify-content: center;
    flex-direction: column;
    margin: 0 0 12px 0;
-   padding: 8px 10px;
+   /* padding: 8px 10px; */
    opacity: 1;
    transition: opacity 300ms;
    font-size: 14px;
    line-height: normal;
+   position: relative;
+   overflow: hidden;
+   &::before {
+      content: "";
+      position: absolute;
+      background-color: rgba(116, 80, 67,0.75);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+   }
    &:hover {
       opacity: 0.6;
    }
 `
 Ruleset.defaultProps = { theme: colors.light }
 
-const OverflowText = styled.div`
-   white-space: nowrap;
-   text-overflow: ellipsis;
-   overflow: hidden;
-`
-
-const RulesetTitle = styled(OverflowText)`
+const RulesetTitle = styled.div`
    font-family: 'upgrade', sans-serif;
    font-weight: 500;
-   font-size: 17px;
+   font-size: 22px;
+   position: relative;
+   z-index: 1;
 `
 
 // const FirstLine = styled.div`
