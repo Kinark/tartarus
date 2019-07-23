@@ -55,7 +55,7 @@ export default class RulesetEditor extends Component {
 
       copyInputs[selectedInputIndex].x = translateX < 0 ? 0 : translateX + inputWidth > sheetWidth ? sheetWidth - inputWidth : translateX
       copyInputs[selectedInputIndex].y = translateY < 0 ? 0 : translateY + inputHeight > sheetHeight ? sheetHeight - inputHeight : translateY
-      this.setState({ inputs: copyInputs })
+      this.setState({ inputs: copyInputs, unsaved: true })
    }
 
    selectInput = id => this.setState({ selectedInputId: id })
@@ -67,7 +67,7 @@ export default class RulesetEditor extends Component {
       const copyInputs = [...inputs]
       const selectedInputIndex = copyInputs.findIndex(input => input.id === selectedInputId)
       copyInputs[selectedInputIndex][e.target.name] = +e.target.value
-      this.setState({ inputs: copyInputs })
+      this.setState({ inputs: copyInputs, unsaved: true })
    }
 
    deleteInput = () => {
@@ -75,12 +75,12 @@ export default class RulesetEditor extends Component {
       const copyInputs = [...inputs]
       const selectedInputIndex = copyInputs.findIndex(input => input.id === selectedInputId)
       copyInputs.splice(selectedInputIndex, 1)
-      this.setState({ selectedInputId: null, inputs: copyInputs })
+      this.setState({ selectedInputId: null, inputs: copyInputs, unsaved: true })
    }
 
    save = () => this.setState({ unsaved: false })
 
-   clearInputs = () => this.setState({ selectedInputId: null, inputs: [] })
+   clearInputs = () => this.setState({ selectedInputId: null, inputs: [], unsaved: true })
 
    inputHandler = e => this.setState({ [e.target.name]: e.target.value })
 
@@ -142,7 +142,7 @@ export default class RulesetEditor extends Component {
                      <Input id="bgWidth" value={bgWidth} type="number" onChange={this.inputHandler} name="bgWidth" placeholder="Largura da imagem de fundo" />
                   </label>
                   <Button onClick={this.clearInputs}>Limpar inputs</Button>
-                  <Button onClick={this.save}>Salvar</Button>
+                  <Button disabled={!unsaved} onClick={this.save}>{unsaved ? 'Salvar' : 'Salvo'}</Button>
                </Sidebar>
             )}
          </React.Fragment>
