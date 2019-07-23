@@ -30,12 +30,12 @@ class RulesetEditor extends Component {
 
    state = {
       name: '',
-      bgImg: '',
-      bgWidth: '',
+      pages: [],
       inputs: [],
       selectedInputNonce: null,
-      unsaved: false,
-      loading: true
+      selectedPageNonce: null,
+      unsaved: false
+      // loading: true
    }
 
    componentDidMount() {
@@ -45,11 +45,11 @@ class RulesetEditor extends Component {
    fetchAndSet = async () => {
       const { match } = this.props
       const { data } = await getRuleset(match.params.rulesetId)
-      this.setState({ name: data.name, bgImg: data.bgImg, bgWidth: data.bgWidth, inputs: data.inputs })
+      this.setState({ name: data.name, pages: data.pages, inputs: data.inputs })
    }
 
    addInput = (e, positionOnGrabX, positionOnGrabY) => {
-      const { inputs } = this.state
+      const { inputs, selectedPageNonce } = this.state
       if (!e.target.isEqualNode(this.sheet)) return
 
       const rect = e.target.getBoundingClientRect()
@@ -66,7 +66,7 @@ class RulesetEditor extends Component {
       const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
       const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
 
-      const newInput = { nonce: Date.now(), x, y, width: 250, height: 40 }
+      const newInput = { nonce: Date.now(), x, y, width: 250, height: 40, pageNonce: selectedPageNonce }
       this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
@@ -107,9 +107,9 @@ class RulesetEditor extends Component {
 
    save = async () => {
       const { match, dispatch } = this.props
-      const { name, bgImg, bgWidth, inputs } = this.state
+      const { name, pages, inputs } = this.state
       try {
-         await editRuleset(match.params.rulesetId, { name, bgImg, bgWidth, inputs })
+         await editRuleset(match.params.rulesetId, { name, pages, inputs })
          dispatch(fetchMyRulesets())
          this.setState({ unsaved: false })
       } catch (error) {
@@ -121,9 +121,41 @@ class RulesetEditor extends Component {
 
    inputHandler = e => this.setState({ [e.target.name]: e.target.value, unsaved: true })
 
+   editPage = e => {
+      const { pages, selectedPageNonce } = this.state
+      const copyPages = [...pages]
+      const selectedPageIndex = copyPages.findIndex(page => page.nonce === selectedPageNonce)
+      copyPages[selectedPageIndex][e.target.name] = e.target.value
+      this.setState({ pages: copyPages, unsaved: true })
+   }
+
+   deletePage = () => {
+      const { pages, selectedPageNonce } = this.state
+      const copyPages = [...pages]
+      const selectedPageIndex = copyPages.findIndex(page => page.nonce === selectedPageNonce)
+      copyPages.splice(selectedPageIndex, 1)
+      this.setState({ selectedPageNonce: null, pages: copyPages, unsaved: true })
+   }
+
+   addPage = () => {
+      const { pages } = this.state
+      const copyPages = [...pages]
+      copyPages.push({
+         nonce: Date.now(),
+         order: copyPages.length + 1,
+         bgImg: '',
+         bgWidth: 720
+      })
+      this.setState({ pages: copyPages, unsaved: true })
+   }
+
+   switchToPage = nonce => this.setState({ selectedPageNonce: nonce })
+
    render() {
-      const { name, bgImg, bgWidth, inputs, selectedInputNonce, unsaved } = this.state
+      const { name, inputs, pages, selectedInputNonce, selectedPageNonce, unsaved } = this.state
       const selectedInputInfo = inputs.find(input => input.nonce === selectedInputNonce)
+      const selectedPageInputs = inputs.filter(input => input.pageNonce === selectedPageNonce)
+      const selectedPage = pages.find(page => page.nonce === selectedPageNonce)
       return (
          <React.Fragment>
             <Prompt when={unsaved} message="Tem certeza que deseja sair sem salvar?" />
@@ -133,15 +165,15 @@ class RulesetEditor extends Component {
                </Draggable>
             </Sidebar>
             <AppMainWrapper>
-               {bgImg ? (
+               {selectedPage && selectedPage.bgImg ? (
                   <SheetScrollFrame>
                      <SheetContainer ref={el => (this.sheetContainer = el)}>
-                        {inputs.map(({ nonce, x, y, width }) => (
+                        {selectedPageInputs.map(({ nonce, x, y, width }) => (
                            <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} nonce={nonce} key={nonce}>
                               <AddedInput readOnly width={width} selected={nonce === selectedInputNonce} />
                            </DraggableAdded>
                         ))}
-                        <Sheet ref={el => (this.sheet = el)} onClick={this.unselectInput} src={bgImg} width={bgWidth} />
+                        <Sheet ref={el => (this.sheet = el)} onClick={this.unselectInput} src={selectedPage.bgImg} width={selectedPage.bgWidth} />
                      </SheetContainer>
                   </SheetScrollFrame>
                ) : (
@@ -174,15 +206,26 @@ class RulesetEditor extends Component {
                      Nome do sistema
                      <Input id="name" value={name} onChange={this.inputHandler} name="name" placeholder="Nome do sistema" />
                   </label>
-                  <label htmlFor="inputY">
-                     URL da imagem de fundo
-                     <Input id="bg" value={bgImg} onChange={this.inputHandler} name="bgImg" placeholder="URL da imagem de fundo" />
-                  </label>
-                  <label htmlFor="inputY">
-                     Largura da imagem de fundo
-                     <Input id="bgWidth" value={bgWidth} type="number" onChange={this.inputHandler} name="bgWidth" placeholder="Largura da imagem de fundo" />
-                  </label>
-                  <Button onClick={this.clearInputs}>Limpar inputs</Button>
+                  {!!selectedPage && (
+                     <React.Fragment>
+                        <label htmlFor="inputY">
+                           URL da imagem de fundo da página
+                           <Input id="bg" value={selectedPage.bgImg} onChange={this.editPage} name="bgImg" placeholder="URL da imagem de fundo" />
+                        </label>
+                        <label htmlFor="inputY">
+                           Largura da imagem de fundo da página
+                           <Input id="bgWidth" value={selectedPage.bgWidth} type="number" onChange={this.editPage} name="bgWidth" placeholder="Largura da imagem de fundo" />
+                        </label>
+                        <Button onClick={this.deletePage}>Excluir página</Button>
+                        <Button onClick={this.clearInputs}>Limpar inputs</Button>
+                     </React.Fragment>
+                  )}
+                  {pages.map((page, i) => (
+                     <Button key={page.nonce} disabled={page.nonce === selectedPageNonce} onClick={() => this.switchToPage(page.nonce)}>
+                        Página {i + 1}
+                     </Button>
+                  ))}
+                  <Button onClick={this.addPage}>Adicionar página</Button>
                   <Button disabled={!unsaved} onClick={this.save}>
                      {unsaved ? 'Salvar' : 'Salvo'}
                   </Button>
