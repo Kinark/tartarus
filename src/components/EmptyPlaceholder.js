@@ -7,7 +7,7 @@ import SectionTitle from '~/components/SectionTitle'
 
 export default class EmptyPlaceholder extends PureComponent {
    static propTypes = {
-      children: PropTypes.string.isRequired
+      children: PropTypes.node.isRequired,
    }
 
    render() {
