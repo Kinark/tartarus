@@ -16,7 +16,7 @@ import BottomBar from '~/components/BottomBar'
 import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
 import World from '~/views/World'
-import Ruleset from '~/views/Ruleset'
+import Rulesets from '~/views/Rulesets'
 import RulesetEditor from '~/views/RulesetEditor'
 import Loading from '~/views/Loading'
 
@@ -53,12 +53,12 @@ class AppRoutes extends PureComponent {
             <NewWorldModal />
             <Route path="/" component={Navbar} />
             <AppContentWrapper>
-               <Route path="(/|/worlds)" component={FriendsList} />
+               <Route path="(/|/worlds|/ruleset)" component={FriendsList} exact />
                <Switch>
                   <Route path="/" component={Welcome} exact />
                   <Route path="/worlds" component={Worlds} />
                   <Route path="/world/:worldId" component={World} />
-                  <Route path="/ruleset" component={Ruleset} />
+                  <Route path="/ruleset" component={Rulesets} exact />
                   <Route path="/ruleset/:rulesetId" component={RulesetEditor} />
                </Switch>
             </AppContentWrapper>
