@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Sidebar from '~/components/Sidebar'
 import AppMainWrapper from '~/components/AppMainWrapper'
 import CustomScroll from '~/components/CustomScroll'
-import Draggable from '~/components/Draggable'
-import DraggableAdded from '~/components/DraggableAdded'
 import { Button } from '~/components/Button'
 import { Input } from '~/components/Input'
+
+import Draggable from './components/Draggable'
+import DraggableAdded from './components/DraggableAdded'
 
 export default class RulesetEditor extends Component {
    state = {
@@ -86,7 +87,7 @@ export default class RulesetEditor extends Component {
                <SheetFrame>
                   {inputs.map(({ id, x, y, width }) => (
                      <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} id={id} key={id}>
-                        <AddedInput readOnly width={width} />
+                        <AddedInput readOnly width={width} selected={id === selectedInputId} />
                      </DraggableAdded>
                   ))}
                   <Sheet onClick={this.unselectInput} ref={el => (this.sheetFrame = el)} src={bgImg} width={bgWidth} />
@@ -137,13 +138,16 @@ const SheetFrame = styled(CustomScroll)`
    position: relative;
 `
 
-export const AddedInput = styled(Input).attrs(({ x, y }) => ({
-   style: { transform: `translate(${x}px, ${y}px)` }
-}))`
+export const AddedInput = styled(Input)`
    pointer-events: none;
    user-drag: none;
    user-select: none;
    width: ${({ width }) => width}px;
+   ${({ selected }) =>
+      selected &&
+      css`
+         border-width: 2px;
+      `}
 `
 
 const Sheet = styled.img`
