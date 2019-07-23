@@ -1,3 +1,3 @@
 import api from '~/instances/api'
 
-export default worldId => api.get(`ruleset/${worldId}`)
+export default rulesetId => api.get(`ruleset/${rulesetId}`)
