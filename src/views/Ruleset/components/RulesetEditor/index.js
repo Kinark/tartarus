@@ -23,16 +23,23 @@ export default class RulesetEditor extends Component {
 
    addInput = (e, positionOnGrabX, positionOnGrabY) => {
       const { inputs } = this.state
+      if (!e.target.isEqualNode(this.sheet)) return
+
       const rect = e.target.getBoundingClientRect()
-      const x = e.clientX - rect.left - positionOnGrabX
-      const y = e.clientY - rect.top - positionOnGrabY
-      const newInput = {
-         id: Date.now(),
-         x,
-         y,
-         width: 250,
-         height: 40
-      }
+      const newInputWidth = 250
+      const newInputHeight = 40
+      const releaseX = e.clientX - rect.left - positionOnGrabX
+      const releaseY = e.clientY - rect.top - positionOnGrabY
+
+      const sheetHeight = this.sheetContainer.scrollHeight
+      const sheetWidth = this.sheetContainer.scrollWidth
+      const inputWidth = newInputWidth
+      const inputHeight = newInputHeight + 10
+
+      const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
+      const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
+
+      const newInput = { id: Date.now(), x, y, width: 250, height: 40 }
       this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
@@ -90,16 +97,16 @@ export default class RulesetEditor extends Component {
             </Sidebar>
             <AppMainWrapper>
                {bgImg ? (
-                  <SheetFrame>
+                  <SheetScrollFrame>
                      <SheetContainer ref={el => (this.sheetContainer = el)}>
                         {inputs.map(({ id, x, y, width }) => (
                            <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} id={id} key={id}>
                               <AddedInput readOnly width={width} selected={id === selectedInputId} />
                            </DraggableAdded>
                         ))}
-                        <Sheet t onClick={this.unselectInput} src={bgImg} width={bgWidth} />
+                        <Sheet ref={el => (this.sheet = el)} onClick={this.unselectInput} src={bgImg} width={bgWidth} />
                      </SheetContainer>
-                  </SheetFrame>
+                  </SheetScrollFrame>
                ) : (
                   <EmptyPlaceholder>
                      Nenhum fundo
@@ -143,7 +150,7 @@ export default class RulesetEditor extends Component {
    }
 }
 
-const SheetFrame = styled(CustomScroll)`
+const SheetScrollFrame = styled(CustomScroll)`
    text-align: center;
 `
 
