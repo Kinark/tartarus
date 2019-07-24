@@ -13,20 +13,25 @@ export default class Sidebar extends PureComponent {
       children: PropTypes.node.isRequired,
       align: PropTypes.oneOf(['left', 'right']).isRequired,
       title: PropTypes.string.isRequired,
-      titleInfo: PropTypes.string.isRequired
+      titleInfo: PropTypes.string.isRequired,
+      unscrolled: PropTypes.bool
+   }
+
+   static defaultProps = {
+      unscrolled: false
    }
 
    render() {
-      const { children, title, titleInfo, align } = this.props
+      const { children, title, titleInfo, align, unscrolled } = this.props
       return (
          <SideNav>
-            <SectionContent>
+            <StyledSectionContent>
                <TitleSection className={`${align}-align`}>
                   <SectionTitle>{title}</SectionTitle>
                   <TitleInfo>{titleInfo}</TitleInfo>
                </TitleSection>
-               <CustomScroll>{children}</CustomScroll>
-            </SectionContent>
+               {unscrolled ? children : <CustomScroll>{children}</CustomScroll>}
+            </StyledSectionContent>
          </SideNav>
       )
    }
@@ -38,6 +43,11 @@ const SideNav = styled.aside`
    background-color: ${({ theme }) => theme.SECTION_1};
 `
 SideNav.defaultProps = { theme: colors.light }
+
+const StyledSectionContent = styled(SectionContent)`
+   display: flex;
+   flex-direction: column;
+`
 
 const TitleSection = styled.div`
    margin-bottom: 20px;
