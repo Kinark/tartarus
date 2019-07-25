@@ -11,6 +11,11 @@ body {
    outline: none;
 }
 
+* {
+   -webkit-user-drag: none;
+   user-select: none;
+}
+
 #root {
    height: 100vh;
 }
