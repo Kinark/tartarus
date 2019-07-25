@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import colors from '~/constants/colors'
 // import { toggleLoadingRoomModal } from '~/redux/actions/app'
 
-class WorldLink extends PureComponent {
+class RulesetLink extends PureComponent {
    static propTypes = {
       // theme: PropTypes.string.isRequired,
       data: PropTypes.shape({
@@ -34,7 +34,7 @@ class WorldLink extends PureComponent {
    }
 }
 const mapStateToProps = state => ({ theme: state.settings.theme })
-export default connect(mapStateToProps)(WorldLink)
+export default connect(mapStateToProps)(RulesetLink)
 
 const Ruleset = styled(Link)`
    max-width: 445px;
