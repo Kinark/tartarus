@@ -25,7 +25,6 @@ class WorldLink extends PureComponent {
 
    render() {
       const { data, className } = this.props
-      console.log(data)
       const bgImg = data.pages.length ? data.pages[0].bgImg : ''
       return (
          <Ruleset to={`/ruleset/${data._id}`} style={{ backgroundImage: `url(${bgImg})` }} className={className}>
