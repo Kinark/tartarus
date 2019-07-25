@@ -16,7 +16,7 @@ import Sidebar from '~/components/Sidebar'
 import AppMainWrapper from '~/components/AppMainWrapper'
 import CustomScroll from '~/components/CustomScroll'
 import EmptyPlaceholder from '~/components/EmptyPlaceholder'
-import { Button } from '~/components/Button'
+import { Button, FileInput } from '~/components/Button'
 import { Input, Textarea } from '~/components/Input'
 
 import Draggable from './components/Draggable'
@@ -189,6 +189,27 @@ class RulesetEditor extends Component {
    // ─── GENERAL METHODS ────────────────────────────────────────────────────────────
    //
 
+   importFile = e => {
+      const reader = new FileReader()
+      reader.onload = readerEvent => {
+         const jsonObj = JSON.parse(readerEvent.target.result)
+         this.setState({ name: jsonObj.name, pages: jsonObj.pages, inputs: jsonObj.inputs, unsaved: true })
+      }
+      reader.readAsText(e.target.files[0])
+   }
+
+   exportAsFile = () => {
+      const { name, pages, inputs } = this.state
+      const exportObj = { name, pages, inputs }
+      const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportObj))}`
+      const downloadAnchorNode = document.createElement('a')
+      downloadAnchorNode.setAttribute('href', dataStr)
+      downloadAnchorNode.setAttribute('download', `${name}.json`)
+      document.body.appendChild(downloadAnchorNode) // required for firefox
+      downloadAnchorNode.click()
+      downloadAnchorNode.remove()
+   }
+
    save = async () => {
       const { match, dispatch } = this.props
       const { name, pages, inputs } = this.state
@@ -292,6 +313,9 @@ class RulesetEditor extends Component {
                   <Button disabled={!unsaved} onClick={this.save}>
                      {unsaved ? 'Salvar' : 'Salvo'}
                   </Button>
+                  <Button onClick={this.exportAsFile}>Exportar modelo</Button>
+                  <FileInput type="file" onChange={this.importFile} id="modelLoad" name="modelLoad" required />
+                  <label htmlFor="modelLoad">Carregar modelo</label>
                   <div className="row xs-bottom no-mrg" style={{ width: '100%' }}>
                      <div className="col xs no-pad weight-bold">
                         <h5>Páginas</h5>
