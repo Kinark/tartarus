@@ -74,7 +74,7 @@ export const sendNewMessage = msgObject => dispatch => {
 }
 
 export const enterRoomAndAddTab = roomId => dispatch => {
-   socket.emit('enter-room', roomId)
+   socket.emit('enter-room', roomId, () => {
    getWorld(roomId)
       .then(({ data }) => dispatch(addWorldTab(data)))
       .catch(() => {
@@ -90,6 +90,7 @@ export const enterRoomAndAddTab = roomId => dispatch => {
          // if (err.request) return dispatch(loginFailure('cannot-connect'))
          // return dispatch(loginFailure('something-really-wrong'))
       })
+   })
 }
 
 export const leaveRoomAndRemoveTab = roomId => dispatch => {
