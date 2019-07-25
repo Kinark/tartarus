@@ -71,6 +71,9 @@ const Avatar = styled.img`
 const ContentColumn = styled.div`
    flex: 1;
    text-align: ${({ owned }) => (owned ? 'right' : 'left')};
+   * {
+      user-select: text !important;
+   }
 `
 
 const Author = styled.div`
