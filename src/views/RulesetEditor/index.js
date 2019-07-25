@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 import { Prompt } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { Menu, Plus, Trash2 } from 'react-feather'
+import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
+import arrayMove from 'array-move'
 
+import colors from '~/constants/colors'
 import getRuleset from '~/services/getRuleset'
 import editRuleset from '~/services/editRuleset'
 import { fetchMyRulesets } from '~/redux/actions/myRulesets'
@@ -25,7 +29,8 @@ class RulesetEditor extends Component {
          params: PropTypes.shape({
             rulesetId: PropTypes.string.isRequired
          }).isRequired
-      }).isRequired
+      }).isRequired,
+      theme: PropTypes.string.isRequired
    }
 
    state = {
@@ -117,7 +122,10 @@ class RulesetEditor extends Component {
       }
    }
 
-   clearInputs = () => this.setState({ selectedInputNonce: null, inputs: [], unsaved: true })
+   clearInputs = () => {
+      const { inputs, selectedPageNonce } = this.state
+      this.setState({ selectedInputNonce: null, inputs: inputs.filter(input => input.pageNonce !== selectedPageNonce), unsaved: true })
+   }
 
    inputHandler = e => this.setState({ [e.target.name]: e.target.value, unsaved: true })
 
@@ -129,12 +137,12 @@ class RulesetEditor extends Component {
       this.setState({ pages: copyPages, unsaved: true })
    }
 
-   deletePage = () => {
+   deletePage = pageNonce => {
       const { pages, selectedPageNonce } = this.state
       const copyPages = [...pages]
-      const selectedPageIndex = copyPages.findIndex(page => page.nonce === selectedPageNonce)
+      const selectedPageIndex = copyPages.findIndex(page => page.nonce === pageNonce)
       copyPages.splice(selectedPageIndex, 1)
-      this.setState({ selectedPageNonce: null, pages: copyPages, unsaved: true })
+      this.setState({ selectedPageNonce: pageNonce === selectedPageNonce ? null : selectedPageNonce, pages: copyPages, unsaved: true })
    }
 
    addPage = () => {
@@ -142,7 +150,6 @@ class RulesetEditor extends Component {
       const copyPages = [...pages]
       copyPages.push({
          nonce: Date.now(),
-         order: copyPages.length + 1,
          bgImg: '',
          bgWidth: 720
       })
@@ -151,8 +158,16 @@ class RulesetEditor extends Component {
 
    switchToPage = nonce => this.setState({ selectedPageNonce: nonce })
 
+   onPageSortEnd = ({ oldIndex, newIndex }) => {
+      this.setState(({ pages }) => ({
+         pages: arrayMove(pages, oldIndex, newIndex),
+         unsaved: true
+      }))
+   }
+
    render() {
       const { name, inputs, pages, selectedInputNonce, selectedPageNonce, unsaved } = this.state
+      const { theme } = this.props
       const selectedInputInfo = inputs.find(input => input.nonce === selectedInputNonce)
       const selectedPageInputs = inputs.filter(input => input.pageNonce === selectedPageNonce)
       const selectedPage = pages.find(page => page.nonce === selectedPageNonce)
@@ -201,7 +216,7 @@ class RulesetEditor extends Component {
                   <Button onClick={this.deleteInput}>Excluir input</Button>
                </Sidebar>
             ) : (
-               <Sidebar align="right" title="Sistema" titleInfo="Ajustes globais do seu sistema.">
+               <Sidebar unscrolled align="right" title="Sistema" titleInfo="Ajustes globais do seu sistema.">
                   <label htmlFor="name">
                      Nome do sistema
                      <Input id="name" value={name} onChange={this.inputHandler} name="name" placeholder="Nome do sistema" />
@@ -216,26 +231,91 @@ class RulesetEditor extends Component {
                            Largura da imagem de fundo da página
                            <Input id="bgWidth" value={selectedPage.bgWidth} type="number" onChange={this.editPage} name="bgWidth" placeholder="Largura da imagem de fundo" />
                         </label>
-                        <Button onClick={this.deletePage}>Excluir página</Button>
-                        <Button onClick={this.clearInputs}>Limpar inputs</Button>
+                        <Button onClick={this.clearInputs}>Limpar inputs da página</Button>
                      </React.Fragment>
                   )}
-                  {pages.map((page, i) => (
-                     <Button key={page.nonce} disabled={page.nonce === selectedPageNonce} onClick={() => this.switchToPage(page.nonce)}>
-                        Página {i + 1}
-                     </Button>
-                  ))}
-                  <Button onClick={this.addPage}>Adicionar página</Button>
                   <Button disabled={!unsaved} onClick={this.save}>
                      {unsaved ? 'Salvar' : 'Salvo'}
                   </Button>
+                  <div className="row xs-bottom no-mrg" style={{ width: '100%' }}>
+                     <div className="col xs no-pad weight-bold">
+                        <h5>Páginas</h5>
+                     </div>
+                     <div className="col xs no-pad right-align">
+                        <StyledPlus onClick={this.addPage} color={colors[theme].TITLE} size={20} />
+                     </div>
+                  </div>
+                  <CustomScroll>
+                     <SortableContainer onSortEnd={this.onPageSortEnd} useDragHandle>
+                        {pages.map((page, i) => (
+                           <SortableItem key={page.nonce} index={i} current={page.nonce === selectedPageNonce} onClick={() => this.switchToPage(page.nonce)}>
+                              <span>Página {i + 1}</span>
+                              <Trash2
+                                 onClick={e => {
+                                    e.stopPropagation()
+                                    this.deletePage(page.nonce)
+                                 }}
+                                 color={colors[theme].TITLE}
+                                 size={18}
+                              />
+                           </SortableItem>
+                        ))}
+                     </SortableContainer>
+                  </CustomScroll>
                </Sidebar>
             )}
          </React.Fragment>
       )
    }
 }
-export default connect()(RulesetEditor)
+export default connect(state => ({ theme: state.settings.theme }))(RulesetEditor)
+
+const DragHandle = sortableHandle(
+   connect(state => ({ theme: state.settings.theme }))(props => (
+      <StyledDragHandler>
+         <Menu color={colors[props.theme].TITLE} size={18} />
+      </StyledDragHandler>
+   ))
+)
+
+const SortableItem = sortableElement(({ onClick, current, children }) => (
+   <PageListItem onClick={onClick} current={current}>
+      <DragHandle />
+      {children}
+   </PageListItem>
+))
+
+const SortableContainer = sortableContainer(({ children }) => <PageListContainer>{children}</PageListContainer>)
+
+const StyledPlus = styled(Plus)`
+   cursor: pointer;
+`
+
+const PageListContainer = styled.ul`
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+`
+
+const PageListItem = styled.li`
+   border: solid ${({ current }) => (current ? '2px' : '1px')} ${({ theme }) => theme.TITLE};
+   border-radius: 8px;
+   margin: 10px 0;
+   padding: 5px 10px;
+   cursor: pointer;
+   list-style-type: none;
+   display: flex;
+   justify-content: space-between;
+`
+PageListItem.defaultProps = { theme: colors.light }
+
+const StyledDragHandler = styled.span`
+   vertical-align: bottom;
+   display: inline-flex;
+   justify-content: center;
+   margin-right: 5px;
+   cursor: row-resize;
+`
 
 const SheetScrollFrame = styled(CustomScroll)`
    text-align: center;
