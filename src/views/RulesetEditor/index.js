@@ -60,8 +60,8 @@ class RulesetEditor extends Component {
       const rect = e.target.getBoundingClientRect()
       const newInputWidth = 250
       const newInputHeight = 40
-      const releaseX = e.clientX - rect.left - positionOnGrabX
-      const releaseY = e.clientY - rect.top - positionOnGrabY
+      const releaseX = Math.floor(e.clientX - rect.left - positionOnGrabX)
+      const releaseY = Math.floor(e.clientY - rect.top - positionOnGrabY)
 
       const sheetHeight = this.sheetContainer.scrollHeight
       const sheetWidth = this.sheetContainer.scrollWidth
