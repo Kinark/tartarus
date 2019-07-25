@@ -17,7 +17,7 @@ import AppMainWrapper from '~/components/AppMainWrapper'
 import CustomScroll from '~/components/CustomScroll'
 import EmptyPlaceholder from '~/components/EmptyPlaceholder'
 import { Button } from '~/components/Button'
-import { Input } from '~/components/Input'
+import { Input, Textarea } from '~/components/Input'
 
 import Draggable from './components/Draggable'
 import DraggableAdded from './components/DraggableAdded'
@@ -53,13 +53,18 @@ class RulesetEditor extends Component {
       this.setState({ name: data.name, pages: data.pages, inputs: data.inputs })
    }
 
-   addInput = (e, positionOnGrabX, positionOnGrabY) => {
+   //
+   // ─── INPUTS METHODS ─────────────────────────────────────────────────────────────
+   //
+
+   addNormalInput = (e, positionOnGrabX, positionOnGrabY) => {
       const { inputs, selectedPageNonce } = this.state
       if (!e.target.isEqualNode(this.sheet)) return
 
       const rect = e.target.getBoundingClientRect()
       const newInputWidth = 250
       const newInputHeight = 40
+      const newInputFontSize = 16
       const releaseX = Math.floor(e.clientX - rect.left - positionOnGrabX)
       const releaseY = Math.floor(e.clientY - rect.top - positionOnGrabY)
 
@@ -71,7 +76,30 @@ class RulesetEditor extends Component {
       const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
       const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
 
-      const newInput = { nonce: Date.now(), x, y, width: 250, height: 40, pageNonce: selectedPageNonce }
+      const newInput = { type: 'input', nonce: Date.now(), x, y, fontSize: newInputFontSize, width: 250, height: newInputHeight, pageNonce: selectedPageNonce }
+      this.setState({ inputs: [...inputs, newInput], unsaved: true })
+   }
+
+   addTextAreaInput = (e, positionOnGrabX, positionOnGrabY) => {
+      const { inputs, selectedPageNonce } = this.state
+      if (!e.target.isEqualNode(this.sheet)) return
+
+      const rect = e.target.getBoundingClientRect()
+      const newInputWidth = 250
+      const newInputHeight = 58
+      const newInputFontSize = 16
+      const releaseX = Math.floor(e.clientX - rect.left - positionOnGrabX)
+      const releaseY = Math.floor(e.clientY - rect.top - positionOnGrabY)
+
+      const sheetHeight = this.sheetContainer.scrollHeight
+      const sheetWidth = this.sheetContainer.scrollWidth
+      const inputWidth = newInputWidth
+      const inputHeight = newInputHeight + 10
+
+      const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
+      const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
+
+      const newInput = { type: 'textarea', nonce: Date.now(), x, y, fontSize: newInputFontSize, width: 250, height: newInputHeight, pageNonce: selectedPageNonce }
       this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
@@ -110,24 +138,16 @@ class RulesetEditor extends Component {
       this.setState({ selectedInputNonce: null, inputs: copyInputs, unsaved: true })
    }
 
-   save = async () => {
-      const { match, dispatch } = this.props
-      const { name, pages, inputs } = this.state
-      try {
-         await editRuleset(match.params.rulesetId, { name, pages, inputs })
-         dispatch(fetchMyRulesets())
-         this.setState({ unsaved: false })
-      } catch (error) {
-         console.log(error)
-      }
-   }
-
    clearInputs = () => {
       const { inputs, selectedPageNonce } = this.state
       this.setState({ selectedInputNonce: null, inputs: inputs.filter(input => input.pageNonce !== selectedPageNonce), unsaved: true })
    }
 
    inputHandler = e => this.setState({ [e.target.name]: e.target.value, unsaved: true })
+
+   //
+   // ─── PAGES METHODS ──────────────────────────────────────────────────────────────
+   //
 
    editPage = e => {
       const { pages, selectedPageNonce } = this.state
@@ -165,6 +185,22 @@ class RulesetEditor extends Component {
       }))
    }
 
+   //
+   // ─── GENERAL METHODS ────────────────────────────────────────────────────────────
+   //
+
+   save = async () => {
+      const { match, dispatch } = this.props
+      const { name, pages, inputs } = this.state
+      try {
+         await editRuleset(match.params.rulesetId, { name, pages, inputs })
+         dispatch(fetchMyRulesets())
+         this.setState({ unsaved: false })
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
    render() {
       const { name, inputs, pages, selectedInputNonce, selectedPageNonce, unsaved } = this.state
       const { theme } = this.props
@@ -174,18 +210,27 @@ class RulesetEditor extends Component {
       return (
          <React.Fragment>
             <Prompt when={unsaved} message="Tem certeza que deseja sair sem salvar?" />
+
             <Sidebar align="left" title="Campos" titleInfo="Arraste e solte para adicionar.">
-               <Draggable onDragEnd={this.addInput}>
-                  <AddedInput readOnly placeholder="Input normal" />
+               <Draggable onDragEnd={this.addNormalInput}>
+                  <AddedInput width="250" height="40" readOnly placeholder="Input normal" />
+               </Draggable>
+               <Draggable onDragEnd={this.addTextAreaInput}>
+                  <AddedTextArea width="250" height="58" readOnly placeholder="Input de texto" />
                </Draggable>
             </Sidebar>
+
             <AppMainWrapper>
                {selectedPage && selectedPage.bgImg ? (
                   <SheetScrollFrame>
                      <SheetContainer ref={el => (this.sheetContainer = el)}>
-                        {selectedPageInputs.map(({ nonce, x, y, width }) => (
+                        {selectedPageInputs.map(({ nonce, x, y, fontSize, width, height, type }) => (
                            <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} nonce={nonce} key={nonce}>
-                              <AddedInput readOnly width={width} selected={nonce === selectedInputNonce} />
+                              {type === 'input' ? (
+                                 <AddedInput placeholder="Input normal" readOnly fontSize={fontSize} width={width} height={height} selected={nonce === selectedInputNonce} />
+                              ) : (
+                                 <AddedTextArea placeholder="Input de texto" readOnly fontSize={fontSize} width={width} height={height} selected={nonce === selectedInputNonce} />
+                              )}
                            </DraggableAdded>
                         ))}
                         <Sheet ref={el => (this.sheet = el)} onClick={this.unselectInput} src={selectedPage.bgImg} width={selectedPage.bgWidth} />
@@ -201,6 +246,16 @@ class RulesetEditor extends Component {
             </AppMainWrapper>
             {selectedInputNonce ? (
                <Sidebar align="right" title="Input" titleInfo="Ajuste o input selecionado.">
+                  {selectedInputInfo.type === 'textarea' && (
+                     <label htmlFor="inputHeight">
+                        Altura
+                        <Input id="inputHeight" type="number" value={selectedInputInfo.height} name="height" onChange={this.editInput} placeholder="Altura do input" />
+                     </label>
+                  )}
+                  <label htmlFor="inputFontSize">
+                     Tamanho da fonte
+                     <Input id="inputFontSize" type="number" value={selectedInputInfo.fontSize} name="fontSize" onChange={this.editInput} placeholder="Largura do input" />
+                  </label>
                   <label htmlFor="inputWidth">
                      Largura
                      <Input id="inputWidth" type="number" value={selectedInputInfo.width} name="width" onChange={this.editInput} placeholder="Largura do input" />
@@ -321,16 +376,26 @@ const SheetScrollFrame = styled(CustomScroll)`
    text-align: center;
 `
 
-export const AddedInput = styled(Input)`
+export const InputsStyles = css`
    pointer-events: none;
    user-drag: none;
    user-select: none;
    width: ${({ width }) => width || 250}px;
+   height: ${({ height }) => height || 58}px;
+   font-size: ${({ fontSize }) => fontSize || 16}px;
    ${({ selected }) =>
       selected &&
       css`
          border-width: 2px;
       `}
+`
+
+export const AddedInput = styled(Input)`
+   ${InputsStyles}
+`
+
+export const AddedTextArea = styled(Textarea)`
+   ${InputsStyles}
 `
 
 const SheetContainer = styled.div`
