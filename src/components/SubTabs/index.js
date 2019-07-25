@@ -47,6 +47,6 @@ const TabsWrapper = connect(state => ({ playMode: state.app.playMode }))(styled.
    padding: 0;
    transition: bottom 300ms, left 300ms;
    list-style-type: none;
-   border-bottom: solid 1px ${({ theme }) => theme.DIVIER_SOFT};
+   border-bottom: solid 1px ${({ theme }) => theme.DIVIDER_SOFT};
 `)
 TabsWrapper.defaultProps = { theme: colors.light }

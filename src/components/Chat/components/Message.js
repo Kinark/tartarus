@@ -129,7 +129,7 @@ const EachDice = styled.div`
    margin: 0 5px;
    &:not(:last-of-type) {
       padding-right: 10px;
-      border-right: solid 1px ${({ theme }) => theme.DIVIER_SOFT};
+      border-right: solid 1px ${({ theme }) => theme.DIVIDER_SOFT};
    }
    span {
       font-weight: 700;
