@@ -300,7 +300,7 @@ const PageListContainer = styled.ul`
 const PageListItem = styled.li`
    border: solid ${({ current }) => (current ? '2px' : '1px')} ${({ theme }) => theme.TITLE};
    border-radius: 8px;
-   margin: 10px 0;
+   margin: ${({ current }) => (current ? '9px' : '10px')} 0;
    padding: 5px 10px;
    cursor: pointer;
    list-style-type: none;
