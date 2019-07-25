@@ -13,7 +13,9 @@ import {
    ADD_MESSAGE,
    ADD_SEVERAL_MESSAGES,
    TOGGLE_NEW_WORLD_MODAL,
-   TOGGLE_LOADING_ROOM_MODAL
+   TOGGLE_LOADING_ROOM_MODAL,
+   ADD_WORLD_SUBTAB,
+   REMOVE_WORLD_SUBTAB
 } from '../actions/app'
 
 function newWorldModalOpen(state = false, action) {
@@ -140,6 +142,22 @@ function tabs(state = [], action) {
    }
 }
 
+function subTabs(state = [], action) {
+   switch (action.type) {
+      case ADD_WORLD_SUBTAB:
+         if (state.some(world => world._id === action.payload._id)) return state
+         return [...state, action.payload]
+      case REMOVE_WORLD_SUBTAB:
+         if (!state.find(world => world._id === action.payload)) return state
+         return state.filter(world => world._id !== action.payload)
+      case CONNECTED_APP:
+         if (!action.payload) return []
+         return state
+      default:
+         return state
+   }
+}
+
 export default combineReducers({
    newWorldModalOpen,
    loadingRoomModal,
@@ -147,5 +165,6 @@ export default combineReducers({
    connected,
    messages,
    playMode,
-   tabs
+   tabs,
+   subTabs
 })

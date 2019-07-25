@@ -17,6 +17,8 @@ export const TURN_PLAYER_ON = 'TURN_PLAYER_ON'
 export const TURN_PLAYER_OFF = 'TURN_PLAYER_OFF'
 export const TOGGLE_NEW_WORLD_MODAL = 'TOGGLE_NEW_WORLD_MODAL'
 export const TOGGLE_LOADING_ROOM_MODAL = 'TOGGLE_LOADING_ROOM_MODAL'
+export const ADD_WORLD_SUBTAB = 'ADD_WORLD_SUBTAB'
+export const REMOVE_WORLD_SUBTAB = 'REMOVE_WORLD_TSUBAB'
 
 export const toggleAuthenticated = payload => ({ type: TOGGLE_AUTHENTICATED, payload })
 export const togglePlayMode = payload => ({ type: TOGGLE_PLAY_MODE, payload })
@@ -32,6 +34,8 @@ export const turnPlayerOn = payload => ({ type: TURN_PLAYER_ON, payload })
 export const turnPlayerOff = payload => ({ type: TURN_PLAYER_OFF, payload })
 export const toggleNewWorldModal = payload => ({ type: TOGGLE_NEW_WORLD_MODAL, payload })
 export const toggleLoadingRoomModal = payload => ({ type: TOGGLE_LOADING_ROOM_MODAL, payload })
+export const addWorldSubTab = payload => ({ type: ADD_WORLD_SUBTAB, payload })
+export const removeWorldSubTab = payload => ({ type: REMOVE_WORLD_SUBTAB, payload })
 
 export const activateSocketListeners = () => dispatch => {
    socket.on('connect', () => dispatch(connectApp(true)))

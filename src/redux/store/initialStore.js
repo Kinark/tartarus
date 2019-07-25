@@ -41,7 +41,8 @@ const initialStore = {
       connected: false,
       messages: [],
       playMode: false,
-      tabs: []
+      tabs: [],
+      subTabs: []
    }
 }
 
