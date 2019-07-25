@@ -15,6 +15,27 @@ const inputBase = css`
 `
 inputBase.defaultProps = { theme: colors.light }
 
+export const FileInput = styled.input`
+   border: 0;
+   clip: rect(0, 0, 0, 0);
+   height: 1px;
+   overflow: hidden;
+   padding: 0;
+   position: absolute !important;
+   white-space: nowrap;
+   width: 1px;
+   &+label {
+      ${inputBase};
+      text-align: left;
+      cursor: pointer;
+      opacity: 1;
+      transition: opacity 150ms;
+      &:hover {
+         opacity: 0.75;
+      }
+   }
+`
+
 export const Input = styled.input`
    ${inputBase}
 `
