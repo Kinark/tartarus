@@ -7,7 +7,7 @@ import playerPropTypes from '~/propTypes/player'
 
 import Sidebar from '~/components/Sidebar'
 
-// import Friend from './components/Friend'
+import Player from './components/Player'
 
 class PlayersList extends PureComponent {
    static propTypes = {
@@ -26,9 +26,9 @@ class PlayersList extends PureComponent {
             {tabs.find(tab => tab._id === room) ? (
                <React.Fragment>
                   <div>Online:</div>
-                  {tabs.find(tab => tab._id === room).members.map(player => (player.online ? <div key={player._id}>{player.user.name}</div> : ''))}
+                  {tabs.find(tab => tab._id === room).members.map(player => (player.online ? <Player key={player._id} data={player} /> : ''))}
                   <div>Offline:</div>
-                  {tabs.find(tab => tab._id === room).members.map(player => (!player.online ? <div key={player._id}>{player.user.name}</div> : ''))}
+                  {tabs.find(tab => tab._id === room).members.map(player => (!player.online ? <Player key={player._id} data={player} /> : ''))}
                </React.Fragment>
             ) : (
                'Loading...'
