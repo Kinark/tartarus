@@ -53,7 +53,7 @@ class World extends PureComponent {
       const chatMessages = filteredMessages.filter(msg => msg.type === 'talk')
       return (
          <React.Fragment>
-            <PlayersList room={worldId} />
+            <Route component={props => <PlayersList room={worldId} {...props} />} />
             <StyledAppMainWrapper>
                <SubTabs worldId={worldId} />
                <Route path={`${match.path}/sheet/:sheetId`} component={Sheet} />

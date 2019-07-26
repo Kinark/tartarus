@@ -12,7 +12,7 @@ class Tabs extends PureComponent {
       worldId: PropTypes.string.isRequired,
       openedSubTabs: PropTypes.arrayOf(
          PropTypes.shape({
-            nonce: PropTypes.number.isRequired,
+            _id: PropTypes.string.isRequired,
             worldId: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             path: PropTypes.string.isRequired
@@ -28,7 +28,7 @@ class Tabs extends PureComponent {
                Chats
             </BasicTab>
             {openedSubTabs.filter(subTab => subTab.worldId === worldId).map(subTab => (
-               <Tab key={subTab.nonce} worldId={worldId} to={`/world/${worldId}/${subTab.path}`}>
+               <Tab key={subTab._id} worldId={worldId} id={subTab._id} to={`/world/${worldId}/${subTab.path}`}>
                   {subTab.name}
                </Tab>
             ))}

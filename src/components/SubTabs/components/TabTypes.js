@@ -6,7 +6,7 @@ import { NavLink, Link } from 'react-router-dom'
 
 import colors from '~/constants/colors'
 
-import { leaveRoomAndRemoveTab } from '~/redux/actions/app'
+import { removeWorldSubTab } from '~/redux/actions/app'
 
 class DisconnectedTab extends PureComponent {
    static propTypes = {
@@ -16,16 +16,15 @@ class DisconnectedTab extends PureComponent {
    }
 
    closeTab = () => {
-      const { dispatch, worldId } = this.props
-      dispatch(leaveRoomAndRemoveTab(worldId))
+      const { dispatch, id } = this.props
+      dispatch(removeWorldSubTab(id))
    }
 
    render() {
-      const { worldId, children, dispatch, openedTabs, to, ...rest } = this.props
-      // const currentTabIndex = openedTabs.findIndex(tab => tab._id === to.replace('/world/', ''))
-      // const previousTab = openedTabs[currentTabIndex - 1]
-      // const previousTabLink = previousTab ? `/world/${previousTab._id}` : '/worlds'
-      const previousTabLink = `/world/${worldId}`
+      const { worldId, children, dispatch, id, subTabPath, openedSubTabs, to, ...rest } = this.props
+      const currentSubTabIndex = openedSubTabs.findIndex(subTab => subTab._id === id)
+      const previousSubTab = openedSubTabs[currentSubTabIndex - 1]
+      const previousTabLink = previousSubTab ? `/world/${worldId}/${previousSubTab.path}` : `/world/${worldId}`
       return (
          <TabWrapper>
             <TabClose to={previousTabLink} onClick={this.closeTab}>
@@ -38,7 +37,7 @@ class DisconnectedTab extends PureComponent {
       )
    }
 }
-const mapStateToProps = state => ({ openedTabs: state.app.tabs })
+const mapStateToProps = state => ({ openedSubTabs: state.app.subTabs })
 export const Tab = connect(mapStateToProps)(DisconnectedTab)
 
 export class BasicTab extends PureComponent {
