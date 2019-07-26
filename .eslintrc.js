@@ -65,7 +65,8 @@ module.exports = {
       'operator-linebreak': 'off',
       'no-nested-ternary': 'off',
       'jsx-a11y/label-has-associated-control': 'off',
-      'jsx-a11y/label-has-for': 'off'
+      'jsx-a11y/label-has-for': 'off',
+      'function-paren-newline': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {
