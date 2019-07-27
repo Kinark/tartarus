@@ -15,7 +15,7 @@ import Player from './components/Player'
 const collect = props => props
 
 class PlayersList extends PureComponent {
-   static getDerivedStateFromProps({ match }, state) {
+   static getDerivedStateFromProps({ match }) {
       if (match.path === '/world/:worldId') return null
       return { redirectPath: null }
    }
