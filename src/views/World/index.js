@@ -61,18 +61,18 @@ class World extends PureComponent {
                   path={match.path}
                   exact
                   component={() => (
-                     <div className="row no-mrg">
+                     <StyledRow className="row no-mrg">
                         <FullHeight className="col xs12 m6">
                            <SectionContent className="no-pad" bordered>
                               <Chat data={adventureMessages} title="Aventura" room={worldId} type="adventure" />
                            </SectionContent>
                         </FullHeight>
                         <FullHeight className="col xs12 m6">
-                           <SectionContent className="no-pad" bordered>
+                           <SectionContent className="no-pad">
                               <Chat data={chatMessages} title="Conversa" room={worldId} type="talk" />
                            </SectionContent>
                         </FullHeight>
-                     </div>
+                     </StyledRow>
                   )}
                />
             </StyledAppMainWrapper>
@@ -86,4 +86,8 @@ export default connect(mapStateToProps)(World)
 const StyledAppMainWrapper = styled(AppMainWrapper)`
    display: flex;
    flex-direction: column;
+`
+
+const StyledRow = styled.div`
+   flex: 1 !important;
 `
