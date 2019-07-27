@@ -5,6 +5,7 @@ import colors from '~/constants/colors'
 const AppMainWrapper = styled.main`
    flex: 1 0;
    background-color: ${({ theme }) => theme.SECTION_2};
+   overflow: hidden;
 `
 AppMainWrapper.defaultProps = { theme: colors.light }
 

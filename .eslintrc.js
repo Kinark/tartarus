@@ -60,7 +60,13 @@ module.exports = {
       'no-underscore-dangle': 'off',
       'no-param-reassign': 'off',
       'no-case-declarations': 'off',
-      'no-return-assign': 'off'
+      'no-return-assign': 'off',
+      'react/no-array-index-key': 'off',
+      'operator-linebreak': 'off',
+      'no-nested-ternary': 'off',
+      'jsx-a11y/label-has-associated-control': 'off',
+      'jsx-a11y/label-has-for': 'off',
+      'function-paren-newline': 'off'
    },
    plugins: ['import', 'promise', 'compat', 'react', 'jest'],
    settings: {

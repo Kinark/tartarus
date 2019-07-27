@@ -1,9 +1,9 @@
-import axios from '~/instances/axios'
+import rollDices from '~/services/rollDices'
 import { addToToastQueue } from '~/redux/actions/toastNotifications'
 import { addMessage, removeMessage } from '~/redux/actions/app'
 
 const commands = {
-   roll: (dices, { dispatch, room, type, myId, name }) => {
+   roll: (dices, { scrollChatDown, dispatch, room, type, myId, name }) => {
       const nonce = myId + Date.now()
       const messageObject = {
          content: 'Rolando dados...',
@@ -18,12 +18,12 @@ const commands = {
          dices
       }
       dispatch(addMessage(messageObject))
-      axios
-         .post('roll', messageObject)
+      scrollChatDown()
+      rollDices(messageObject)
          .then(({ data }) => dispatch(addMessage(data)))
          .catch(err => {
             dispatch(removeMessage(nonce))
-            let errorMsg;
+            let errorMsg
             switch (err.response.data.code) {
                case 'wrong-dices':
                   errorMsg = 'Há algo de errado com estes dados (dados inválidos).'

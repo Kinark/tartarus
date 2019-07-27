@@ -27,7 +27,7 @@ export default class Chat extends PureComponent {
       if (locked) this.scrollChatDown()
    }
 
-   componentDidUpdate = () => {
+   componentDidUpdate() {
       const { locked } = this.state
       if (locked) this.scrollChatDown()
    }
@@ -68,5 +68,5 @@ const ChatWrapper = styled.div`
    flex-direction: column;
    justify-content: space-between;
    height: 100%;
-   padding: 15px;
+   padding: 0 15px 15px;
 `

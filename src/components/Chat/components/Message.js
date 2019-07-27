@@ -15,15 +15,31 @@ class Message extends PureComponent {
    }
 
    render() {
-      const { myId, data } = this.props
+      const { myId, data: { _id, author, dicesResults, dices, content } } = this.props
+      const owned = author._id === myId
       return (
-         <MessageWrapper loading={!data._id}>
-            <AvatarColumn owned={data.author._id === myId}>
+         <MessageWrapper loading={!_id}>
+            <AvatarColumn owned={owned}>
                <Avatar src={DefaultAvatar} alt="Default Avatar" />
             </AvatarColumn>
-            <ContentColumn owned={data.author._id === myId}>
-               <Author>{data.author.name}</Author>
-               <Content owned={data.author._id === myId}>{data.content}</Content>
+            <ContentColumn owned={owned}>
+               <Author>{author.name}</Author>
+               {dicesResults && dicesResults.length > 0 ? (
+                  <ContentRoll owned={owned}>
+                     <RollResult owned={owned}>{content}</RollResult>
+                     <RollDices>
+                        {dices.map((dice, i) => (
+                           <EachDice key={i}>
+                              <span>{dice}</span>
+                              <br />
+                              {dicesResults[i]}
+                           </EachDice>
+                        ))}
+                     </RollDices>
+                  </ContentRoll>
+               ) : (
+                  <Content owned={author._id === myId}>{content}</Content>
+               )}
             </ContentColumn>
          </MessageWrapper>
       )
@@ -35,15 +51,15 @@ export default connect(mapStateToProps)(Message)
 const MessageWrapper = styled.div`
    display: flex;
    margin: 20px 0;
-   opacity: ${({ loading }) => loading ? '.5' : '1'};
+   opacity: ${({ loading }) => (loading ? '.5' : '1')};
    transition: opacity 300ms;
 `
 
 const AvatarColumn = styled.div`
    flex: 0;
-   margin-right: ${({ owned }) => owned ? '0' : '10px'};
-   margin-left: ${({ owned }) => owned ? '10px' : '0'};
-   order: ${({ owned }) => owned ? '1' : '0'};
+   margin-right: ${({ owned }) => (owned ? '0' : '10px')};
+   margin-left: ${({ owned }) => (owned ? '10px' : '0')};
+   order: ${({ owned }) => (owned ? '1' : '0')};
 `
 
 const Avatar = styled.img`
@@ -54,7 +70,10 @@ const Avatar = styled.img`
 
 const ContentColumn = styled.div`
    flex: 1;
-   text-align: ${({ owned }) => owned ? 'right' : 'left'};
+   text-align: ${({ owned }) => (owned ? 'right' : 'left')};
+   * {
+      user-select: text !important;
+   }
 `
 
 const Author = styled.div`
@@ -64,7 +83,7 @@ const Author = styled.div`
 
 const Content = styled.div`
    flex: 1;
-   border-radius: ${({ owned }) => owned ? '15px 0' : '0 15px'} 15px 15px;
+   border-radius: ${({ owned }) => (owned ? '15px 0' : '0 15px')} 15px 15px;
    background-color: ${({ theme }) => theme.CHAT_BG_COLOR};
    padding: 13px 16px 16px;
    max-width: 75%;
@@ -72,3 +91,48 @@ const Content = styled.div`
    text-align: left;
 `
 ContentColumn.defaultProps = { theme: colors.light }
+
+const ContentRoll = styled.div`
+   flex: 1;
+   border-radius: ${({ owned }) => (owned ? '15px 0' : '0 15px')} 15px 15px;
+   background-color: ${({ theme }) => theme.CHAT_BG_COLOR};
+   border: solid 3px ${({ theme }) => theme.TITLE};
+   /* padding: 13px 16px 16px; */
+   max-width: 75%;
+   display: inline-flex;
+   text-align: left;
+`
+ContentColumn.defaultProps = { theme: colors.light }
+
+const RollResult = styled.div`
+   flex: 0;
+   border-radius: 0 0 ${({ owned }) => (owned ? '7px 0' : '0 7px')};
+   background-color: ${({ theme }) => theme.TITLE};
+   padding: 3px 16px;
+   font-family: 'upgrade',sans-serif;
+   font-size: 32px;
+   font-weight: 500;
+   color: ${({ theme }) => theme.BG};
+   order: ${({ owned }) => (owned ? '1' : '0')};
+`
+RollResult.defaultProps = { theme: colors.light }
+
+const RollDices = styled.div`
+   flex: 1;
+   display: flex;
+   flex-direction: row;
+   padding: 7px 16px;
+   line-height: normal;
+`
+
+const EachDice = styled.div`
+   margin: 0 5px;
+   &:not(:last-of-type) {
+      padding-right: 10px;
+      border-right: solid 1px ${({ theme }) => theme.DIVIDER_SOFT};
+   }
+   span {
+      font-weight: 700;
+   }
+`
+EachDice.defaultProps = { theme: colors.light }

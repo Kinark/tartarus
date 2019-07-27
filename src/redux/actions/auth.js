@@ -1,4 +1,4 @@
-import axios from '~/instances/axios'
+import login from '~/services/login';
 
 export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -17,8 +17,7 @@ export const logUserOff = () => dispatch => {
 
 export const logUserIn = (email = '', password = '', cb) => dispatch => {
    dispatch(loginStart())
-   axios
-      .post('login', { email, password })
+   login(email, password)
       .then(({ data }) => {
          localStorage.setItem('JWToken', data.token)
          if (typeof cb === 'function') cb()

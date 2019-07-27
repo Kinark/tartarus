@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Redirect, Link } from 'react-router-dom'
 
-import axios from '~/instances/axios'
+import signup from '~/services/signup';
 
 import OutlinedCard from '~/components/OutlinedCard'
 import { LogoOutline } from '~/components/Logo'
@@ -45,8 +45,7 @@ class Signup extends PureComponent {
    signup = () => {
       const { name, email, password } = this.state
       this.setState({ loading: true })
-      axios
-         .post('signup', { name, email, password })
+      signup(name, email, password)
          .then(() => this.setState({ done: true, loading: false, error: false }))
          .catch(err => {
             if (err.response) return this.setState({ loading: false, error: err.response.data.code || 'something-wrong' })

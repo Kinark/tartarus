@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import colors from '~/constants/colors'
 
 const CustomScroll = styled.div`
-   padding-right: 6px;
+   /* padding-right: 6px; */
+   max-height: 100%;
    overflow-y: auto;
    ::-webkit-scrollbar-button {
       display: none;

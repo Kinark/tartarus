@@ -19,7 +19,7 @@ class WhereILive extends PureComponent {
       error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired
    }
 
-   componentDidMount = () => {
+   componentDidMount() {
       const { dispatch, done } = this.props
       if (!done) dispatch(fetchWhereILive())
    }

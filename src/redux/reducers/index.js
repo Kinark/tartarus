@@ -7,20 +7,20 @@ import settings from './settings'
 import app from './app'
 import data from './data'
 import auth from './auth'
-import newWorld from './newWorld'
 import myWorlds from './myWorlds'
 import whereILive from './whereILive'
 import toastNotifications from './toastNotifications'
+import myRulesets from './myRulesets'
 
 const appReducer = combineReducers({
    myWorlds,
    whereILive,
-   newWorld,
    settings,
    data,
    auth,
    app,
-   toastNotifications
+   toastNotifications,
+   myRulesets
 })
 
 const rootReducer = (state, action) => {

@@ -16,6 +16,9 @@ import BottomBar from '~/components/BottomBar'
 import Welcome from '~/views/Welcome'
 import Worlds from '~/views/Worlds'
 import World from '~/views/World'
+import Rulesets from '~/views/Rulesets'
+import RulesetEditor from '~/views/RulesetEditor'
+import Loading from '~/views/Loading'
 
 class AppRoutes extends PureComponent {
    static propTypes = {
@@ -23,9 +26,13 @@ class AppRoutes extends PureComponent {
       authenticated: PropTypes.bool.isRequired
    }
 
-   componentDidMount = () => this.appStartRoutine()
+   componentDidMount() {
+      this.appStartRoutine()
+   }
 
-   componentWillUnmount = () => clearInterval(this.JWTRenewInterval)
+   componentWillUnmount() {
+      clearInterval(this.JWTRenewInterval)
+   }
 
    appStartRoutine = () => {
       const { dispatch } = this.props
@@ -39,18 +46,20 @@ class AppRoutes extends PureComponent {
 
    render() {
       const { authenticated } = this.props
-      if (!authenticated) return 'Authenticating...'
+      if (!authenticated) return <Loading type="Authenticating..." />
       return (
          <React.Fragment>
             <LoadingRoomModal />
             <NewWorldModal />
             <Route path="/" component={Navbar} />
             <AppContentWrapper>
-               <Route path="(/|/worlds)" component={FriendsList} />
+               <Route path="(/|/worlds|/ruleset)" component={FriendsList} exact />
                <Switch>
                   <Route path="/" component={Welcome} exact />
                   <Route path="/worlds" component={Worlds} />
                   <Route path="/world/:worldId" component={World} />
+                  <Route path="/ruleset" component={Rulesets} exact />
+                  <Route path="/ruleset/:rulesetId" component={RulesetEditor} />
                </Switch>
             </AppContentWrapper>
             <Route path="/" component={BottomBar} />

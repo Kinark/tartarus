@@ -7,12 +7,16 @@ import {
    CONNECTED_APP,
    REMOVE_PLAYER,
    ADD_PLAYER,
-   ADD_SEVERAL_PLAYERS,
+   TURN_PLAYER_ON,
+   TURN_PLAYER_OFF,
    REMOVE_MESSAGE,
    ADD_MESSAGE,
    ADD_SEVERAL_MESSAGES,
    TOGGLE_NEW_WORLD_MODAL,
-   TOGGLE_LOADING_ROOM_MODAL
+   TOGGLE_LOADING_ROOM_MODAL,
+   ADD_WORLD_SUBTAB,
+   REMOVE_WORLD_SUBTAB,
+   UPDATE_MEMBER
 } from '../actions/app'
 
 function newWorldModalOpen(state = false, action) {
@@ -78,25 +82,6 @@ function messages(state = [], action) {
    }
 }
 
-function players(state = [], action) {
-   switch (action.type) {
-      case REMOVE_PLAYER:
-         return state.filter(player => player._id !== action.payload)
-      case ADD_PLAYER:
-         if (state.find(player => player._id === action.payload._id)) return state
-         return [...state, action.payload]
-      case ADD_SEVERAL_PLAYERS:
-         return [...state, ...action.payload]
-      case REMOVE_WORLD_TAB:
-         return state.filter(player => player.room !== action.payload)
-      case CONNECTED_APP:
-         if (!action.payload) return []
-         return state
-      default:
-         return state
-   }
-}
-
 function playMode(state = false, action) {
    switch (action.type) {
       case TOGGLE_PLAY_MODE:
@@ -104,6 +89,22 @@ function playMode(state = false, action) {
       default:
          return state
    }
+}
+
+/**
+ * Utility function to extract variables in order to minimize code on tabs reducer.
+ *
+ * @param {Array} tabs - Tabs to search into
+ * @param {Object} payload - Payload containing the room (to lookup) and the player info
+ * @param {Object} payload.room - Room (world) id to search for
+ * @param {Object} [payload.player] - Player id to search for
+ * @returns {Object}
+ */
+function extractTabVariables(oldTabs, payload) {
+   const indexOfTab = oldTabs.findIndex(tab => tab._id === payload.room)
+   const indexOfPlayer = oldTabs[indexOfTab].members.findIndex(member => member.user._id === payload.player)
+   const newState = [...oldTabs]
+   return { indexOfTab, indexOfPlayer, newState }
 }
 
 function tabs(state = [], action) {
@@ -117,6 +118,46 @@ function tabs(state = [], action) {
       case CONNECTED_APP:
          if (!action.payload) return []
          return state
+      case TURN_PLAYER_OFF: {
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, action.payload)
+         newState[indexOfTab].members[indexOfPlayer].online = false
+         return newState
+      }
+      case TURN_PLAYER_ON: {
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, action.payload)
+         newState[indexOfTab].members[indexOfPlayer].online = true
+         return newState
+      }
+      case ADD_PLAYER: {
+         const { indexOfTab, newState } = extractTabVariables(state, action.payload)
+         newState[indexOfTab].members.push(action.payload.player)
+         return newState
+      }
+      case REMOVE_PLAYER: {
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, action.payload)
+         newState[indexOfTab].members.splice(indexOfPlayer, 1)
+         return newState
+      }
+      case UPDATE_MEMBER: {
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, { room: action.payload.room, player: action.payload.updatedMember.user })
+         newState[indexOfTab].members[indexOfPlayer] = action.payload.updatedMember
+         return newState
+      }
+      default:
+         return state
+   }
+}
+
+function subTabs(state = [], action) {
+   switch (action.type) {
+      case ADD_WORLD_SUBTAB:
+         if (state.some(subTab => subTab._id === action.payload._id)) return state
+         return [...state, action.payload]
+      case REMOVE_WORLD_SUBTAB:
+         return state.filter(subTab => subTab._id !== action.payload)
+      case CONNECTED_APP:
+         if (!action.payload) return []
+         return state
       default:
          return state
    }
@@ -127,8 +168,8 @@ export default combineReducers({
    loadingRoomModal,
    authenticated,
    connected,
-   players,
    messages,
    playMode,
-   tabs
+   tabs,
+   subTabs
 })

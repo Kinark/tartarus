@@ -11,11 +11,6 @@ const initialStore = {
       done: false,
       content: []
    },
-   newWorld: {
-      modal: false,
-      loading: false,
-      error: false
-   },
    settings: {
       theme: 'light'
    },
@@ -33,15 +28,21 @@ const initialStore = {
       queue: [],
       active: ''
    },
+   myRulesets: {
+      loading: false,
+      error: false,
+      done: false,
+      content: []
+   },
    app: {
       newWorldModalOpen: false,
       loadingRoomModal: false,
       authenticated: false,
       connected: false,
       messages: [],
-      players: [],
       playMode: false,
-      tabs: []
+      tabs: [],
+      subTabs: []
    }
 }
 

@@ -1,6 +1,6 @@
+import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { hot } from 'react-hot-loader'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
@@ -15,6 +15,7 @@ import AppRoutes from '~/components/AppRoutes'
 
 import Login from '~/views/Login'
 import Signup from '~/views/Signup'
+import Loading from '~/views/Loading'
 
 const title = 'Tartarus'
 const description = 'A sample website.'
@@ -27,18 +28,18 @@ class App extends Component {
       connected: PropTypes.bool.isRequired
    }
 
-   componentDidMount = () => {
+   componentDidMount() {
       const { dispatch } = this.props
       dispatch(activateSocketListeners())
       this.setBodyColor()
    }
 
-   componentDidUpdate = prevProps => {
+   componentDidUpdate(prevProps) {
       const { theme } = this.props
       if (theme !== prevProps.theme) this.setBodyColor()
    }
 
-   componentWillUnmount = () => {
+   componentWillUnmount() {
       document.body.style.backgroundColor = null
    }
 
@@ -66,7 +67,7 @@ class App extends Component {
                      <PrivateRoute path="/" component={AppRoutes} />
                   </Switch>
                ) : (
-                  'Connecting...'
+                  <Loading type="Connecting..." />
                )}
             </AppWrapper>
          </ThemeProvider>
@@ -76,7 +77,7 @@ class App extends Component {
 
 const mapStateToProps = state => ({ theme: state.settings.theme, connected: state.app.connected })
 const connectedApp = connect(mapStateToProps)(App)
-export default hot(module)(connectedApp)
+export default hot(connectedApp)
 
 const AppWrapper = styled.div`
    background-color: ${({ theme }) => theme.BG};
