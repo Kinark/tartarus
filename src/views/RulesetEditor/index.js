@@ -58,13 +58,13 @@ class RulesetEditor extends Component {
    // ─── INPUTS METHODS ─────────────────────────────────────────────────────────────
    //
 
-   addNormalInput = (e, positionOnGrabX, positionOnGrabY) => {
+   addInput = (e, positionOnGrabX, positionOnGrabY, inputType) => {
       const { inputs, selectedPageNonce } = this.state
       if (!e.target.isEqualNode(this.sheet)) return
 
       const rect = e.target.getBoundingClientRect()
       const newInputWidth = 250
-      const newInputHeight = 40
+      const newInputHeight = inputType === 'input' ? 40 : 58
       const newInputFontSize = 16
       const releaseX = Math.floor(e.clientX - rect.left - positionOnGrabX)
       const releaseY = Math.floor(e.clientY - rect.top - positionOnGrabY)
@@ -77,30 +77,7 @@ class RulesetEditor extends Component {
       const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
       const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
 
-      const newInput = { type: 'input', nonce: Date.now(), x, y, fontSize: newInputFontSize, width: 250, height: newInputHeight, pageNonce: selectedPageNonce }
-      this.setState({ inputs: [...inputs, newInput], unsaved: true })
-   }
-
-   addTextAreaInput = (e, positionOnGrabX, positionOnGrabY) => {
-      const { inputs, selectedPageNonce } = this.state
-      if (!e.target.isEqualNode(this.sheet)) return
-
-      const rect = e.target.getBoundingClientRect()
-      const newInputWidth = 250
-      const newInputHeight = 58
-      const newInputFontSize = 16
-      const releaseX = Math.floor(e.clientX - rect.left - positionOnGrabX)
-      const releaseY = Math.floor(e.clientY - rect.top - positionOnGrabY)
-
-      const sheetHeight = this.sheetContainer.scrollHeight
-      const sheetWidth = this.sheetContainer.scrollWidth
-      const inputWidth = newInputWidth
-      const inputHeight = newInputHeight + 10
-
-      const x = releaseX < 0 ? 0 : releaseX + inputWidth > sheetWidth ? sheetWidth - inputWidth : releaseX
-      const y = releaseY < 0 ? 0 : releaseY + inputHeight > sheetHeight ? sheetHeight - inputHeight : releaseY
-
-      const newInput = { type: 'textarea', nonce: Date.now(), x, y, fontSize: newInputFontSize, width: 250, height: newInputHeight, pageNonce: selectedPageNonce }
+      const newInput = { type: inputType, nonce: Date.now(), x, y, fontSize: newInputFontSize, width: 250, height: newInputHeight, pageNonce: selectedPageNonce }
       this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
@@ -227,11 +204,11 @@ class RulesetEditor extends Component {
             <Prompt when={unsaved} message="Tem certeza que deseja sair sem salvar?" />
 
             <Sidebar align="left" title="Campos" titleInfo="Arraste e solte para adicionar.">
-               <Draggable onDragEnd={this.addNormalInput}>
-                  <AddedInput width="250" height="40" readOnly placeholder="Input normal" />
+               <Draggable onDragEnd={(e, positionOnGrabX, positionOnGrabY) => this.addInput(e, positionOnGrabX, positionOnGrabY, 'input')}>
+                  <AddedInput width="250" height="40" readOnly placeholder="Input de uma linha" />
                </Draggable>
-               <Draggable onDragEnd={this.addTextAreaInput}>
-                  <AddedTextArea width="250" height="58" readOnly placeholder="Input de texto" />
+               <Draggable onDragEnd={(e, positionOnGrabX, positionOnGrabY) => this.addInput(e, positionOnGrabX, positionOnGrabY, 'textarea')}>
+                  <AddedTextArea width="250" height="58" readOnly placeholder="Input multilinhas" />
                </Draggable>
             </Sidebar>
 
