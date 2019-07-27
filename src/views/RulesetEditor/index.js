@@ -6,6 +6,7 @@ import { Prompt } from 'react-router-dom'
 import { Menu, Plus, Trash2 } from 'react-feather'
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
+import { Rnd } from 'react-rnd'
 
 import colors from '~/constants/colors'
 import getRuleset from '~/services/getRuleset'
@@ -20,7 +21,7 @@ import { Button, FileInput } from '~/components/Button'
 import { Input, Textarea } from '~/components/Input'
 
 import Draggable from './components/Draggable'
-import DraggableAdded from './components/DraggableAdded'
+// import DraggableAdded from './components/DraggableAdded'
 
 class RulesetEditor extends Component {
    static propTypes = {
@@ -103,31 +104,24 @@ class RulesetEditor extends Component {
       this.setState({ inputs: [...inputs, newInput], unsaved: true })
    }
 
-   moveInput = (nonce, translateX, translateY) => {
-      const { inputs } = this.state
-      const copyInputs = [...inputs]
-      const selectedInputIndex = copyInputs.findIndex(input => input.nonce === nonce)
-
-      const sheetHeight = this.sheetContainer.scrollHeight
-      const sheetWidth = this.sheetContainer.scrollWidth
-      const inputHeight = copyInputs[selectedInputIndex].height + 10
-      const inputWidth = copyInputs[selectedInputIndex].width
-
-      copyInputs[selectedInputIndex].x = translateX < 0 ? 0 : translateX + inputWidth > sheetWidth ? sheetWidth - inputWidth : translateX
-      copyInputs[selectedInputIndex].y = translateY < 0 ? 0 : translateY + inputHeight > sheetHeight ? sheetHeight - inputHeight : translateY
-      this.setState({ inputs: copyInputs, unsaved: true })
-   }
-
    selectInput = nonce => this.setState({ selectedInputNonce: nonce })
 
    unselectInput = () => this.setState({ selectedInputNonce: null })
 
-   editInput = e => {
-      const { inputs, selectedInputNonce } = this.state
+   editInput = (nonce, { x, y, w, h }) => {
+      const { inputs } = this.state
       const copyInputs = [...inputs]
-      const selectedInputIndex = copyInputs.findIndex(input => input.nonce === selectedInputNonce)
-      copyInputs[selectedInputIndex][e.target.name] = +e.target.value
+      const selectedInputIndex = copyInputs.findIndex(input => input.nonce === nonce)
+      if (x) copyInputs[selectedInputIndex].x = typeof x === 'string' ? +x.substring(0, w.length - 2) : x
+      if (y) copyInputs[selectedInputIndex].y = typeof y === 'string' ? +y.substring(0, w.length - 2) : y
+      if (w) copyInputs[selectedInputIndex].width = typeof w === 'string' ? +w.substring(0, w.length - 2) : w
+      if (h) copyInputs[selectedInputIndex].height = typeof h === 'string' ? +h.substring(0, h.length - 2) : h
       this.setState({ inputs: copyInputs, unsaved: true })
+   }
+
+   editInputByInput = ({ target }) => {
+      const { selectedInputNonce } = this.state
+      this.editInput(selectedInputNonce, { [target.name]: +target.value })
    }
 
    deleteInput = () => {
@@ -246,13 +240,21 @@ class RulesetEditor extends Component {
                   <SheetScrollFrame>
                      <SheetContainer ref={el => (this.sheetContainer = el)}>
                         {selectedPageInputs.map(({ nonce, x, y, fontSize, width, height, type }) => (
-                           <DraggableAdded onClick={this.selectInput} translateX={x} onDrag={this.moveInput} translateY={y} nonce={nonce} key={nonce}>
+                           <Rnd
+                              key={nonce}
+                              bounds="parent"
+                              size={{ width, height }}
+                              position={{ x, y }}
+                              onDragStop={(e, d) => this.editInput(nonce, { x: d.x, y: d.y })}
+                              onResizeStop={(e, direction, ref, delta, position) => this.editInput(nonce, { w: ref.style.width, h: ref.style.height, ...position })}
+                              onClick={() => this.selectInput(nonce)}
+                           >
                               {type === 'input' ? (
-                                 <AddedInput placeholder="Input normal" readOnly fontSize={fontSize} width={width} height={height} selected={nonce === selectedInputNonce} />
+                                 <AddedInput placeholder="Input normal" readOnly fontSize={fontSize} selected={nonce === selectedInputNonce} />
                               ) : (
-                                 <AddedTextArea placeholder="Input de texto" readOnly fontSize={fontSize} width={width} height={height} selected={nonce === selectedInputNonce} />
+                                 <AddedTextArea placeholder="Input de texto" readOnly fontSize={fontSize} selected={nonce === selectedInputNonce} />
                               )}
-                           </DraggableAdded>
+                           </Rnd>
                         ))}
                         <Sheet ref={el => (this.sheet = el)} onClick={this.unselectInput} src={selectedPage.bgImg} width={selectedPage.bgWidth} />
                      </SheetContainer>
@@ -267,27 +269,27 @@ class RulesetEditor extends Component {
             </AppMainWrapper>
             {selectedInputNonce ? (
                <Sidebar align="right" title="Input" titleInfo="Ajuste o input selecionado.">
-                  {selectedInputInfo.type === 'textarea' && (
-                     <label htmlFor="inputHeight">
-                        Altura
-                        <Input id="inputHeight" type="number" value={selectedInputInfo.height} name="height" onChange={this.editInput} placeholder="Altura do input" />
-                     </label>
-                  )}
                   <label htmlFor="inputFontSize">
                      Tamanho da fonte
-                     <Input id="inputFontSize" type="number" value={selectedInputInfo.fontSize} name="fontSize" onChange={this.editInput} placeholder="Largura do input" />
+                     <Input id="inputFontSize" type="number" value={selectedInputInfo.fontSize} name="fontSize" onChange={this.editInputByInput} placeholder="Largura do input" />
                   </label>
                   <label htmlFor="inputWidth">
                      Largura
-                     <Input id="inputWidth" type="number" value={selectedInputInfo.width} name="width" onChange={this.editInput} placeholder="Largura do input" />
+                     <Input id="inputWidth" type="number" value={selectedInputInfo.width} name="w" onChange={this.editInputByInput} placeholder="Largura do input" />
                   </label>
+                  {selectedInputInfo.type === 'textarea' && (
+                     <label htmlFor="inputHeight">
+                        Altura
+                        <Input id="inputHeight" type="number" value={selectedInputInfo.height} name="h" onChange={this.editInputByInput} placeholder="Altura do input" />
+                     </label>
+                  )}
                   <label htmlFor="inputX">
                      Posição horizontal
-                     <Input id="inputX" type="number" value={selectedInputInfo.x} name="x" onChange={this.editInput} placeholder="Posição horizontal do input" />
+                     <Input id="inputX" type="number" value={selectedInputInfo.x} name="x" onChange={this.editInputByInput} placeholder="Posição horizontal do input" />
                   </label>
                   <label htmlFor="inputY">
                      Posição vertical
-                     <Input id="inputY" type="number" value={selectedInputInfo.y} name="y" onChange={this.editInput} placeholder="Posição vertical do input" />
+                     <Input id="inputY" type="number" value={selectedInputInfo.y} name="y" onChange={this.editInputByInput} placeholder="Posição vertical do input" />
                   </label>
                   <Button onClick={this.deleteInput}>Excluir input</Button>
                </Sidebar>
@@ -402,10 +404,8 @@ const SheetScrollFrame = styled(CustomScroll)`
 
 export const InputsStyles = css`
    pointer-events: none;
-   user-drag: none;
-   user-select: none;
-   width: ${({ width }) => width || 250}px;
-   height: ${({ height }) => height || 58}px;
+   width: ${({ width }) => (width ? `${width}px` : '100%')};
+   height: ${({ height }) => (height ? `${height}px` : '100%')};
    font-size: ${({ fontSize }) => fontSize || 16}px;
    ${({ selected }) =>
       selected &&
