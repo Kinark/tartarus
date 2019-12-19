@@ -72,5 +72,6 @@ export default connect(mapStateToProps)(AppRoutes)
 
 const AppContentWrapper = styled.div`
    display: flex;
-   height: 100%;
+   flex-grow: 1;
+   overflow: hidden;
 `
