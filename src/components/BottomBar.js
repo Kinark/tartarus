@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { toggleNewWorldModal, togglePlayMode, deactivateAppListeners } from '~/redux/actions/app'
 import { setTheme } from '~/redux/actions/settings'
 import { logUserOff } from '~/redux/actions/auth'
+import { fetchMyRulesets } from '~/redux/actions/myRulesets'
+
+import newRuleset from '~/services/newRuleset'
 
 class BottomBar extends PureComponent {
    static propTypes = {
@@ -17,6 +20,12 @@ class BottomBar extends PureComponent {
    handleNewWorld = () => {
       const { dispatch } = this.props
       dispatch(toggleNewWorldModal(true))
+   }
+
+   handleNewRuleset = async () => {
+      const { dispatch } = this.props
+      await newRuleset(`Ruleset ${Math.random() * 100}`)
+      dispatch(fetchMyRulesets())
    }
 
    handleThemeClick = () => {
@@ -40,6 +49,7 @@ class BottomBar extends PureComponent {
       return (
          <BottomBarUl>
             <Item onClick={this.handleNewWorld}>Novo mundo</Item>
+            <Item onClick={this.handleNewRuleset}>Novo ruleset</Item>
             <Item onClick={this.handleThemeClick}>Modo {theme === 'dark' ? 'escuro' : 'claro'}</Item>
             <Item onClick={this.handlePlayModeClick}>Modo jogar</Item>
             <Item onClick={this.logoff}>Logoff</Item>
