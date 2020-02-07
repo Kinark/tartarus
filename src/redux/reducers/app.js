@@ -139,8 +139,8 @@ function tabs(state = [], action) {
          return newState
       }
       case UPDATE_MEMBER: {
-         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, { room: action.payload.room, player: action.payload.updatedMember.user })
-         newState[indexOfTab].members[indexOfPlayer] = action.payload.updatedMember
+         const { indexOfTab, indexOfPlayer, newState } = extractTabVariables(state, { room: action.payload.room, player: action.payload.updatedMember.user._id })
+         if (indexOfPlayer !== -1) newState[indexOfTab].members[indexOfPlayer] = action.payload.updatedMember
          return newState
       }
       default:

@@ -68,7 +68,7 @@ class World extends PureComponent {
                            </SectionContent>
                         </FullHeight>
                         <FullHeight className="col xs12 m6">
-                           <SectionContent className="no-pad" bordered>
+                           <SectionContent className="no-pad">
                               <Chat data={chatMessages} title="Conversa" room={worldId} type="talk" />
                            </SectionContent>
                         </FullHeight>
@@ -89,6 +89,5 @@ const StyledAppMainWrapper = styled(AppMainWrapper)`
 `
 
 const StyledRow = styled.div`
-   flex-grow: 1 !important;
-   overflow: hidden;
+   flex: 1 !important;
 `
